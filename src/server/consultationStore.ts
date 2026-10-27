@@ -4,6 +4,7 @@
  *
  * Persistent SQLite storage for consultation requests and independent
  * Email & Zalo notification tasks with lease-based crash recovery.
+ * Fully compatible with long-running Node.js servers, Docker, and Vercel Serverless (/tmp).
  */
 
 import Database from 'better-sqlite3';
@@ -64,10 +65,11 @@ export class ConsultationStore {
   private db: Database.Database;
 
   constructor(dbPath?: string) {
-    const resolvedPath =
-      dbPath ||
-      process.env.SQLITE_DB_PATH ||
-      path.resolve(process.cwd(), 'data', 'nexis_consultations.sqlite');
+    const defaultDbPath = process.env.VERCEL
+      ? path.join('/tmp', 'nexis_consultations.sqlite')
+      : path.resolve(process.cwd(), 'data', 'nexis_consultations.sqlite');
+
+    const resolvedPath = dbPath || process.env.SQLITE_DB_PATH || defaultDbPath;
 
     if (resolvedPath !== ':memory:') {
       const dir = path.dirname(resolvedPath);
@@ -77,9 +79,17 @@ export class ConsultationStore {
     }
 
     this.db = new Database(resolvedPath);
-    this.db.pragma('journal_mode = WAL');
-    this.db.pragma('synchronous = NORMAL');
-    this.db.pragma('foreign_keys = ON');
+    try {
+      this.db.pragma('journal_mode = WAL');
+      this.db.pragma('synchronous = NORMAL');
+    } catch {
+      // In serverless /tmp or environments where WAL mode is restricted, continue safely
+    }
+    try {
+      this.db.pragma('foreign_keys = ON');
+    } catch {
+      // Ignore if not supported
+    }
     this.initSchema();
   }
 
@@ -319,18 +329,6 @@ export class ConsultationStore {
 
   /**
    * Claims a task for sending using a lease-based lock.
-   *
-   * Eligible states:
-   * - 'pending'
-   * - 'failed_retryable' (if nextRetryAtMs has passed)
-   * - 'processing' ONLY IF leaseExpiresAtMs has expired (e.g. server crashed/restarted while task was in flight)
-   *
-   * Ineligible states:
-   * - 'provider_accepted': NEVER re-sent (channel already succeeded)
-   * - 'failed_permanent'
-   * - 'unconfigured'
-   * - 'processing' with active unexpired lease (actively running in another worker)
-   * - Any task with attemptCount >= maxAttempts
    */
   public claimTaskForProcessing(
     requestId: number,
@@ -495,13 +493,7 @@ export class ConsultationStore {
   }
 
   /**
-   * Returns all tasks currently due for retry or recovered from an abandoned lease:
-   * 1. 'pending' tasks whose retry time has arrived
-   * 2. 'failed_retryable' tasks whose backoff timer has elapsed
-   * 3. 'processing' tasks whose lease has expired (worker crashed/stopped mid-flight)
-   *
-   * Note: 'provider_accepted' tasks are NEVER returned.
-   * Active 'processing' tasks with unexpired lease are NOT returned.
+   * Returns all tasks currently due for retry or recovered from an abandoned lease.
    */
   public getDueRetryTasks(nowMs: number = Date.now()): StoredNotificationTask[] {
     const rows = this.db

@@ -7,6 +7,7 @@
     "dev": "tsx server.ts",
     "start": "node dist/server/server.js",
     "build": "vite build && npm run build:server",
+    "build:client": "vite build",
     "build:server": "esbuild server.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/server/server.js --packages=external",
     "test": "tsx --test src/utils/validation.test.ts",
     "preview": "vite preview",
