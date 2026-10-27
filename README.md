@@ -19,9 +19,18 @@ Website chính thức và hệ thống tiếp nhận tư vấn tự động củ
 ## 2. Kiến Trúc Kỹ Thuật
 
 - **Frontend:** React 19, TypeScript, Tailwind CSS v4, Motion (Framer Motion v12) cho chuyển động mượt mà (easing cubic-bezier, hỗ trợ `prefers-reduced-motion`).
-- **Backend / API:** Node.js Express server (`server.ts`), phục vụ cả API routes (`/api/consultation`, `/health`) và static SPA client trên cùng một tiến trình tối ưu.
+- **Phân tách tĩnh & bảo mật mã nguồn (Static & Backend Isolation):**
+  - Frontend static build xuất ra thư mục `dist/client`.
+  - Backend server bundle xuất ra thư mục `dist/server/server.js`.
+  - Express chỉ phục vụ duy nhất thư mục `dist/client`. Mã nguồn backend tuyệt đối không thể bị tải về qua `/server.js`, `/server/server.js`, `/.env` hoặc bất kỳ đường dẫn tương đương (được bảo vệ bởi regex extension guard trả về HTTP 404).
 - **Cơ sở dữ liệu bền vững:** SQLite với WAL mode (`better-sqlite3`), bảo đảm tính toàn vẹn dữ liệu (ACID), chống gửi trùng trong cửa sổ 5 phút qua `payloadHash` và `idempotencyKey`.
-- **Hệ thống thông báo:** Dispatcher xử lý độc lập hai kênh Email (Nodemailer SMTP / Resend) và Zalo Official Account OpenAPI v3.0 với cơ chế bounded retry có backoff, khôi phục tác vụ tự động khi khởi động lại server.
+- **Hệ thống thông báo độc lập & khôi phục sự cố bằng Lease (Lease-based Crash Recovery):**
+  - Xử lý độc lập hai kênh Email (Nodemailer SMTP / Resend) và Zalo Official Account OpenAPI v3.0.
+  - Mỗi tác vụ đang gửi được gắn lease thời hạn (`lease_expires_at_ms`). Nếu server bị crash hoặc restart giữa chừng, tác vụ `processing` bị bỏ dở sẽ được tự động nhận diện và khôi phục sau khi hết hạn lease.
+  - Các tác vụ đang chạy bởi worker sống hoặc đã thành công (`provider_accepted`) không bao giờ bị xử lý lại.
+- **Cơ chế Idempotency & Cam kết phát tín hiệu:**
+  - **Resend:** Truyền header `Idempotency-Key` (dựa trên `requestCode`), bảo đảm nhà cung cấp không gửi trùng email khi retry sau sự cố.
+  - **SMTP (Gmail / Nodemailer) & Zalo OA OpenAPI:** Chuẩn RFC 5321 và endpoint `/oa/message/cs` không hỗ trợ idempotency key. Nếu tiến trình dừng đột ngột ngay sau khi nhà cung cấp nhận tin nhưng trước khi SQLite ghi trạng thái, tác vụ khôi phục sẽ gửi lại (đặc tính *at-least-once delivery* được phản ánh trung thực trong hệ thống).
 
 ---
 
@@ -44,7 +53,7 @@ npm install
 # 3. Tạo file cấu hình môi trường từ mẫu
 cp .env.example .env
 
-# 4. Chạy kiểm thử tự động
+# 4. Chạy kiểm thử tự động (11 tests bao gồm static isolation & crash recovery)
 npm test
 
 # 5. Khởi động môi trường phát triển (Full-stack Express + Vite HMR)
@@ -60,10 +69,10 @@ Truy cập website tại: `http://localhost:3000`
 | Lệnh | Mô tả |
 | :--- | :--- |
 | `npm run dev` | Khởi chạy máy chủ phát triển Express tích hợp Vite HMR tại cổng 3000 |
-| `npm run build` | Biên dịch toàn bộ frontend bằng `vite build` và đóng gói server thành `dist/server.js` |
-| `npm run build:server` | Đóng gói `server.ts` thành `dist/server.js` độc lập bằng `esbuild` |
-| `npm start` | Chạy máy chủ production native bằng `node dist/server.js` |
-| `npm test` | Chạy toàn bộ 8 bài kiểm thử unit & integration qua Node Test Runner (`node:test`) |
+| `npm run build` | Biên dịch frontend ra `dist/client` và đóng gói server ra `dist/server/server.js` |
+| `npm run build:server` | Đóng gói `server.ts` thành `dist/server/server.js` bằng `esbuild` |
+| `npm start` | Chạy máy chủ production native bằng `node dist/server/server.js` |
+| `npm test` | Chạy toàn bộ 11 bài kiểm thử unit & integration qua Node Test Runner (`node:test`) |
 | `npm run lint` | Kiểm tra nghiêm ngặt kiểu dữ liệu TypeScript (`tsc --noEmit`) |
 
 ---
@@ -117,7 +126,7 @@ ZALO_OA_REFRESH_TOKEN="YOUR_ZALO_OA_REFRESH_TOKEN"
 
 ## 6. Hướng Dẫn Triển Khai Production (DevOps)
 
-Ứng dụng được thiết kế theo mô hình Monolith tinh gọn: Express phục vụ cả static assets đã build của Vite và các API endpoints (`/api/consultation`, `/health`).
+Ứng dụng được thiết kế theo mô hình Monolith tối ưu: Express phục vụ cả static assets đã build của Vite trong `dist/client` và các API endpoints (`/api/consultation`, `/health`).
 
 ### Cách 1: Triển khai với Docker (Khuyến nghị trên VPS / Cloud)
 
@@ -148,7 +157,7 @@ CMD ["npm", "start"]
 1. **Build Command:** `npm install && npm run build`
 2. **Start Command:** `npm start`
 3. **Environment Variables:** Cấu hình các biến trong file `.env.example` vào mục Environment Variables / Secrets.
-4. **Persistent Disk:** Gắn một đĩa lưu trữ (Disk/Volume) vào thư mục `/app/data` để cơ sở dữ liệu SQLite được bảo toàn qua các lần deploy hoặc restart.
+4. **Persistent Disk:** Gắn một đĩa lưu trữ (Disk/Volume) vào thư mục `/app/data` (ví dụ trên Render Disk Mount Path: `/app/data`, Size: 1GB) để cơ sở dữ liệu SQLite được bảo toàn qua các lần deploy hoặc restart.
 5. **Health Check:** Trỏ health check path về `/health` (trả về HTTP 200 `{ status: "ok" }`).
 
 ---

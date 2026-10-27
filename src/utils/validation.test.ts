@@ -2,13 +2,19 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Unit & integration tests for Nexis Tech consultation validation, formatting,
- * SQLite persistence, idempotency deduplication, independent Email/Zalo channels,
- * and bounded retry behavior.
+ * Unit & integration tests for Nexis Tech:
+ * - Consultation form validation & Vietnamese phone formatting
+ * - SQLite ACID persistence & idempotency deduplication
+ * - Independent Email/Zalo channels & bounded exponential retry
+ * - Lease-based crash recovery for interrupted/abandoned notification tasks
+ * - Production static asset isolation: ensuring backend code (/server.js, etc.) is never exposed
  */
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 import {
   validateQuoteForm,
   normalizeVietnamesePhone,
@@ -370,4 +376,243 @@ test('8. ConsultationRouter & HTTP Integration: handles submission, honeypot and
     server.close();
     store.close();
   }
+});
+
+test('9. Static & Backend Isolation: Express serves ONLY dist/client; /server.js and backend code return 404', async () => {
+  const { createServerApp } = await import('../../server.ts');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nxt-static-test-'));
+  const clientDir = path.join(tempDir, 'dist', 'client');
+  const serverDir = path.join(tempDir, 'dist', 'server');
+
+  fs.mkdirSync(clientDir, { recursive: true });
+  fs.mkdirSync(serverDir, { recursive: true });
+
+  // Simulate production build artifacts
+  fs.writeFileSync(path.join(clientDir, 'index.html'), '<!doctype html><html><body>Nexis Client</body></html>');
+  fs.mkdirSync(path.join(clientDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(clientDir, 'assets', 'app.js'), 'console.log("frontend bundle");');
+  fs.writeFileSync(path.join(serverDir, 'server.js'), '// CONFIDENTIAL BACKEND CODE - MUST NEVER BE SERVED');
+
+  const testStore = new ConsultationStore(':memory:');
+  const { app, store } = await createServerApp({
+    clientDistPath: clientDir,
+    isProduction: true,
+    store: testStore,
+  });
+
+  const server = app.listen(0);
+  const port = (server.address() as { port: number }).port;
+  const baseUrl = `http://127.0.0.1:${port}`;
+
+  try {
+    // 1. Health check works
+    const healthRes = await fetch(`${baseUrl}/health`);
+    assert.equal(healthRes.status, 200);
+    const healthJson = (await healthRes.json()) as { status: string; service: string };
+    assert.equal(healthJson.status, 'ok');
+    assert.equal(healthJson.service, 'nexis-tech');
+
+    // 2. Client frontend files are served properly
+    const indexRes = await fetch(`${baseUrl}/`);
+    assert.equal(indexRes.status, 200);
+    const indexHtml = await indexRes.text();
+    assert.ok(indexHtml.includes('Nexis Client'));
+
+    const assetRes = await fetch(`${baseUrl}/assets/app.js`);
+    assert.equal(assetRes.status, 200);
+    const assetJs = await assetRes.text();
+    assert.ok(assetJs.includes('frontend bundle'));
+
+    // 3. CRITICAL: Backend code is NEVER accessible via /server.js or path variants
+    const serverJsRes = await fetch(`${baseUrl}/server.js`);
+    assert.equal(serverJsRes.status, 404);
+    const serverJsText = await serverJsRes.text();
+    assert.ok(!serverJsText.includes('CONFIDENTIAL BACKEND CODE'));
+    assert.ok(!serverJsText.includes('Nexis Client')); // Must return 404, not fallback to index.html
+
+    const nestedServerRes = await fetch(`${baseUrl}/server/server.js`);
+    assert.equal(nestedServerRes.status, 404);
+
+    const distServerRes = await fetch(`${baseUrl}/dist/server/server.js`);
+    assert.equal(distServerRes.status, 404);
+
+    // 4. Dotfiles (.env) and database files (.sqlite) return 404
+    const envRes = await fetch(`${baseUrl}/.env`);
+    assert.equal(envRes.status, 404);
+
+    const dbRes = await fetch(`${baseUrl}/data/nexis_consultations.sqlite`);
+    assert.equal(dbRes.status, 404);
+
+    // 5. Unhandled API endpoints return 404 JSON, not HTML
+    const unknownApiRes = await fetch(`${baseUrl}/api/unknown-endpoint`);
+    assert.equal(unknownApiRes.status, 404);
+    const unknownApiJson = (await unknownApiRes.json()) as { ok: boolean };
+    assert.equal(unknownApiJson.ok, false);
+  } finally {
+    server.close();
+    store.close();
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('10. Lease-based Crash Recovery: recovers interrupted processing tasks after lease expiry without re-sending accepted tasks', async () => {
+  const store = new ConsultationStore(':memory:');
+  const t0 = 1_760_000_000_000;
+  const leaseDurationMs = 2000; // 2 seconds lease for test
+
+  const created = store.createOrGetConsultation({
+    input: {
+      fullName: 'Trần Văn Kiên',
+      phone: '0901234567',
+      serviceType: 'Website doanh nghiệp',
+      message: 'Kiểm tra crash recovery',
+      sourcePage: 'Trang chủ',
+    },
+    idempotencyKey: 'nxt-lease-recovery-test',
+    clientIp: '127.0.0.1',
+    now: new Date(t0),
+  });
+
+  // Both tasks start in 'pending'
+  const initialTasks = store.getTasksByRequestId(created.request.id);
+  assert.equal(initialTasks.length, 2);
+  assert.equal(initialTasks[0].status, 'pending');
+  assert.equal(initialTasks[0].attemptCount, 0);
+
+  // 1. Worker claims email task at t0
+  const claimedTask = store.claimTaskForProcessing(
+    created.request.id,
+    'email',
+    t0,
+    leaseDurationMs
+  );
+  assert.ok(claimedTask);
+  assert.equal(claimedTask.status, 'processing');
+  assert.equal(claimedTask.attemptCount, 1);
+  assert.equal(claimedTask.leaseExpiresAtMs, t0 + leaseDurationMs);
+
+  // 2. Active worker check: while lease is still active (t0 + 500ms), claiming again returns null
+  const activeClaim = store.claimTaskForProcessing(
+    created.request.id,
+    'email',
+    t0 + 500,
+    leaseDurationMs
+  );
+  assert.equal(activeClaim, null);
+
+  // And getDueRetryTasks at t0 + 500ms must NOT return the actively processing email task
+  const dueWhileActive = store.getDueRetryTasks(t0 + 500);
+  const emailInDue = dueWhileActive.find((t) => t.channel === 'email');
+  assert.equal(emailInDue, undefined); // Email task is NOT returned because its lease is alive!
+
+  // 3. Crash simulation: server was killed mid-flight. Time elapses past lease expiration (t0 + 2500ms)
+  const tCrashRecovered = t0 + 2500;
+  const dueAfterCrash = store.getDueRetryTasks(tCrashRecovered);
+  const emailRecoverable = dueAfterCrash.find((t) => t.channel === 'email');
+  assert.ok(emailRecoverable, 'Email task whose lease expired must be returned for crash recovery');
+  assert.equal(emailRecoverable.status, 'processing');
+  assert.equal(emailRecoverable.attemptCount, 1);
+
+  // 4. Recovered worker claims the abandoned task
+  const recoveredClaim = store.claimTaskForProcessing(
+    created.request.id,
+    'email',
+    tCrashRecovered,
+    leaseDurationMs
+  );
+  assert.ok(recoveredClaim);
+  assert.equal(recoveredClaim.status, 'processing');
+  assert.equal(recoveredClaim.attemptCount, 2); // Attempt count increments
+  assert.equal(recoveredClaim.leaseExpiresAtMs, tCrashRecovered + leaseDurationMs);
+
+  // 5. Worker successfully delivers and marks provider_accepted
+  store.markTaskProviderAccepted(recoveredClaim.id, 'smtp:<msg-recovered-999>');
+  const acceptedTask = store.getTasksByRequestId(created.request.id).find((t) => t.channel === 'email')!;
+  assert.equal(acceptedTask.status, 'provider_accepted');
+  assert.equal(acceptedTask.leaseExpiresAtMs, null);
+
+  // 6. Even after long time elapsed (tCrashRecovered + 10_000ms), provider_accepted task is NEVER claimed or returned
+  const farFuture = tCrashRecovered + 10_000;
+  const futureDue = store.getDueRetryTasks(farFuture);
+  assert.equal(futureDue.find((t) => t.channel === 'email'), undefined);
+
+  const invalidClaim = store.claimTaskForProcessing(
+    created.request.id,
+    'email',
+    farFuture,
+    leaseDurationMs
+  );
+  assert.equal(invalidClaim, null);
+
+  store.close();
+});
+
+test('11. End-to-End Restart Simulation: dispatcher.processDueRetries recovers abandoned tasks and does not re-send accepted tasks', async () => {
+  const store = new ConsultationStore(':memory:');
+  const t0 = 1_760_000_000_000;
+
+  let emailSends = 0;
+  let zaloSends = 0;
+
+  const mockEmail: ChannelProvider = {
+    async send(): Promise<ProviderSendResult> {
+      emailSends++;
+      return { outcome: 'provider_accepted', providerResponse: 'resend:msg-recovered' };
+    },
+  };
+
+  const mockZalo: ChannelProvider = {
+    async send(): Promise<ProviderSendResult> {
+      zaloSends++;
+      return { outcome: 'provider_accepted', providerResponse: 'zalo_oa:msg-ok' };
+    },
+  };
+
+  const dispatcher = new NotificationDispatcher({
+    store,
+    emailProvider: mockEmail,
+    zaloProvider: mockZalo,
+    leaseDurationMs: 1000,
+  });
+
+  const created = store.createOrGetConsultation({
+    input: {
+      fullName: 'Vũ Quốc Huy',
+      phone: '0908765432',
+      serviceType: 'Tư vấn phần mềm',
+      message: 'Mô phỏng khởi động lại server',
+      sourcePage: 'Trang chủ',
+    },
+    idempotencyKey: 'nxt-restart-sim-test',
+    clientIp: '127.0.0.1',
+    now: new Date(t0),
+  });
+
+  // Step 1: Claim email task at t0, simulate crash immediately before provider responds
+  const claimedEmail = store.claimTaskForProcessing(created.request.id, 'email', t0, 1000);
+  assert.ok(claimedEmail);
+
+  // Step 2: Directly mark Zalo as already provider_accepted (e.g. from prior successful run)
+  const zaloTask = store.getTasksByRequestId(created.request.id).find((t) => t.channel === 'zalo')!;
+  store.markTaskProviderAccepted(zaloTask.id, 'zalo_oa:pre-existing-msg');
+
+  // Step 3: Server restarts after 1500ms (lease has now expired)
+  const tRestart = t0 + 1500;
+  const processed = await dispatcher.processDueRetries(tRestart);
+
+  // Email task was recovered and processed; Zalo task was NEVER re-sent
+  assert.equal(processed, 1);
+  assert.equal(emailSends, 1);
+  assert.equal(zaloSends, 0);
+
+  const finalTasks = store.getTasksByRequestId(created.request.id);
+  const emailFinal = finalTasks.find((t) => t.channel === 'email')!;
+  const zaloFinal = finalTasks.find((t) => t.channel === 'zalo')!;
+
+  assert.equal(emailFinal.status, 'provider_accepted');
+  assert.equal(emailFinal.attemptCount, 2);
+  assert.equal(zaloFinal.status, 'provider_accepted');
+  assert.equal(zaloFinal.attemptCount, 0);
+
+  store.close();
 });
