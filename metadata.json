@@ -1,6 +1,6 @@
 {
-  "name": "NÉT Studio — Xưởng Chế Tác Trải Nghiệm Số",
-  "description": "Studio thiết kế và phát triển website tinh tế, chuẩn trải nghiệm người dùng và phục vụ tăng trưởng kinh doanh tại Việt Nam.",
+  "name": "Nexis Tech — Thiết kế và Phát triển Website Chuyên nghiệp",
+  "description": "Giải pháp thiết kế UI/UX, phát triển website doanh nghiệp, web app và thương mại điện tử chuẩn chuyển đổi tại TP. Hồ Chí Minh.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

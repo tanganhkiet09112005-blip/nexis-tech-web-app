@@ -26,6 +26,7 @@ import {
   Users,
   CheckCircle2,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND, CriteriaItem, ReasonWheelItem } from '../config/brand.ts';
 import { getWrappedIndex } from '../utils/validation.ts';
 
@@ -220,31 +221,42 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 <ArrowLeft className="w-4 h-4" />
               </button>
 
-              {/* 3 Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-7 flex-1">
-                {visibleCriteria.map((item, idx) => (
-                  <article
-                    key={`${item.id}-${idx}`}
-                    className="relative bg-white rounded-2xl pt-12 pb-7 px-6 shadow-sm border border-slate-200/80 hover:border-[#087BFF]/40 card-hover-lift"
+              {/* 3 Cards Grid with Smooth Transition */}
+              <div className="flex-1 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={criteriaIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-7"
                   >
-                    {/* Overlapping Top-Center Circular Gradient Icon Badge */}
-                    <div
-                      className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center shadow-md border-4 border-[#F3F7FC]"
-                      style={{
-                        background: 'linear-gradient(135deg, #087BFF 0%, #12B8E6 100%)',
-                      }}
-                    >
-                      {renderCriteriaIcon(item.iconName)}
-                    </div>
+                    {visibleCriteria.map((item, idx) => (
+                      <article
+                        key={`${item.id}-${idx}`}
+                        className="relative bg-white rounded-2xl pt-12 pb-7 px-6 shadow-sm border border-slate-200/80 hover:border-[#087BFF]/40 card-hover-lift"
+                      >
+                        {/* Overlapping Top-Center Circular Gradient Icon Badge */}
+                        <div
+                          className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center shadow-md border-4 border-[#F3F7FC]"
+                          style={{
+                            background: 'linear-gradient(135deg, #087BFF 0%, #12B8E6 100%)',
+                          }}
+                        >
+                          {renderCriteriaIcon(item.iconName)}
+                        </div>
 
-                    <h3 className="heading-card text-[#087BFF] mb-3 text-left">
-                      {item.title}
-                    </h3>
-                    <p className="text-[15px] text-slate-600 leading-relaxed text-left font-normal">
-                      {item.description}
-                    </p>
-                  </article>
-                ))}
+                        <h3 className="heading-card text-[#087BFF] mb-3 text-left">
+                          {item.title}
+                        </h3>
+                        <p className="text-[15px] text-slate-600 leading-relaxed text-left font-normal">
+                          {item.description}
+                        </p>
+                      </article>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
               {/* Right Next Button */}
@@ -351,32 +363,43 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
               })}
             </div>
 
-            {/* Center Orbital Hub Circle */}
+            {/* Center Orbital Hub Circle with Animated Content Switch */}
             <div className="col-span-6 flex items-center justify-center">
               <div className="relative w-[430px] h-[430px] rounded-full border border-[#087BFF]/25 bg-gradient-to-b from-[#F3F7FC]/70 to-white shadow-[0_20px_50px_rgba(8,123,255,0.08)] flex flex-col items-center justify-center p-10 text-center">
-                {/* Large Number */}
-                <span className="text-4xl font-bold text-[#087BFF] tracking-tight mb-2">
-                  {activeReason.number}
-                </span>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeReason.id}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col items-center justify-center text-center"
+                  >
+                    {/* Large Number */}
+                    <span className="text-4xl font-bold text-[#087BFF] tracking-tight mb-2">
+                      {activeReason.number}
+                    </span>
 
-                {/* Active Reason Full Title */}
-                <h3 className="text-lg xl:text-xl font-semibold text-[#030B24] leading-snug mb-3 max-w-xs">
-                  {activeReason.fullTitle}
-                </h3>
+                    {/* Active Reason Full Title */}
+                    <h3 className="text-lg xl:text-xl font-semibold text-[#030B24] leading-snug mb-3 max-w-xs">
+                      {activeReason.fullTitle}
+                    </h3>
 
-                {/* Active Reason Description */}
-                <p className="text-[15px] text-slate-600 leading-relaxed mb-6 max-w-sm font-normal">
-                  {activeReason.description}
-                </p>
+                    {/* Active Reason Description */}
+                    <p className="text-[15px] text-slate-600 leading-relaxed mb-6 max-w-sm font-normal">
+                      {activeReason.description}
+                    </p>
 
-                {/* Center Pill CTA Button */}
-                <button
-                  type="button"
-                  onClick={() => onNavigateToQuote(activeReason.shortTitle)}
-                  className="px-7 py-3 rounded-xl text-sm font-medium text-white next-glow-pill cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
-                >
-                  Tư vấn báo giá
-                </button>
+                    {/* Center Pill CTA Button */}
+                    <button
+                      type="button"
+                      onClick={() => onNavigateToQuote(activeReason.shortTitle)}
+                      className="px-7 py-3 rounded-xl text-sm font-medium text-white next-glow-pill cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
+                    >
+                      Tư vấn báo giá
+                    </button>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
@@ -455,26 +478,35 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
               })}
             </div>
 
-            <div className="bg-[#F3F7FC] border border-[#087BFF]/25 rounded-2xl p-6 text-center space-y-3 shadow-xs">
-              <span className="text-3xl font-bold text-[#087BFF] block">
-                {activeReason.number}
-              </span>
-              <h3 className="text-lg font-semibold text-[#030B24]">
-                {activeReason.fullTitle}
-              </h3>
-              <p className="body-copy text-slate-600 max-w-xl mx-auto">
-                {activeReason.description}
-              </p>
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => onNavigateToQuote(activeReason.shortTitle)}
-                  className="px-6 py-3 rounded-xl text-sm font-medium text-white next-glow-pill cursor-pointer"
-                >
-                  Tư vấn báo giá
-                </button>
-              </div>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeReason.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="bg-[#F3F7FC] border border-[#087BFF]/25 rounded-2xl p-6 text-center space-y-3 shadow-xs"
+              >
+                <span className="text-3xl font-bold text-[#087BFF] block">
+                  {activeReason.number}
+                </span>
+                <h3 className="text-lg font-semibold text-[#030B24]">
+                  {activeReason.fullTitle}
+                </h3>
+                <p className="body-copy text-slate-600 max-w-xl mx-auto">
+                  {activeReason.description}
+                </p>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToQuote(activeReason.shortTitle)}
+                    className="px-6 py-3 rounded-xl text-sm font-medium text-white next-glow-pill cursor-pointer"
+                  >
+                    Tư vấn báo giá
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -491,7 +523,8 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
             {/* LEFT SIDE (6 cols): Dual Mobile Showcase Circle + 3 Staggered Qualitative Pillar Circles */}
             <div className="lg:col-span-6 flex flex-col sm:flex-row items-center justify-center gap-6 relative">
               {/* Large Blue Gradient Circle with 2 Tilted Mobile Phones */}
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full flex items-center justify-center shrink-0 shadow-lg"
+              <div
+                className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full flex items-center justify-center shrink-0 shadow-lg"
                 style={{
                   background: 'linear-gradient(135deg, #16D9F3 0%, #087BFF 65%, #030B24 100%)',
                 }}

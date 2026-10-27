@@ -8,19 +8,23 @@
 
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Search, ShoppingCart, ShieldCheck, Truck, Award } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 import { getWrappedIndex } from '../utils/validation.ts';
 
 export const IntroAndBenefits: React.FC = () => {
   const [benefitStartIndex, setBenefitStartIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const benefits = NEXIS_BRAND.benefits;
 
   const handlePrevBenefit = () => {
+    setSlideDirection('left');
     setBenefitStartIndex((prev) => getWrappedIndex(prev, -1, benefits.length));
   };
 
   const handleNextBenefit = () => {
+    setSlideDirection('right');
     setBenefitStartIndex((prev) => getWrappedIndex(prev, 1, benefits.length));
   };
 
@@ -276,63 +280,71 @@ export const IntroAndBenefits: React.FC = () => {
               </div>
             </div>
 
-            {/* RIGHT COLUMN (8 cols): 4 Staggered Vertical Cards */}
-            <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
-                {visibleBenefits.map((item, idx) => {
-                  const isFeaturedFirst = idx === 0;
-                  const staggerClass =
-                    idx % 2 === 1 ? 'xl:mt-8' : 'xl:mt-0';
+            {/* RIGHT COLUMN (8 cols): 4 Staggered Vertical Cards with Motion Transition */}
+            <div className="lg:col-span-8 overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={benefitStartIndex}
+                  initial={{ opacity: 0, x: slideDirection === 'right' ? 16 : -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: slideDirection === 'right' ? -16 : 16 }}
+                  transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                  className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start"
+                >
+                  {visibleBenefits.map((item, idx) => {
+                    const isFeaturedFirst = idx === 0;
+                    const staggerClass = idx % 2 === 1 ? 'xl:mt-8' : 'xl:mt-0';
 
-                  return (
-                    <article
-                      key={`${item.id}-${idx}`}
-                      className={`rounded-2xl p-6 transition-all duration-300 min-h-[320px] flex flex-col justify-between card-hover-lift ${staggerClass} ${
-                        isFeaturedFirst
-                          ? 'bg-[#030B24] text-[#F4F8FF] shadow-xl border border-[#087BFF]/40'
-                          : 'bg-[#F3F7FC] text-[#030B24] border border-slate-200/80 hover:border-[#087BFF]/40'
-                      }`}
-                    >
-                      <div className="space-y-3.5">
-                        <div className="flex items-center justify-between gap-2">
-                          <span
-                            className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
-                              isFeaturedFirst
-                                ? 'bg-[#087BFF]/25 text-[#16D9F3]'
-                                : 'bg-[#087BFF]/10 text-[#087BFF]'
+                    return (
+                      <article
+                        key={`${item.id}-${idx}`}
+                        className={`rounded-2xl p-6 transition-all duration-200 min-h-[320px] flex flex-col justify-between card-hover-lift ${staggerClass} ${
+                          isFeaturedFirst
+                            ? 'bg-[#030B24] text-[#F4F8FF] shadow-xl border border-[#087BFF]/40'
+                            : 'bg-[#F3F7FC] text-[#030B24] border border-slate-200/80 hover:border-[#087BFF]/40'
+                        }`}
+                      >
+                        <div className="space-y-3.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <span
+                              className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
+                                isFeaturedFirst
+                                  ? 'bg-[#087BFF]/25 text-[#16D9F3]'
+                                  : 'bg-[#087BFF]/10 text-[#087BFF]'
+                              }`}
+                            >
+                              {item.number}
+                            </span>
+                            <span
+                              className={`text-xs font-medium ${
+                                isFeaturedFirst ? 'text-[#16D9F3]' : 'text-slate-500'
+                              }`}
+                            >
+                              {item.highlight}
+                            </span>
+                          </div>
+
+                          <h3
+                            className={`text-[17px] font-semibold leading-snug ${
+                              isFeaturedFirst ? 'text-white' : 'text-[#030B24]'
                             }`}
                           >
-                            {item.number}
-                          </span>
-                          <span
-                            className={`text-xs font-medium ${
-                              isFeaturedFirst ? 'text-[#16D9F3]' : 'text-slate-500'
+                            {item.title}
+                          </h3>
+
+                          <p
+                            className={`text-[15px] leading-relaxed font-normal ${
+                              isFeaturedFirst ? 'text-[#B5C7DF]' : 'text-slate-600'
                             }`}
                           >
-                            {item.highlight}
-                          </span>
+                            {item.description}
+                          </p>
                         </div>
-
-                        <h3
-                          className={`text-[17px] font-semibold leading-snug ${
-                            isFeaturedFirst ? 'text-white' : 'text-[#030B24]'
-                          }`}
-                        >
-                          {item.title}
-                        </h3>
-
-                        <p
-                          className={`text-[15px] leading-relaxed font-normal ${
-                            isFeaturedFirst ? 'text-[#B5C7DF]' : 'text-slate-600'
-                          }`}
-                        >
-                          {item.description}
-                        </p>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
+                      </article>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>

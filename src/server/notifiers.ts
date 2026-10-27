@@ -2,7 +2,19 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Independent Email and Zalo notification providers and bounded-retry dispatcher.
+ * Independent Email and Zalo notification providers and bounded-retry dispatcher
+ * with lease-based recovery and transparent provider idempotency semantics.
+ *
+ * Idempotency & Delivery Guarantees:
+ * 1. Resend HTTP API: Supports 'Idempotency-Key' header (mapped to record.requestCode).
+ *    Guarantees deduplication if replayed after an ungraceful server crash.
+ * 2. SMTP (Gmail/Nodemailer): Standard RFC 5321 SMTP does not support native idempotency keys.
+ *    If the process dies after SMTP server '250 OK' but before the SQLite status update commits,
+ *    the recovered retry will re-send the email (at-least-once delivery semantics).
+ * 3. Zalo Official Account (OpenAPI v3.0 /oa/message/cs): Zalo OpenAPI does not support an idempotency key.
+ *    If the process dies after Zalo accepts the message (error 0) but before SQLite commit,
+ *    the recovered retry will re-send the message (at-least-once delivery semantics).
+ *
  * Never logs or exposes secrets/tokens. Never fakes delivery when credentials are missing.
  */
 
@@ -18,6 +30,7 @@ import {
   ConsultationStore,
   NotificationChannel,
   StoredNotificationTask,
+  DEFAULT_LEASE_DURATION_MS,
 } from './consultationStore.ts';
 
 export type ProviderSendResult =
@@ -66,6 +79,7 @@ export class ServerEmailProvider implements ChannelProvider {
     const resendApiKey = process.env.RESEND_API_KEY?.trim();
 
     // Option 1: SMTP / Gmail App Password
+    // Note: SMTP follows at-least-once semantics if a crash occurs between SMTP 250 OK and DB commit.
     if (!isPlaceholder(smtpUser) && !isPlaceholder(smtpPass)) {
       const smtpHost = process.env.SMTP_HOST?.trim() || 'smtp.gmail.com';
       const smtpPort = Number(process.env.SMTP_PORT || '465');
@@ -132,6 +146,7 @@ export class ServerEmailProvider implements ChannelProvider {
     }
 
     // Option 2: Resend HTTP API
+    // Note: Resend supports Idempotency-Key header to prevent duplicate emails upon crash recovery.
     if (!isPlaceholder(resendApiKey)) {
       const emailFrom = process.env.EMAIL_FROM?.trim();
       if (isPlaceholder(emailFrom)) {
@@ -147,6 +162,7 @@ export class ServerEmailProvider implements ChannelProvider {
           headers: {
             Authorization: `Bearer ${resendApiKey}`,
             'Content-Type': 'application/json',
+            'Idempotency-Key': record.requestCode,
           },
           body: JSON.stringify({
             from: emailFrom,
@@ -198,6 +214,7 @@ export class ServerEmailProvider implements ChannelProvider {
  * Endpoint: POST https://openapi.zalo.me/v3.0/oa/message/cs
  * Also supports automatic OAuth v4 access_token refresh when ZALO_OA_REFRESH_TOKEN is configured.
  * Strictly validates that ZALO_RECIPIENT_USER_ID is an OA user_id (UID), NOT a phone number.
+ * Note: Zalo OA message/cs API has at-least-once delivery semantics if a crash occurs before DB commit.
  */
 export class ServerZaloProvider implements ChannelProvider {
   private cachedAccessToken: string | null = null;
@@ -369,6 +386,7 @@ export interface DispatcherOptions {
   emailProvider?: ChannelProvider;
   zaloProvider?: ChannelProvider;
   retryDelayMs?: number;
+  leaseDurationMs?: number;
 }
 
 /**
@@ -378,6 +396,7 @@ export class NotificationDispatcher {
   private store: ConsultationStore;
   private providers: Record<NotificationChannel, ChannelProvider>;
   private retryDelayMs?: number;
+  private leaseDurationMs: number;
 
   constructor(options: DispatcherOptions) {
     this.store = options.store;
@@ -386,6 +405,7 @@ export class NotificationDispatcher {
       zalo: options.zaloProvider || new ServerZaloProvider(),
     };
     this.retryDelayMs = options.retryDelayMs;
+    this.leaseDurationMs = options.leaseDurationMs ?? DEFAULT_LEASE_DURATION_MS;
   }
 
   /**
@@ -416,7 +436,12 @@ export class NotificationDispatcher {
     channel: NotificationChannel,
     nowMs: number = Date.now()
   ): Promise<void> {
-    const claimed = this.store.claimTaskForProcessing(request.id, channel, nowMs);
+    const claimed = this.store.claimTaskForProcessing(
+      request.id,
+      channel,
+      nowMs,
+      this.leaseDurationMs
+    );
     if (!claimed) {
       return;
     }
@@ -453,7 +478,7 @@ export class NotificationDispatcher {
   }
 
   /**
-   * Finds all tasks in 'pending' or 'failed_retryable' whose backoff timer has elapsed
+   * Finds all tasks in 'pending', 'failed_retryable', or expired 'processing'
    * and executes them independently.
    */
   public async processDueRetries(nowMs: number = Date.now()): Promise<number> {

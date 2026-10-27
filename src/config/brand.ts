@@ -737,4 +737,4 @@ export const NEXIS_BRAND = {
   ] as FaqItem[],
 };
 
-export const NEXTTECH_BRAND = NEXIS_BRAND;
+

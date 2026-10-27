@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Persistent SQLite storage for consultation requests and independent
- * Email & Zalo notification tasks.
+ * Email & Zalo notification tasks with lease-based crash recovery.
+ * Fully compatible with long-running Node.js servers, Docker, and Vercel Serverless (/tmp).
  */
 
 import Database from 'better-sqlite3';
@@ -45,6 +46,7 @@ export interface StoredNotificationTask {
   attemptCount: number;
   maxAttempts: number;
   nextRetryAtMs: number | null;
+  leaseExpiresAtMs: number | null;
   providerResponse: string | null;
   lastError: string | null;
   updatedAtUtc: string;
@@ -57,15 +59,17 @@ export interface CreateConsultationResult {
 }
 
 const DEDUP_WINDOW_MS = 5 * 60 * 1000; // 5 minutes anti-duplicate window
+export const DEFAULT_LEASE_DURATION_MS = 60_000; // 60 seconds lease for active workers
 
 export class ConsultationStore {
   private db: Database.Database;
 
   constructor(dbPath?: string) {
-    const resolvedPath =
-      dbPath ||
-      process.env.SQLITE_DB_PATH ||
-      path.resolve(process.cwd(), 'data', 'nexis_consultations.sqlite');
+    const defaultDbPath = process.env.VERCEL
+      ? path.join('/tmp', 'nexis_consultations.sqlite')
+      : path.resolve(process.cwd(), 'data', 'nexis_consultations.sqlite');
+
+    const resolvedPath = dbPath || process.env.SQLITE_DB_PATH || defaultDbPath;
 
     if (resolvedPath !== ':memory:') {
       const dir = path.dirname(resolvedPath);
@@ -75,9 +79,17 @@ export class ConsultationStore {
     }
 
     this.db = new Database(resolvedPath);
-    this.db.pragma('journal_mode = WAL');
-    this.db.pragma('synchronous = NORMAL');
-    this.db.pragma('foreign_keys = ON');
+    try {
+      this.db.pragma('journal_mode = WAL');
+      this.db.pragma('synchronous = NORMAL');
+    } catch {
+      // In serverless /tmp or environments where WAL mode is restricted, continue safely
+    }
+    try {
+      this.db.pragma('foreign_keys = ON');
+    } catch {
+      // Ignore if not supported
+    }
     this.initSchema();
   }
 
@@ -118,15 +130,31 @@ export class ConsultationStore {
         attempt_count INTEGER NOT NULL DEFAULT 0,
         max_attempts INTEGER NOT NULL DEFAULT 3,
         next_retry_at_ms INTEGER,
+        lease_expires_at_ms INTEGER,
         provider_response TEXT,
         last_error TEXT,
         updated_at_utc TEXT NOT NULL,
         UNIQUE(request_id, channel),
         FOREIGN KEY(request_id) REFERENCES consultation_requests(id) ON DELETE CASCADE
       );
+    `);
 
+    // Ensure lease_expires_at_ms column exists in case migrating existing SQLite database
+    const columns = this.db.pragma('table_info(notification_tasks)') as Array<{ name: string }>;
+    if (!columns.some((c) => c.name === 'lease_expires_at_ms')) {
+      try {
+        this.db.exec(`ALTER TABLE notification_tasks ADD COLUMN lease_expires_at_ms INTEGER;`);
+      } catch {
+        // Ignore if already added
+      }
+    }
+
+    this.db.exec(`
       CREATE INDEX IF NOT EXISTS idx_notification_tasks_retry
         ON notification_tasks(status, next_retry_at_ms);
+
+      CREATE INDEX IF NOT EXISTS idx_notification_tasks_lease
+        ON notification_tasks(status, lease_expires_at_ms);
     `);
   }
 
@@ -261,8 +289,9 @@ export class ConsultationStore {
           attempt_count,
           max_attempts,
           next_retry_at_ms,
+          lease_expires_at_ms,
           updated_at_utc
-        ) VALUES (?, ?, ?, 'pending', 0, 3, ?, ?)
+        ) VALUES (?, ?, ?, 'pending', 0, 3, ?, NULL, ?)
       `);
 
       insertTask.run(requestId, requestCode, 'email', nowMs, createdAtUtc);
@@ -299,13 +328,13 @@ export class ConsultationStore {
   }
 
   /**
-   * Claims a task for sending ONLY if it is in 'pending' or 'failed_retryable'
-   * and has not exceeded max_attempts. Never claims a 'provider_accepted' task.
+   * Claims a task for sending using a lease-based lock.
    */
   public claimTaskForProcessing(
     requestId: number,
     channel: NotificationChannel,
-    nowMs: number = Date.now()
+    nowMs: number = Date.now(),
+    leaseDurationMs: number = DEFAULT_LEASE_DURATION_MS
   ): StoredNotificationTask | null {
     const tx = this.db.transaction((): StoredNotificationTask | null => {
       const row = this.db
@@ -317,14 +346,21 @@ export class ConsultationStore {
       if (!row) return null;
       const task = this.mapTaskRow(row);
 
-      // Never re-send a channel that already succeeded or permanently failed
+      // Never re-send a channel that already succeeded or permanently terminated
       if (
         task.status === 'provider_accepted' ||
         task.status === 'failed_permanent' ||
-        task.status === 'unconfigured' ||
-        task.status === 'processing'
+        task.status === 'unconfigured'
       ) {
         return null;
+      }
+
+      // Check processing lease: if active worker holds a valid unexpired lease, do not disturb
+      if (task.status === 'processing') {
+        if (task.leaseExpiresAtMs !== null && task.leaseExpiresAtMs > nowMs) {
+          return null; // Still actively processing by an alive worker
+        }
+        // If lease is expired or null, it was abandoned mid-flight (crash/restart). Eligible for recovery!
       }
 
       if (task.attemptCount >= task.maxAttempts) {
@@ -340,6 +376,7 @@ export class ConsultationStore {
       }
 
       const nextAttempt = task.attemptCount + 1;
+      const leaseExpiresAtMs = nowMs + leaseDurationMs;
       const updatedAtUtc = new Date(nowMs).toISOString();
 
       this.db
@@ -347,10 +384,11 @@ export class ConsultationStore {
           `UPDATE notification_tasks
            SET status = 'processing',
                attempt_count = ?,
+               lease_expires_at_ms = ?,
                updated_at_utc = ?
            WHERE id = ?`
         )
-        .run(nextAttempt, updatedAtUtc, task.id);
+        .run(nextAttempt, leaseExpiresAtMs, updatedAtUtc, task.id);
 
       const updated = this.db
         .prepare('SELECT * FROM notification_tasks WHERE id = ?')
@@ -364,6 +402,7 @@ export class ConsultationStore {
 
   /**
    * Marks a task as accepted by the provider API (SMTP/Resend or Zalo OpenAPI).
+   * Clears any active lease and retry timers.
    */
   public markTaskProviderAccepted(
     taskId: number,
@@ -376,6 +415,7 @@ export class ConsultationStore {
              provider_response = ?,
              last_error = NULL,
              next_retry_at_ms = NULL,
+             lease_expires_at_ms = NULL,
              updated_at_utc = ?
          WHERE id = ?`
       )
@@ -384,6 +424,7 @@ export class ConsultationStore {
 
   /**
    * Marks a task as unconfigured when credentials for that channel are not set in Secrets.
+   * Clears any active lease.
    */
   public markTaskUnconfigured(taskId: number, reason: string): void {
     this.db
@@ -392,6 +433,7 @@ export class ConsultationStore {
          SET status = 'unconfigured',
              last_error = ?,
              next_retry_at_ms = NULL,
+             lease_expires_at_ms = NULL,
              updated_at_utc = ?
          WHERE id = ?`
       )
@@ -401,6 +443,7 @@ export class ConsultationStore {
   /**
    * Records a channel delivery failure, setting either 'failed_retryable' with backoff
    * or 'failed_permanent' if non-retryable or max_attempts reached.
+   * Clears any active lease.
    */
   public markTaskFailed(params: {
     taskId: number;
@@ -430,6 +473,7 @@ export class ConsultationStore {
          SET status = ?,
              last_error = ?,
              next_retry_at_ms = ?,
+             lease_expires_at_ms = NULL,
              updated_at_utc = ?
          WHERE id = ?`
       )
@@ -449,19 +493,24 @@ export class ConsultationStore {
   }
 
   /**
-   * Returns all tasks currently due for retry.
+   * Returns all tasks currently due for retry or recovered from an abandoned lease.
    */
   public getDueRetryTasks(nowMs: number = Date.now()): StoredNotificationTask[] {
     const rows = this.db
       .prepare(
         `SELECT * FROM notification_tasks
-         WHERE (status = 'pending' OR status = 'failed_retryable')
-           AND attempt_count < max_attempts
-           AND (next_retry_at_ms IS NULL OR next_retry_at_ms <= ?)
+         WHERE attempt_count < max_attempts
+           AND (
+             (status = 'pending' AND (next_retry_at_ms IS NULL OR next_retry_at_ms <= :nowMs))
+             OR
+             (status = 'failed_retryable' AND (next_retry_at_ms IS NULL OR next_retry_at_ms <= :nowMs))
+             OR
+             (status = 'processing' AND (lease_expires_at_ms IS NULL OR lease_expires_at_ms <= :nowMs))
+           )
          ORDER BY id ASC
          LIMIT 50`
       )
-      .all(nowMs) as Record<string, unknown>[];
+      .all({ nowMs }) as Record<string, unknown>[];
 
     return rows.map((r) => this.mapTaskRow(r));
   }
@@ -501,6 +550,10 @@ export class ConsultationStore {
         row.next_retry_at_ms === null || row.next_retry_at_ms === undefined
           ? null
           : Number(row.next_retry_at_ms),
+      leaseExpiresAtMs:
+        row.lease_expires_at_ms === null || row.lease_expires_at_ms === undefined
+          ? null
+          : Number(row.lease_expires_at_ms),
       providerResponse:
         row.provider_response === null || row.provider_response === undefined
           ? null
