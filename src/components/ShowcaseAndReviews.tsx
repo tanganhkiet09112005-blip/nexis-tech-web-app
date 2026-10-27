@@ -465,14 +465,14 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
          ===================================================================== */}
       <section
         id="danh-gia"
-        className="py-16 sm:py-24 bg-white text-[#030B24] border-b border-slate-200/80"
+        className="py-16 sm:py-24 bg-[#040D2B] text-[#F4F8FF] border-b border-white/10"
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full mb-3">
+          <span className="inline-block text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-[#16D9F3]/30 px-3.5 py-1 rounded-full uppercase tracking-wider mb-3">
             Thông tin xác thực
           </span>
-          <h2 className="heading-section text-[#030B24] mb-10 sm:mb-12">
-            Đánh giá từ khách hàng
+          <h2 className="heading-section text-white mb-10 sm:mb-12">
+            Đánh giá từ khách hàng & đối tác
           </h2>
 
           {/* Centered Laptop Mockup Frame */}
@@ -525,17 +525,17 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
          ===================================================================== */}
       <section
         id="kien-thuc"
-        className="py-16 sm:py-24 bg-[#F3F7FC] text-[#030B24] border-b border-slate-200/80"
+        className="py-16 sm:py-24 bg-[#030B24] text-[#F4F8FF] border-b border-white/10"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full mb-2">
+            <span className="inline-block text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-[#16D9F3]/30 px-3.5 py-1 rounded-full uppercase tracking-wider mb-2">
               Tin tức & Cẩm nang
             </span>
-            <h2 className="heading-section text-[#030B24]">
-              Kiến thức website
+            <h2 className="heading-section text-white">
+              Kiến thức & Xu hướng công nghệ website
             </h2>
-            <p className="body-copy text-slate-600 mt-2">
+            <p className="body-copy text-[#B5C7DF] mt-2">
               Cập nhật thông tin, kiến thức và kinh nghiệm thiết kế, phát triển website cho doanh nghiệp của bạn.
             </p>
           </div>
@@ -545,7 +545,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
             {NEXIS_BRAND.knowledgeArticles.map((art, index) => (
               <article
                 key={art.id}
-                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs hover:border-[#087BFF]/40 flex flex-col justify-between card-hover-lift"
+                className="glass-panel glass-panel-hover rounded-2xl p-4 sm:p-5 border-white/10 flex flex-col justify-between"
               >
                 <div>
                   {/* Card Thumbnail Header with Top-Center Nexis Tech Tab */}
@@ -559,7 +559,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                     </div>
 
                     {/* Inner White Card Box */}
-                    <div className="bg-white/95 text-[#030B24] rounded-lg p-4 shadow-md group-hover:scale-[1.01] transition-transform duration-200">
+                    <div className="bg-[#071638]/95 text-white rounded-lg p-4 border border-white/10 group-hover:scale-[1.01] transition-transform duration-200">
                       <span className="text-[11px] font-medium text-[#087BFF] block mb-1">
                         Cẩm nang 0{index + 1} · {art.category}
                       </span>
@@ -576,12 +576,12 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
 
                   {/* Card Text Body */}
                   <div className="pt-4 px-1 space-y-2.5">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
+                    <div className="flex items-center justify-between text-xs text-[#B5C7DF] font-medium">
                       <span className="text-[#087BFF]">{art.category}</span>
                       <span>{art.readTime}</span>
                     </div>
 
-                    <h3 className="heading-card text-[#030B24] hover:text-[#087BFF] transition-colors duration-200">
+                    <h3 className="heading-card text-white hover:text-[#16D9F3] transition-colors duration-200">
                       <button
                         type="button"
                         onClick={() => setModalArticle(art)}
@@ -591,7 +591,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                       </button>
                     </h3>
 
-                    <p className="text-[15px] text-slate-600 leading-relaxed line-clamp-3 font-normal">
+                    <p className="text-[14px] text-[#B5C7DF] leading-relaxed line-clamp-3 font-normal">
                       {art.summary}
                     </p>
                   </div>

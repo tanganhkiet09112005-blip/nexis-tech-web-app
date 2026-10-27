@@ -474,6 +474,157 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
         </div>
       </section>
 
+
+      {/* =====================================================================
+          SECTION 11.5: BẢNG GÓI DỊCH VỤ / SERVICE PACKAGES
+         ===================================================================== */}
+      <section
+        id="bang-gia"
+        className="py-14 sm:py-20 relative z-10 border-t border-white/10"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
+            <span className="inline-block text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-[#16D9F3]/30 px-3.5 py-1 rounded-full uppercase tracking-wider">
+              Bảng Gói Giải Pháp
+            </span>
+            <h2 className="heading-section text-white">
+              Lựa chọn gói phát triển website{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#16D9F3] to-[#087BFF]">
+                phù hợp với quy mô của bạn
+              </span>
+            </h2>
+            <p className="body-copy text-[#B5C7DF]">
+              Mọi gói giải pháp đều được thiết kế độc bản theo nhận diện thương hiệu, không dùng template rập khuôn, tối ưu hóa tốc độ và bảo mật đa tầng.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {/* Package 1: Startup Landing Page */}
+            <div className="glass-panel glass-panel-hover rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-white/10">
+              <div className="space-y-4">
+                <span className="text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-white/10 px-3 py-1 rounded-lg inline-block">
+                  Startup &amp; Chiến Dịch
+                </span>
+                <h3 className="text-xl font-bold text-white">Landing Page Chuyển Đổi</h3>
+                <p className="text-xs text-[#B5C7DF]">
+                  Dành cho sản phẩm mới, chiến dịch quảng cáo và doanh nghiệp cần hiện diện số nhanh chóng với tỷ lệ chốt đơn cao.
+                </p>
+                <div className="py-2 border-y border-white/10 space-y-2.5 text-xs text-[#F4F8FF]">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Thiết kế 1 trang liền mạch, hiệu ứng mượt</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Tối ưu Core Web Vitals 95+ điểm</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Tích hợp Form gửi Email &amp; Zalo</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Miễn phí cấu hình domain &amp; SSL</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-6">
+                <button
+                  type="button"
+                  onClick={() => scrollToQuoteForm('Landing Page Doanh Nghiệp')}
+                  className="w-full py-3 rounded-xl bg-[#071638] border border-white/20 hover:border-[#16D9F3] text-sm font-semibold text-white transition-all duration-200 cursor-pointer"
+                >
+                  Chọn Gói Này
+                </button>
+              </div>
+            </div>
+
+            {/* Package 2: Business & E-Commerce (Featured) */}
+            <div className="glass-panel rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-[#16D9F3]/60 shadow-[0_0_35px_rgba(22,217,243,0.2)] relative bg-[#071638]/90">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#16D9F3] to-[#087BFF] text-[#030B24] text-[11px] font-bold tracking-wide shadow-md">
+                ⭐ PHỔ BIẾN NHẤT
+              </div>
+              <div className="space-y-4">
+                <span className="text-xs font-semibold text-[#16D9F3] bg-[#030B24] border border-[#16D9F3]/30 px-3 py-1 rounded-lg inline-block">
+                  Doanh Nghiệp &amp; E-Commerce
+                </span>
+                <h3 className="text-xl font-bold text-white">Website Doanh Nghiệp &amp; Bán Hàng</h3>
+                <p className="text-xs text-[#B5C7DF]">
+                  Xây dựng nhận diện thương hiệu chuyên nghiệp, danh mục sản phẩm, giỏ hàng trực tuyến và hệ quản trị CMS tiện lợi.
+                </p>
+                <div className="py-2 border-y border-white/10 space-y-2.5 text-xs text-[#F4F8FF]">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Toàn bộ quyền lợi gói Landing Page</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Cấu trúc đa trang (Giới thiệu, Dịch vụ, Blog)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Giỏ hàng &amp; danh mục sản phẩm tối ưu</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Hệ quản trị CMS dễ dùng, bảo hành 12 tháng</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-6">
+                <button
+                  type="button"
+                  onClick={() => scrollToQuoteForm('Website Thương Mại Điện Tử')}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-[#16D9F3] to-[#087BFF] text-[#030B24] text-sm font-bold shadow-lg hover:shadow-[0_0_20px_rgba(22,217,243,0.4)] transition-all duration-200 cursor-pointer"
+                >
+                  Chọn Gói Này
+                </button>
+              </div>
+            </div>
+
+            {/* Package 3: Custom Web App */}
+            <div className="glass-panel glass-panel-hover rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-white/10">
+              <div className="space-y-4">
+                <span className="text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-white/10 px-3 py-1 rounded-lg inline-block">
+                  Quy Mô Cao Cấp
+                </span>
+                <h3 className="text-xl font-bold text-white">Web App &amp; Nền Tảng Số</h3>
+                <p className="text-xs text-[#B5C7DF]">
+                  May đo phần mềm web đặc thù, tích hợp hệ sinh thái dữ liệu doanh nghiệp, API đối tác và quy trình tự động hóa.
+                </p>
+                <div className="py-2 border-y border-white/10 space-y-2.5 text-xs text-[#F4F8FF]">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Kiến trúc phân tán Microservices / Docker</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Phân quyền người dùng, bảo mật cấp doanh nghiệp</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Tích hợp cổng API, ERP, CRM chuyên sâu</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <span>Hỗ trợ kỹ thuật 24/7 &amp; SLA cam kết</span>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-6">
+                <button
+                  type="button"
+                  onClick={() => scrollToQuoteForm('Web App / Nền Tảng Số')}
+                  className="w-full py-3 rounded-xl bg-[#071638] border border-white/20 hover:border-[#16D9F3] text-sm font-semibold text-white transition-all duration-200 cursor-pointer"
+                >
+                  Chọn Gói Này
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* =====================================================================
           SECTION 12: KHU VỰC ĐĂNG KÝ NHẬN BÁO GIÁ / TƯ VẤN (THÔNG TIN LIÊN HỆ THỐNG NHẤT)
          ===================================================================== */}

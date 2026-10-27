@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  *
- * Nexis Tech — Single-page digital experience application
+ * Nexis Tech — High-converting modern tech landing page
  */
 
 import React, { useState } from 'react';
@@ -34,27 +34,27 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F3F7FC] text-[#030B24] selection:bg-[#087BFF] selection:text-white overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#030B24] text-[#F4F8FF] selection:bg-[#087BFF] selection:text-white overflow-x-hidden">
       {/* 01. Thanh điều hướng đầu trang */}
       <HeaderNav onNavigateToQuote={scrollToQuote} />
 
       <main className="flex-1">
-        {/* 02. Khu vực mở đầu (Hero) */}
+        {/* 02. Khu vực mở đầu (Hero) với Marquee công nghệ & Thống kê chuyển đổi */}
         <HeroSection onPrimaryCta={() => scrollToQuote()} />
 
-        {/* 03. Khối giới thiệu vai trò website & 04. Lợi ích khi có website */}
+        {/* 03. Bento Grid Năng lực cốt lõi & 04. Slider Lợi ích nổi bật */}
         <IntroAndBenefits />
 
-        {/* 05. Tiêu chí website chất lượng, 06. Vòng tròn 8 lý do chọn Nexis Tech & 07. Năng lực - Cam kết */}
+        {/* 05. Tiêu chí chuẩn mực, 06. Orbital Hub 8 Lý do & 07. Năng lực - Cam kết */}
         <CriteriaAndReasons onNavigateToQuote={scrollToQuote} />
 
-        {/* 08. Kho giao diện mẫu, 09. Đánh giá khách hàng & 10. Bài viết kiến thức */}
+        {/* 08. Kho website mẫu theo lĩnh vực, 09. Đánh giá khách hàng & 10. Kiến thức website */}
         <ShowcaseAndReviews onSelectTemplateForQuote={(templateName: string) => scrollToQuote(templateName)} />
 
-        {/* 11. Giải pháp theo lĩnh vực & 12. Khu vực đăng ký tư vấn / nhận báo giá */}
+        {/* 11. Bảng gói dịch vụ / Giải pháp & 12. Biểu mẫu đăng ký tư vấn trực tuyến */}
         <SolutionsAndQuote preselectedService={preselectedService} />
 
-        {/* 13. Câu hỏi thường gặp (FAQ), 14. Banner kêu gọi hành động cuối trang, 15. Chân trang (Footer) & 16. Cụm nút hành động nổi */}
+        {/* 13. FAQ Accordion mượt mà, 14. Banner CTA cuối trang, 15. Footer & 16. Nút gọi nổi */}
         <FaqCtaFooter onScrollToQuote={scrollToQuote} />
       </main>
     </div>
