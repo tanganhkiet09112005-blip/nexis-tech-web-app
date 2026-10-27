@@ -1,6 +1,8 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * Nexis Tech — Single-page digital experience application
  */
 
 import React, { useState } from 'react';
@@ -21,7 +23,13 @@ export default function App() {
     }
     const el = document.getElementById('bao-gia');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 76;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -37,10 +45,10 @@ export default function App() {
         {/* 03. Khối giới thiệu vai trò website & 04. Lợi ích khi có website */}
         <IntroAndBenefits />
 
-        {/* 05. Tiêu chí website chất lượng, 06. Vòng tròn 8 lý do chọn NEXTTECH & 07. Năng lực - Cam kết */}
+        {/* 05. Tiêu chí website chất lượng, 06. Vòng tròn 8 lý do chọn Nexis Tech & 07. Năng lực - Cam kết */}
         <CriteriaAndReasons onNavigateToQuote={scrollToQuote} />
 
-        {/* 08. Kho giao diện mẫu (Coverflow), 09. Đánh giá khách hàng & 10. Bài viết kiến thức */}
+        {/* 08. Kho giao diện mẫu, 09. Đánh giá khách hàng & 10. Bài viết kiến thức */}
         <ShowcaseAndReviews onSelectTemplateForQuote={(templateName: string) => scrollToQuote(templateName)} />
 
         {/* 11. Giải pháp theo lĩnh vực & 12. Khu vực đăng ký tư vấn / nhận báo giá */}

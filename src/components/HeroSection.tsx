@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import { Search, ShoppingBag, Sparkles, CheckCircle2, ArrowRight, Phone } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 
 interface HeroSectionProps {
@@ -33,7 +34,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* LEFT COLUMN (5 cols): Brand Lead, Heading, Description, CTA */}
-          <div className="lg:col-span-5 space-y-6 text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-6 text-left"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#071638] border border-white/15">
               <Sparkles className="w-3.5 h-3.5 text-[#16D9F3]" />
               <span className="text-xs sm:text-[13px] font-medium text-[#B5C7DF]">
@@ -52,7 +58,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
               {NEXIS_BRAND.hero.description}
             </p>
 
-            {/* Primary CTA + Direct Phone Link + Preview Switcher */}
+            {/* Primary CTA + Direct Phone Link */}
             <div className="pt-1 flex flex-wrap items-center gap-3.5">
               <button
                 type="button"
@@ -81,7 +87,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                   onClick={() => setActiveDevicePreview('ecommerce')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer ${
                     activeDevicePreview === 'ecommerce'
-                      ? 'bg-[#087BFF] text-white'
+                      ? 'bg-[#087BFF] text-white shadow-sm'
                       : 'text-[#B5C7DF] hover:text-white'
                   }`}
                 >
@@ -92,7 +98,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                   onClick={() => setActiveDevicePreview('corporate')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer ${
                     activeDevicePreview === 'corporate'
-                      ? 'bg-[#087BFF] text-white'
+                      ? 'bg-[#087BFF] text-white shadow-sm'
                       : 'text-[#B5C7DF] hover:text-white'
                   }`}
                 >
@@ -116,10 +122,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                 <span>Tích hợp AI & Cloud</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* RIGHT COLUMN (7 cols): 2-Tier Stepped 3D Podium with Laptop + Tablet + Stylus */}
-          <div className="lg:col-span-7 relative pt-4 lg:pt-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 relative pt-4 lg:pt-6"
+          >
             <div className="relative mx-auto max-w-[660px] min-h-[380px] sm:min-h-[450px] flex items-end justify-end">
               {/* 3D Podium Upper Step (Right/Back) */}
               <div
@@ -145,82 +156,92 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                 <div className="bg-[#0B162C] border-[3px] border-[#1E293B] rounded-t-2xl p-2 sm:p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
                   <div className="w-1.5 h-1.5 rounded-full bg-[#16D9F3]/60 mx-auto mb-1.5" />
 
-                  {/* Inner Website UI Screen */}
-                  <div className="bg-[#F4F8FF] text-[#030B24] rounded-xl overflow-hidden shadow-inner">
-                    {/* Mockup Top Bar */}
-                    <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-[11px] tracking-tight text-[#030B24]">
-                          {activeDevicePreview === 'ecommerce' ? 'Nexis Store' : 'Nexis Enterprise'}
-                        </span>
-                      </div>
-                      <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full w-36 text-[10px] text-slate-500">
-                        <span>Tìm kiếm sản phẩm...</span>
-                        <Search className="w-3 h-3 ml-auto text-[#087BFF]" />
-                      </div>
-                      <div className="flex items-center gap-2 text-[10px] font-medium text-slate-600">
-                        <span>Trang chủ</span>
-                        <span className="text-[#087BFF]">Giải pháp</span>
-                        <span>Liên hệ</span>
-                      </div>
-                    </div>
-
-                    {/* Mockup Hero Banner */}
-                    <div
-                      className="p-4 sm:p-5 text-white relative overflow-hidden"
-                      style={{
-                        background:
-                          activeDevicePreview === 'ecommerce'
-                            ? 'linear-gradient(135deg, #030B24 0%, #071638 55%, #087BFF 100%)'
-                            : 'linear-gradient(135deg, #071638 0%, #087BFF 65%, #12B8E6 100%)',
-                      }}
-                    >
-                      <div className="grid grid-cols-12 gap-3 items-center">
-                        <div className="col-span-7 space-y-1.5">
-                          <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded bg-white/15 text-[#16D9F3]">
-                            {activeDevicePreview === 'ecommerce'
-                              ? 'Giao diện thương mại điện tử'
-                              : 'Nền tảng số doanh nghiệp'}
-                          </span>
-                          <div className="text-sm sm:text-base font-semibold leading-snug">
-                            {activeDevicePreview === 'ecommerce'
-                              ? 'Trải nghiệm mua sắm trực tuyến chuẩn nhận diện'
-                              : 'Hệ sinh thái giải pháp công nghệ & vận hành'}
-                          </div>
-                          <div className="pt-1">
-                            <span className="inline-block px-2.5 py-1 rounded-md bg-[#16D9F3] text-[#030B24] text-[10px] font-semibold">
-                              Khám phá ngay
+                  {/* Inner Website UI Screen with Smooth AnimatePresence */}
+                  <div className="bg-[#F4F8FF] text-[#030B24] rounded-xl overflow-hidden shadow-inner min-h-[220px]">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeDevicePreview}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        {/* Mockup Top Bar */}
+                        <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-semibold text-[11px] tracking-tight text-[#030B24]">
+                              {activeDevicePreview === 'ecommerce' ? 'Nexis Store' : 'Nexis Enterprise'}
                             </span>
                           </div>
-                        </div>
-
-                        {/* Mini Visual Cards inside Laptop Hero */}
-                        <div className="col-span-5 grid grid-cols-2 gap-1.5">
-                          <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
-                            <div className="w-6 h-6 mx-auto rounded bg-[#16D9F3]/20 flex items-center justify-center text-[#16D9F3] text-[10px] font-semibold">
-                              01
-                            </div>
-                            <div className="text-[9px] mt-1 font-medium truncate">UI/UX Riêng</div>
+                          <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full w-36 text-[10px] text-slate-500">
+                            <span>Tìm kiếm sản phẩm...</span>
+                            <Search className="w-3 h-3 ml-auto text-[#087BFF]" />
                           </div>
-                          <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
-                            <div className="w-6 h-6 mx-auto rounded bg-[#087BFF]/30 flex items-center justify-center text-white text-[10px] font-semibold">
-                              02
-                            </div>
-                            <div className="text-[9px] mt-1 font-medium truncate">Full-stack</div>
+                          <div className="flex items-center gap-2 text-[10px] font-medium text-slate-600">
+                            <span>Trang chủ</span>
+                            <span className="text-[#087BFF]">Giải pháp</span>
+                            <span>Liên hệ</span>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    {/* Mockup Bottom Strip */}
-                    <div className="px-4 py-2.5 bg-white text-center border-t border-slate-100">
-                      <div className="text-[11px] font-semibold text-[#030B24]">
-                        Cấu trúc danh mục trực quan · Tối ưu chuyển đổi đa thiết bị
-                      </div>
-                      <div className="text-[10px] text-slate-500 mt-0.5">
-                        Thiết kế đồng bộ theo nhận diện thương hiệu của từng doanh nghiệp
-                      </div>
-                    </div>
+                        {/* Mockup Hero Banner */}
+                        <div
+                          className="p-4 sm:p-5 text-white relative overflow-hidden"
+                          style={{
+                            background:
+                              activeDevicePreview === 'ecommerce'
+                                ? 'linear-gradient(135deg, #030B24 0%, #071638 55%, #087BFF 100%)'
+                                : 'linear-gradient(135deg, #071638 0%, #087BFF 65%, #12B8E6 100%)',
+                          }}
+                        >
+                          <div className="grid grid-cols-12 gap-3 items-center">
+                            <div className="col-span-7 space-y-1.5">
+                              <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded bg-white/15 text-[#16D9F3]">
+                                {activeDevicePreview === 'ecommerce'
+                                  ? 'Giao diện thương mại điện tử'
+                                  : 'Nền tảng số doanh nghiệp'}
+                              </span>
+                              <div className="text-sm sm:text-base font-semibold leading-snug">
+                                {activeDevicePreview === 'ecommerce'
+                                  ? 'Trải nghiệm mua sắm trực tuyến chuẩn nhận diện'
+                                  : 'Hệ sinh thái giải pháp công nghệ & vận hành'}
+                              </div>
+                              <div className="pt-1">
+                                <span className="inline-block px-2.5 py-1 rounded-md bg-[#16D9F3] text-[#030B24] text-[10px] font-semibold">
+                                  Khám phá ngay
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Mini Visual Cards inside Laptop Hero */}
+                            <div className="col-span-5 grid grid-cols-2 gap-1.5">
+                              <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
+                                <div className="w-6 h-6 mx-auto rounded bg-[#16D9F3]/20 flex items-center justify-center text-[#16D9F3] text-[10px] font-semibold">
+                                  01
+                                </div>
+                                <div className="text-[9px] mt-1 font-medium truncate">UI/UX Riêng</div>
+                              </div>
+                              <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
+                                <div className="w-6 h-6 mx-auto rounded bg-[#087BFF]/30 flex items-center justify-center text-white text-[10px] font-semibold">
+                                  02
+                                </div>
+                                <div className="text-[9px] mt-1 font-medium truncate">Full-stack</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Mockup Bottom Strip */}
+                        <div className="px-4 py-2.5 bg-white text-center border-t border-slate-100">
+                          <div className="text-[11px] font-semibold text-[#030B24]">
+                            Cấu trúc danh mục trực quan · Tối ưu chuyển đổi đa thiết bị
+                          </div>
+                          <div className="text-[10px] text-slate-500 mt-0.5">
+                            Thiết kế đồng bộ theo nhận diện thương hiệu của từng doanh nghiệp
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
                 </div>
 
@@ -293,7 +314,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

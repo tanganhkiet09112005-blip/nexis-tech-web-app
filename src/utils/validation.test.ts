@@ -300,3 +300,74 @@ test('7. Carousel index helper wraps accurately', () => {
   assert.equal(getWrappedIndex(0, -1, 4), 3);
   assert.equal(getWrappedIndex(3, 1, 4), 0);
 });
+
+test('8. ConsultationRouter & HTTP Integration: handles submission, honeypot and deduplication', async () => {
+  const express = (await import('express')).default;
+  const { createConsultationRouter } = await import('../server/consultationRouter.ts');
+  const store = new ConsultationStore(':memory:');
+  const dispatcher = new NotificationDispatcher({ store });
+
+  const app = express();
+  app.use(express.json());
+  app.use('/api', createConsultationRouter({ store, dispatcher }));
+
+  const server = app.listen(0);
+  const port = (server.address() as { port: number }).port;
+  const baseUrl = `http://127.0.0.1:${port}`;
+
+  try {
+    // 1. Rejects honeypot
+    const honeypotRes = await fetch(`${baseUrl}/api/consultation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fullName: 'Nguyễn Văn Spam',
+        phone: '0909858428',
+        websiteUrl: 'https://spam-bot.site',
+      }),
+    });
+    assert.equal(honeypotRes.status, 400);
+
+    // 2. Accepts valid submission
+    const validRes = await fetch(`${baseUrl}/api/consultation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-idempotency-key': 'http-test-key-100',
+      },
+      body: JSON.stringify({
+        fullName: 'Nguyễn Anh Tuấn',
+        phone: '0909 858 428',
+        serviceType: 'Website doanh nghiệp',
+        message: 'Cần tư vấn báo giá website tại TP.HCM',
+      }),
+    });
+    assert.equal(validRes.status, 201);
+    const validData = (await validRes.json()) as { ok: boolean; requestCode: string; isDuplicate: boolean };
+    assert.equal(validData.ok, true);
+    assert.equal(validData.isDuplicate, false);
+    assert.match(validData.requestCode, /^NXT-\d{8}-\d{4}$/);
+
+    // 3. Repeated submission returns duplicate status 200
+    const dupRes = await fetch(`${baseUrl}/api/consultation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-idempotency-key': 'http-test-key-100',
+      },
+      body: JSON.stringify({
+        fullName: 'Nguyễn Anh Tuấn',
+        phone: '0909 858 428',
+        serviceType: 'Website doanh nghiệp',
+      }),
+    });
+    assert.equal(dupRes.status, 200);
+    const dupData = (await dupRes.json()) as { ok: boolean; requestCode: string; isDuplicate: boolean };
+    assert.equal(dupData.ok, true);
+    assert.equal(dupData.isDuplicate, true);
+    assert.equal(dupData.requestCode, validData.requestCode);
+  } finally {
+    server.close();
+    store.close();
+  }
+});

@@ -20,6 +20,7 @@ import {
   CheckCircle2,
   Loader2,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 import {
   validateQuoteForm,
@@ -39,7 +40,7 @@ interface FaqCtaFooterProps {
 export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) => {
   const [openFaqIds, setOpenFaqIds] = useState<string[]>(['faq-1']);
 
-  // Footer mini-form state (mandatory: fullName, phone; optional: serviceType, message)
+  // Footer mini-form state
   const [footerForm, setFooterForm] = useState<QuoteFormInput>({
     fullName: '',
     phone: '',
@@ -130,7 +131,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
   return (
     <>
       {/* =====================================================================
-          SECTION 13: CÂU HỎI THƯỜNG GẶP (FAQ ACCORDION)
+          SECTION 13: CÂU HỎI THƯỜNG GẶP (FAQ ACCORDION WITH SMOOTH EXPANSION)
          ===================================================================== */}
       <section
         id="faq"
@@ -149,21 +150,21 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
             </p>
           </div>
 
-          {/* Single-Column Accordion List */}
+          {/* Single-Column Accordion List with Motion */}
           <div className="space-y-3.5">
             {NEXIS_BRAND.faqs.map((faq) => {
               const isOpen = openFaqIds.includes(faq.id);
               return (
                 <div
                   key={faq.id}
-                  className="rounded-2xl overflow-hidden border border-slate-200/80 transition-all duration-200"
+                  className="rounded-2xl overflow-hidden border border-slate-200/80 transition-colors duration-200"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={isOpen}
                     aria-controls={`faq-panel-${faq.id}`}
-                    className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-all duration-200 cursor-pointer ${
+                    className={`w-full px-5 sm:px-6 py-4 text-left flex items-center justify-between gap-4 transition-colors duration-200 cursor-pointer ${
                       isOpen
                         ? 'bg-gradient-to-r from-[#087BFF] to-[#12B8E6] text-white shadow-sm'
                         : 'bg-[#F3F7FC] hover:bg-slate-100 text-[#030B24]'
@@ -181,14 +182,22 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
                     </span>
                   </button>
 
-                  {isOpen && (
-                    <div
-                      id={`faq-panel-${faq.id}`}
-                      className="px-5 sm:px-6 py-5 bg-white text-slate-600 body-copy border-t border-slate-100"
-                    >
-                      {faq.answer}
-                    </div>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={`faq-panel-${faq.id}`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-5 sm:px-6 py-5 bg-white text-slate-600 body-copy border-t border-slate-100">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -392,132 +401,150 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
                 Để lại thông tin để đội ngũ Nexis Tech liên hệ tư vấn hoặc gọi trực tiếp {NEXIS_BRAND.phoneDisplay}.
               </p>
 
-              {!footerSubmitted ? (
-                <form onSubmit={handleFooterSubmit} noValidate className="space-y-2.5">
-                  <div className="hidden" aria-hidden="true">
-                    <input
-                      type="text"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={footerForm.websiteUrl || ''}
-                      onChange={(e) => handleFooterChange('websiteUrl', e.target.value)}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <input
-                      type="text"
-                      maxLength={FIELD_LIMITS.FULL_NAME_MAX}
-                      disabled={footerIsSubmitting}
-                      value={footerForm.fullName}
-                      onChange={(e) => handleFooterChange('fullName', e.target.value)}
-                      placeholder="Họ và tên *"
-                      aria-label="Họ và tên"
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
-                    />
-                    <input
-                      type="tel"
-                      maxLength={FIELD_LIMITS.PHONE_MAX}
-                      disabled={footerIsSubmitting}
-                      value={footerForm.phone}
-                      onChange={(e) => handleFooterChange('phone', e.target.value)}
-                      placeholder="Số điện thoại *"
-                      aria-label="Số điện thoại"
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
-                    />
-                  </div>
-
-                  <select
-                    disabled={footerIsSubmitting}
-                    value={footerForm.serviceType}
-                    onChange={(e) => handleFooterChange('serviceType', e.target.value)}
-                    aria-label="Chọn dịch vụ"
-                    className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+              <AnimatePresence mode="wait">
+                {!footerSubmitted ? (
+                  <motion.form
+                    key="footer-form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onSubmit={handleFooterSubmit}
+                    noValidate
+                    className="space-y-2.5"
                   >
-                    {NEXIS_BRAND.coreServices.map((s) => (
-                      <option key={s.id} value={s.shortTitle}>
-                        {s.shortTitle}
-                      </option>
-                    ))}
-                  </select>
-
-                  <textarea
-                    rows={2}
-                    maxLength={FIELD_LIMITS.MESSAGE_MAX}
-                    disabled={footerIsSubmitting}
-                    value={footerForm.message}
-                    onChange={(e) => handleFooterChange('message', e.target.value)}
-                    placeholder="Mô tả nhu cầu (tùy chọn)..."
-                    aria-label="Mô tả nhu cầu"
-                    className="w-full px-3 py-2 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
-                  />
-
-                  {(footerErrors.fullName || footerErrors.phone || footerErrors.message || footerSubmitError) && (
-                    <div
-                      role="alert"
-                      className="text-[11px] text-amber-300 flex items-center gap-1.5"
-                    >
-                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                      <span>
-                        {footerErrors.fullName ||
-                          footerErrors.phone ||
-                          footerErrors.message ||
-                          footerSubmitError}
-                      </span>
+                    <div className="hidden" aria-hidden="true">
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={footerForm.websiteUrl || ''}
+                        onChange={(e) => handleFooterChange('websiteUrl', e.target.value)}
+                      />
                     </div>
-                  )}
 
-                  <div className="pt-1 flex items-center gap-2.5">
-                    <button
-                      type="submit"
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <input
+                        type="text"
+                        maxLength={FIELD_LIMITS.FULL_NAME_MAX}
+                        disabled={footerIsSubmitting}
+                        value={footerForm.fullName}
+                        onChange={(e) => handleFooterChange('fullName', e.target.value)}
+                        placeholder="Họ và tên *"
+                        aria-label="Họ và tên"
+                        className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                      />
+                      <input
+                        type="tel"
+                        maxLength={FIELD_LIMITS.PHONE_MAX}
+                        disabled={footerIsSubmitting}
+                        value={footerForm.phone}
+                        onChange={(e) => handleFooterChange('phone', e.target.value)}
+                        placeholder="Số điện thoại *"
+                        aria-label="Số điện thoại"
+                        className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                      />
+                    </div>
+
+                    <select
                       disabled={footerIsSubmitting}
-                      className="px-5 py-2.5 rounded-xl text-xs font-medium text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer inline-flex items-center gap-1.5"
+                      value={footerForm.serviceType}
+                      onChange={(e) => handleFooterChange('serviceType', e.target.value)}
+                      aria-label="Chọn dịch vụ"
+                      className="w-full px-3 py-2.5 rounded-xl bg-[#071638] border border-white/15 text-xs text-white focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70 cursor-pointer"
                     >
-                      {footerIsSubmitting ? (
-                        <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          <span>Đang gửi…</span>
-                        </>
-                      ) : (
-                        <span>Gửi yêu cầu tư vấn</span>
-                      )}
-                    </button>
-                    <a
-                      href={NEXIS_BRAND.phoneHref}
-                      className="px-4 py-2.5 rounded-xl bg-[#071638] border border-white/15 hover:border-[#16D9F3] text-xs font-medium text-[#F4F8FF] inline-flex items-center gap-1.5"
-                    >
-                      <Phone className="w-3.5 h-3.5 text-[#16D9F3]" />
-                      <span>{NEXIS_BRAND.phoneDisplay}</span>
-                    </a>
-                  </div>
+                      {NEXIS_BRAND.coreServices.map((s) => (
+                        <option key={s.id} value={s.shortTitle}>
+                          {s.shortTitle}
+                        </option>
+                      ))}
+                    </select>
 
-                  <p className="text-[11px] text-[#B5C7DF]/90">
-                    Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
-                  </p>
-                </form>
-              ) : (
-                <div className="p-4 rounded-xl bg-[#071638] border border-[#16D9F3]/40 space-y-2.5 text-xs">
-                  <div className="flex items-center justify-between text-[#16D9F3] font-semibold">
-                    <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Mã: {footerSubmitted.requestCode}</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleResetFooterForm}
-                      className="underline text-[#B5C7DF] hover:text-white cursor-pointer"
-                    >
-                      Gửi yêu cầu mới
-                    </button>
-                  </div>
-                  <p className="text-white font-medium">
-                    {footerSubmitted.message}
-                  </p>
-                  <p className="text-[11px] text-[#B5C7DF]">
-                    Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
-                  </p>
-                </div>
-              )}
+                    <textarea
+                      rows={2}
+                      maxLength={FIELD_LIMITS.MESSAGE_MAX}
+                      disabled={footerIsSubmitting}
+                      value={footerForm.message}
+                      onChange={(e) => handleFooterChange('message', e.target.value)}
+                      placeholder="Mô tả nhu cầu (tùy chọn)..."
+                      aria-label="Mô tả nhu cầu"
+                      className="w-full px-3 py-2 rounded-xl bg-[#071638] border border-white/15 text-xs text-white placeholder:text-[#B5C7DF]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                    />
+
+                    {(footerErrors.fullName || footerErrors.phone || footerErrors.message || footerSubmitError) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        role="alert"
+                        className="text-[11px] text-amber-300 flex items-center gap-1.5"
+                      >
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>
+                          {footerErrors.fullName ||
+                            footerErrors.phone ||
+                            footerErrors.message ||
+                            footerSubmitError}
+                        </span>
+                      </motion.div>
+                    )}
+
+                    <div className="pt-1 flex items-center gap-2.5">
+                      <button
+                        type="submit"
+                        disabled={footerIsSubmitting}
+                        className="px-5 py-2.5 rounded-xl text-xs font-medium text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer inline-flex items-center gap-1.5"
+                      >
+                        {footerIsSubmitting ? (
+                          <>
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            <span>Đang gửi…</span>
+                          </>
+                        ) : (
+                          <span>Gửi yêu cầu tư vấn</span>
+                        )}
+                      </button>
+                      <a
+                        href={NEXIS_BRAND.phoneHref}
+                        className="px-4 py-2.5 rounded-xl bg-[#071638] border border-white/15 hover:border-[#16D9F3] text-xs font-medium text-[#F4F8FF] inline-flex items-center gap-1.5"
+                      >
+                        <Phone className="w-3.5 h-3.5 text-[#16D9F3]" />
+                        <span>{NEXIS_BRAND.phoneDisplay}</span>
+                      </a>
+                    </div>
+
+                    <p className="text-[11px] text-[#B5C7DF]/90">
+                      Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
+                    </p>
+                  </motion.form>
+                ) : (
+                  <motion.div
+                    key="footer-success"
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="p-4 rounded-xl bg-[#071638] border border-[#16D9F3]/40 space-y-2.5 text-xs"
+                  >
+                    <div className="flex items-center justify-between text-[#16D9F3] font-semibold">
+                      <span className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>Mã: {footerSubmitted.requestCode}</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleResetFooterForm}
+                        className="underline text-[#B5C7DF] hover:text-white cursor-pointer"
+                      >
+                        Gửi yêu cầu mới
+                      </button>
+                    </div>
+                    <p className="text-white font-medium">
+                      {footerSubmitted.message}
+                    </p>
+                    <p className="text-[11px] text-[#B5C7DF]">
+                      Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -547,27 +574,33 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
         aria-label="Công cụ liên hệ nhanh"
       >
         {/* 1. Nút gọi điện */}
-        <a
+        <motion.a
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
           href={NEXIS_BRAND.phoneHref}
           className="w-10 h-10 sm:w-11 sm:h-11 rounded-full next-glow-pill text-white flex items-center justify-center shadow-lg focus-visible:outline-2 focus-visible:outline-white"
           aria-label={`Gọi điện tư vấn: ${NEXIS_BRAND.phoneDisplay}`}
           title={`Gọi ngay: ${NEXIS_BRAND.phoneDisplay}`}
         >
           <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
-        </a>
+        </motion.a>
 
         {/* 2. Nút gửi email */}
-        <a
+        <motion.a
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
           href={NEXIS_BRAND.emailHref}
           className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#071638]/95 border border-[#16D9F3]/45 hover:bg-[#087BFF] text-[#16D9F3] hover:text-white flex items-center justify-center shadow-lg transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[#16D9F3]"
           aria-label={`Gửi email: ${NEXIS_BRAND.emailDisplay}`}
           title={`Gửi email: ${NEXIS_BRAND.emailDisplay}`}
         >
           <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-        </a>
+        </motion.a>
 
         {/* 3. Nút lên đầu trang */}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#030B24]/90 border border-white/20 hover:border-[#16D9F3] text-white flex items-center justify-center shadow-md transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#16D9F3]"
@@ -575,7 +608,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
           title="Lên đầu trang"
         >
           <ArrowUp className="w-4 h-4" />
-        </button>
+        </motion.button>
       </div>
     </>
   );

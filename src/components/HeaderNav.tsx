@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 
 interface HeaderNavProps {
@@ -29,6 +30,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
     setMobileOpen(false);
     setOpenDropdownId(null);
 
+    if (href === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     if (href === '#bao-gia' && label) {
       onNavigateToQuote(label);
       return;
@@ -37,7 +43,13 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
     const targetId = href.replace('#', '');
     const el = document.getElementById(targetId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 76;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -55,7 +67,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
           href="#top"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            handleNavClick('#top');
           }}
           className="flex items-center gap-3 group shrink-0 focus-visible:outline-2 focus-visible:outline-[#16D9F3] rounded-lg"
           aria-label="Nexis Tech — Trang chủ"
@@ -97,7 +109,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
           </div>
         </a>
 
-        {/* Center: Horizontal Navigation Menu with Dropdowns */}
+        {/* Center: Horizontal Navigation Menu with Smooth Animated Dropdowns */}
         <nav
           className="hidden lg:flex items-center gap-1 xl:gap-2"
           aria-label="Điều hướng chính"
@@ -135,28 +147,36 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
                   )}
                 </button>
 
-                {/* Dropdown Panel */}
-                {hasChildren && isOpen && (
-                  <div className="absolute left-0 top-full pt-2 w-72 z-50">
-                    <div className="bg-[#071638] border border-white/15 rounded-xl shadow-2xl p-2 space-y-1">
-                      {item.children!.map((child, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => handleNavClick(child.href, child.label)}
-                          className="w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#F4F8FF]/90 hover:text-white hover:bg-[#087BFF]/25 transition-colors duration-200 flex items-center justify-between gap-2 cursor-pointer"
-                        >
-                          <span>{child.label}</span>
-                          {child.badge && (
-                            <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#087BFF]/30 text-[#16D9F3]">
-                              {child.badge}
-                            </span>
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Dropdown Panel with Motion */}
+                <AnimatePresence>
+                  {hasChildren && isOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute left-0 top-full pt-2 w-72 z-50"
+                    >
+                      <div className="bg-[#071638] border border-white/15 rounded-xl shadow-2xl p-2 space-y-1">
+                        {item.children!.map((child, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleNavClick(child.href, child.label)}
+                            className="w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium text-[#F4F8FF]/90 hover:text-white hover:bg-[#087BFF]/25 transition-colors duration-180 flex items-center justify-between gap-2 cursor-pointer"
+                          >
+                            <span>{child.label}</span>
+                            {child.badge && (
+                              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#087BFF]/30 text-[#16D9F3]">
+                                {child.badge}
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
@@ -194,91 +214,107 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-[#030B24] border-b border-white/15 px-4 pt-3 pb-6 space-y-2 max-h-[82vh] overflow-y-auto">
-          {NEXIS_BRAND.navigation.map((item) => {
-            const hasChildren = Boolean(item.children && item.children.length > 0);
-            const isExpanded = mobileExpandedId === item.id;
+      {/* Mobile Navigation Drawer with Motion */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden bg-[#030B24] border-b border-white/15 px-4 pt-3 pb-6 space-y-2 max-h-[82vh] overflow-y-auto"
+          >
+            {NEXIS_BRAND.navigation.map((item) => {
+              const hasChildren = Boolean(item.children && item.children.length > 0);
+              const isExpanded = mobileExpandedId === item.id;
 
-            return (
-              <div key={item.id} className="border-b border-white/10 pb-2">
-                <div className="flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (hasChildren) {
-                        setMobileExpandedId(isExpanded ? null : item.id);
-                      } else {
-                        handleNavClick(item.href);
-                      }
-                    }}
-                    className="w-full text-left py-2.5 text-base font-medium text-[#F4F8FF] flex items-center justify-between cursor-pointer"
-                  >
-                    <span>{item.label}</span>
-                    {hasChildren && (
-                      <ChevronDown
-                        className={`w-4 h-4 text-[#16D9F3] transition-transform duration-200 ${
-                          isExpanded ? 'rotate-180' : ''
-                        }`}
-                      />
-                    )}
-                  </button>
-                </div>
-
-                {hasChildren && isExpanded && (
-                  <div className="pl-3 pt-1 pb-2 space-y-1 border-l border-[#087BFF]/40 ml-2">
-                    {item.children!.map((child, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => handleNavClick(child.href, child.label)}
-                        className="w-full text-left py-2 px-2 rounded-lg text-sm font-normal text-[#B5C7DF] hover:text-white hover:bg-white/5 flex items-center justify-between cursor-pointer"
-                      >
-                        <span>{child.label}</span>
-                        {child.badge && (
-                          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#087BFF]/25 text-[#16D9F3]">
-                            {child.badge}
-                          </span>
-                        )}
-                      </button>
-                    ))}
+              return (
+                <div key={item.id} className="border-b border-white/10 pb-2">
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (hasChildren) {
+                          setMobileExpandedId(isExpanded ? null : item.id);
+                        } else {
+                          handleNavClick(item.href);
+                        }
+                      }}
+                      className="w-full text-left py-2.5 text-base font-medium text-[#F4F8FF] flex items-center justify-between cursor-pointer"
+                    >
+                      <span>{item.label}</span>
+                      {hasChildren && (
+                        <ChevronDown
+                          className={`w-4 h-4 text-[#16D9F3] transition-transform duration-200 ${
+                            isExpanded ? 'rotate-180' : ''
+                          }`}
+                        />
+                      )}
+                    </button>
                   </div>
-                )}
-              </div>
-            );
-          })}
 
-          <div className="pt-3 flex flex-col gap-2.5">
-            <a
-              href={NEXIS_BRAND.phoneHref}
-              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#071638] border border-white/15 text-base font-medium text-[#F4F8FF]"
-            >
-              <Phone className="w-4 h-4 text-[#16D9F3]" />
-              <span>Gọi tư vấn: {NEXIS_BRAND.phoneDisplay}</span>
-            </a>
+                  <AnimatePresence initial={false}>
+                    {hasChildren && isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className="pl-3 pt-1 pb-2 space-y-1 border-l border-[#087BFF]/40 ml-2 overflow-hidden"
+                      >
+                        {item.children!.map((child, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleNavClick(child.href, child.label)}
+                            className="w-full text-left py-2 px-2 rounded-lg text-sm font-normal text-[#B5C7DF] hover:text-white hover:bg-white/5 flex items-center justify-between cursor-pointer"
+                          >
+                            <span>{child.label}</span>
+                            {child.badge && (
+                              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#087BFF]/25 text-[#16D9F3]">
+                                {child.badge}
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
 
-            <a
-              href={NEXIS_BRAND.emailHref}
-              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#071638] border border-white/15 text-sm font-medium text-[#B5C7DF]"
-            >
-              <Mail className="w-4 h-4 text-[#16D9F3]" />
-              <span>{NEXIS_BRAND.emailDisplay}</span>
-            </a>
+            <div className="pt-3 flex flex-col gap-2.5">
+              <a
+                href={NEXIS_BRAND.phoneHref}
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#071638] border border-white/15 text-base font-medium text-[#F4F8FF]"
+              >
+                <Phone className="w-4 h-4 text-[#16D9F3]" />
+                <span>Gọi tư vấn: {NEXIS_BRAND.phoneDisplay}</span>
+              </a>
 
-            <button
-              type="button"
-              onClick={() => {
-                setMobileOpen(false);
-                onNavigateToQuote();
-              }}
-              className="w-full py-3 rounded-xl text-base font-medium text-white next-glow-pill cursor-pointer"
-            >
-              Nhận tư vấn dự án
-            </button>
-          </div>
-        </div>
-      )}
+              <a
+                href={NEXIS_BRAND.emailHref}
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#071638] border border-white/15 text-sm font-medium text-[#B5C7DF]"
+              >
+                <Mail className="w-4 h-4 text-[#16D9F3]" />
+                <span>{NEXIS_BRAND.emailDisplay}</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  onNavigateToQuote();
+                }}
+                className="w-full py-3 rounded-xl text-base font-medium text-white next-glow-pill cursor-pointer"
+              >
+                Nhận tư vấn dự án
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
