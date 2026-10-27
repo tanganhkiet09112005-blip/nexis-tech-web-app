@@ -1,0 +1,10 @@
+node_modules
+dist
+data
+.git
+.github
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.env
+.env.local
