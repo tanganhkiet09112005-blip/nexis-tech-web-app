@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Be Vietnam Pro", Arial, sans-serif;
+  --font-mono: "Be Vietnam Pro", Arial, sans-serif;
+
+  --color-next-navy: #030B24;
+  --color-next-navy-alt: #071638;
+  --color-next-blue: #087BFF;
+  --color-next-cyan: #16D9F3;
+  --color-next-white: #F4F8FF;
+  --color-next-muted: #B5C7DF;
+  --color-next-light: #F3F7FC;
+}
+
+body {
+  font-family: "Be Vietnam Pro", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.68;
+  color: #030B24;
+  background-color: #F3F7FC;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fluid heading scale using clamp() with natural line-height and weight 600 */
+.heading-hero {
+  font-size: clamp(2rem, 3.6vw + 1rem, 3.25rem);
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.heading-section {
+  font-size: clamp(1.625rem, 2.4vw + 0.85rem, 2.375rem);
+  line-height: 1.28;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.heading-card {
+  font-size: clamp(1.125rem, 1vw + 0.85rem, 1.35rem);
+  line-height: 1.38;
+  font-weight: 600;
+}
+
+.body-copy {
+  font-size: clamp(1rem, 0.25vw + 0.95rem, 1.0625rem);
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* Softened subtle grid for deep navy sections */
+.next-circuit-bg {
+  background-color: #030B24;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, #030B24 0%, #071638 52%, #030B24 100%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+}
+
+/* Refined primary CTA button without excessive glow */
+.next-glow-pill {
+  background: linear-gradient(90deg, #087BFF 0%, #12B8E6 100%);
+  box-shadow: 0 6px 18px -4px rgba(8, 123, 255, 0.35);
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.next-glow-pill:hover {
+  background: linear-gradient(90deg, #0666D6 0%, #16D9F3 100%);
+  box-shadow: 0 8px 22px -4px rgba(22, 217, 243, 0.42);
+  transform: translateY(-2px);
+}
+
+/* Purposeful subtle card hover */
+.card-hover-lift {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card-hover-lift:hover,
+  .next-glow-pill:hover {
+    transform: none !important;
+  }
+}
