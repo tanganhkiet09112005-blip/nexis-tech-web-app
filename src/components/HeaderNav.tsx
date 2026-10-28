@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
+import nexisLogoIcon from '../assets/images/nexis-logo-icon.png';
 
 interface HeaderNavProps {
   onNavigateToQuote: (serviceName?: string) => void;
@@ -72,30 +73,13 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ onNavigateToQuote }) => {
           className="flex items-center gap-3 group shrink-0 focus-visible:outline-2 focus-visible:outline-[#16D9F3] rounded-lg"
           aria-label="Nexis Tech — Trang chủ"
         >
-          {/* Geometric N Hexagon Mark */}
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#071638] to-[#030B24] border border-[#087BFF]/45 flex items-center justify-center transition-colors duration-200 group-hover:border-[#16D9F3]">
-            <svg
-              viewBox="0 0 36 36"
-              className="w-6 h-6"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
-                stroke="#16D9F3"
-                strokeWidth="2"
-                strokeOpacity="0.85"
-              />
-              <path
-                d="M12.5 24V12L23.5 24V12"
-                stroke="#F4F8FF"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="23.5" cy="12" r="2" fill="#16D9F3" />
-            </svg>
+          {/* Official Nexis Tech Cyber Monitor Emblem */}
+          <div className="w-10 h-10 rounded-xl bg-[#030B24] border border-[#087BFF]/45 flex items-center justify-center overflow-hidden transition-all duration-200 group-hover:border-[#16D9F3] group-hover:shadow-[0_0_15px_rgba(22,217,243,0.35)] shrink-0">
+            <img
+              src={nexisLogoIcon}
+              alt="Nexis Tech Logo"
+              className="w-full h-full object-contain p-1"
+            />
           </div>
 
           <div className="flex flex-col">

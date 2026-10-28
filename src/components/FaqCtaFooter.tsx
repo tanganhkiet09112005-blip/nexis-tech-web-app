@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
+import nexisLogoIcon from '../assets/images/nexis-logo-icon.png';
 import {
   validateQuoteForm,
   QuoteFormInput,
@@ -268,27 +269,12 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
             {/* COLUMN 1 (5 cols): Brand Identity & Unified 3-Item Contact Block */}
             <div className="lg:col-span-5 space-y-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#071638] border border-[#087BFF]/45 flex items-center justify-center">
-                  <svg
-                    viewBox="0 0 36 36"
-                    className="w-6 h-6"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
-                      stroke="#16D9F3"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M12.5 24V12L23.5 24V12"
-                      stroke="#F4F8FF"
-                      strokeWidth="2.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                <div className="w-10 h-10 rounded-xl bg-[#030B24] border border-[#087BFF]/45 flex items-center justify-center overflow-hidden shrink-0 shadow-[0_0_15px_rgba(22,217,243,0.25)]">
+                  <img
+                    src={nexisLogoIcon}
+                    alt="Nexis Tech Logo"
+                    className="w-full h-full object-contain p-1"
+                  />
                 </div>
                 <div>
                   <div className="text-xl font-bold tracking-tight leading-none">
