@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Section 11: Industry Solutions Slider (iMac + Smartphone + MacBook 3-Device Showcase)
- * Section 12: Contact & Quote Form (Unified 3-item contact block: Gmail, Số điện thoại, Khu vực TP. Hồ Chí Minh)
+ * Section 12: Contact & Quote Form (Unified contact block: Gmail, 2 Điện thoại, Zalo 2 người, Facebook, Khu vực)
  */
 
 import React, { useState, useEffect } from 'react';
@@ -17,6 +17,8 @@ import {
   RefreshCw,
   CheckCircle2,
   Loader2,
+  ExternalLink,
+  MessageSquare,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
@@ -34,10 +36,12 @@ import {
 
 interface SolutionsAndQuoteProps {
   preselectedService?: string;
+  onOpenZaloModal?: () => void;
 }
 
 export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
   preselectedService,
+  onOpenZaloModal,
 }) => {
   const [solutionIndex, setSolutionIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
@@ -120,11 +124,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
     }
 
     setSubmittedRecord({
-      form: {
-        ...formData,
-        fullName: validation.normalized.fullName,
-        phone: validation.normalized.phone,
-      },
+      form: { ...formData },
       response: result,
     });
   };
@@ -141,23 +141,6 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
       message: '',
       websiteUrl: '',
     });
-  };
-
-  const scrollToQuoteForm = (industryTitle: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      serviceType: `${NEXIS_BRAND.coreServices[0].shortTitle} (${industryTitle})`,
-    }));
-    const formEl = document.getElementById('bao-gia');
-    if (formEl) {
-      const headerOffset = 76;
-      const elementPosition = formEl.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
   };
 
   const handlePrevSolution = () => {
@@ -184,59 +167,54 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
     setTouchStartX(null);
   };
 
-  return (
-    <div
-      className="relative overflow-hidden text-[#F4F8FF] bg-[#030B24]"
-      style={{
-        background:
-          'linear-gradient(180deg, #041030 0%, #071D4F 42%, #061539 72%, #030B24 100%)',
-      }}
-    >
-      {/* Decorative Curved Tech Wave Line */}
-      <svg
-        className="pointer-events-none absolute top-[22%] left-0 w-full h-64 opacity-20"
-        viewBox="0 0 1440 320"
-        fill="none"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,192 C360,64 1080,288 1440,96"
-          stroke="#16D9F3"
-          strokeWidth="1.5"
-        />
-      </svg>
+  const scrollToQuoteForm = (serviceTitle?: string) => {
+    if (serviceTitle) {
+      setFormData((prev) => ({ ...prev, serviceType: serviceTitle }));
+    }
+    const el = document.getElementById('bao-gia');
+    if (el) {
+      const headerOffset = 76;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
+  return (
+    <>
       {/* =====================================================================
-          SECTION 11: GIẢI PHÁP THEO NGÀNH (3-Device iMac + Phone + MacBook Slider)
+          SECTION 11: GIẢI PHÁP THEO LĨNH VỰC (3-DEVICE SHOWCASE SLIDER)
          ===================================================================== */}
       <section
-        id="giai-phap-nganh"
-        className="pt-16 sm:pt-24 pb-16 relative z-10"
+        id="giai-phap"
+        className="py-16 sm:py-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 overflow-hidden transition-colors duration-200"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Centered Industry Copy with Smooth Transition */}
-          <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Section Kicker + Active Title */}
+          <div className="max-w-3xl mx-auto space-y-3">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentSolution.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-3"
               >
-                <span className="inline-block text-xs font-medium text-[#16D9F3] bg-[#071638] border border-white/10 px-3.5 py-1 rounded-full">
+                <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 px-3.5 py-1 rounded-full shadow-xs">
                   {currentSolution.kicker}
                 </span>
 
-                <h2 className="heading-section text-white">
+                <h2 className="heading-section text-slate-900 dark:text-white">
                   {currentSolution.title}
                 </h2>
 
-                <p className="body-copy text-[#B5C7DF]">
+                <p className="body-copy text-slate-600 dark:text-[#A5B2C7]">
                   {currentSolution.description}
                 </p>
               </motion.div>
@@ -254,8 +232,8 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                   }}
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                     solutionIndex === idx
-                      ? 'bg-[#087BFF] text-white shadow-sm'
-                      : 'bg-white/10 text-[#F4F8FF] border border-white/10 hover:bg-white/15'
+                      ? 'bg-[#087BFF] text-white shadow-xs'
+                      : 'bg-white dark:bg-[#111827] text-slate-700 dark:text-[#E8EDF5] border border-slate-200 dark:border-white/10 hover:border-[#087BFF]'
                   }`}
                 >
                   {sol.industryTag}
@@ -280,7 +258,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
             <button
               type="button"
               onClick={handlePrevSolution}
-              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 border border-white/20 hover:bg-[#087BFF] text-white flex items-center justify-center shrink-0 transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#16D9F3]"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/20 hover:bg-[#087BFF] hover:border-[#087BFF] text-slate-800 dark:text-white hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
               aria-label="Giải pháp ngành trước"
             >
               <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -299,10 +277,10 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                 >
                   {/* LEFT: Large Desktop iMac Monitor (7 cols) */}
                   <div className="lg:col-span-7 flex flex-col items-center">
-                    <div className="w-full bg-[#0F172A] border-[4px] border-[#334155] rounded-2xl p-2 sm:p-3 shadow-[0_24px_60px_rgba(0,0,0,0.6)]">
+                    <div className="w-full bg-[#0F172A] border-[4px] border-[#334155] rounded-2xl p-2 sm:p-3 shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
                       <div className="bg-white rounded-xl overflow-hidden text-[#030B24]">
                         {/* Top Store Bar */}
-                        <div className="px-3.5 py-2 bg-[#030B24] text-white flex items-center justify-between text-[11px]">
+                        <div className="px-3.5 py-2 bg-[#0B1120] text-white flex items-center justify-between text-[11px]">
                           <span className="font-semibold text-[#16D9F3]">
                             {currentSolution.desktopScreen.brandHeader}
                           </span>
@@ -310,12 +288,12 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                             <span>Tìm kiếm danh mục...</span>
                           </div>
                           <span className="text-[10px] text-[#16D9F3] font-medium">
-                            {NEXIS_BRAND.phoneDisplay}
+                            {NEXIS_BRAND.phone1}
                           </span>
                         </div>
 
                         {/* Store Body Split: Sidebar Categories + Main Hero & Products */}
-                        <div className="grid grid-cols-12 p-3 gap-3 bg-[#F3F7FC]">
+                        <div className="grid grid-cols-12 p-3 gap-3 bg-[#F5F7FA]">
                           {/* Left Category Sidebar */}
                           <div className="hidden sm:block col-span-3 bg-white rounded-lg p-2.5 border border-slate-200/80 space-y-1.5 text-left">
                             <div className="text-[10px] font-semibold text-[#087BFF] pb-1 border-b border-slate-100">
@@ -338,7 +316,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                               className="rounded-lg p-3.5 text-white text-left"
                               style={{
                                 background:
-                                  'linear-gradient(120deg, #030B24 0%, #071638 55%, #087BFF 100%)',
+                                  'linear-gradient(120deg, #0B1120 0%, #111827 55%, #087BFF 100%)',
                               }}
                             >
                               <span className="text-[10px] font-medium text-[#16D9F3] block">
@@ -387,7 +365,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                             {currentSolution.desktopScreen.brandHeader}
                           </span>
                         </div>
-                        <div className="rounded-lg bg-gradient-to-br from-[#030B24] to-[#087BFF] p-2.5 text-white">
+                        <div className="rounded-lg bg-gradient-to-br from-[#0B1120] to-[#087BFF] p-2.5 text-white">
                           <span className="text-[9px] text-[#16D9F3] block">Giao diện di động</span>
                           <span className="text-[10px] font-semibold leading-tight block mt-0.5">
                             {currentSolution.mobileScreen.title}
@@ -416,7 +394,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                             </span>
                             <span className="text-[8px] text-[#087BFF] font-medium">Full-stack</span>
                           </div>
-                          <div className="rounded bg-gradient-to-r from-[#030B24] to-[#087BFF] p-2 text-white">
+                          <div className="rounded bg-gradient-to-r from-[#0B1120] to-[#087BFF] p-2 text-white">
                             <div className="text-[8px] text-[#16D9F3]">Nexis Tech</div>
                             <div className="text-[9px] font-semibold truncate">
                               {currentSolution.desktopScreen.heroHeadline}
@@ -445,7 +423,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
             <button
               type="button"
               onClick={handleNextSolution}
-              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/10 border border-white/20 hover:bg-[#087BFF] text-white flex items-center justify-center shrink-0 transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#16D9F3]"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/20 hover:bg-[#087BFF] hover:border-[#087BFF] text-slate-800 dark:text-white hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
               aria-label="Giải pháp ngành tiếp theo"
             >
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -465,8 +443,8 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                 aria-label={`Chọn giải pháp ${sol.industryTag}`}
                 className={`rounded-full transition-all duration-200 cursor-pointer ${
                   solutionIndex === idx
-                    ? 'w-7 h-2.5 bg-[#16D9F3]'
-                    : 'w-2.5 h-2.5 bg-white/30 hover:bg-white/60'
+                    ? 'w-7 h-2.5 bg-[#087BFF] dark:bg-[#16D9F3]'
+                    : 'w-2.5 h-2.5 bg-slate-300 dark:bg-white/30 hover:bg-slate-400'
                 }`}
               />
             ))}
@@ -479,74 +457,137 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
          ===================================================================== */}
       <section
         id="bao-gia"
-        className="pt-8 pb-20 sm:pb-28 relative z-10 border-t border-white/10"
+        className="py-16 sm:py-24 bg-white dark:bg-[#111827] text-[#172033] dark:text-[#E8EDF5] relative z-10 transition-colors duration-200"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-            {/* LEFT COLUMN (5 cols): Heading, Guidance & 3 Unified Contact Items */}
+            {/* LEFT COLUMN (5 cols): Heading, Guidance & Unified Contact Items */}
             <div className="lg:col-span-5 space-y-6">
               <div className="space-y-2">
-                <span className="inline-block text-xs font-medium text-[#16D9F3] bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3 py-1 rounded-full">
                   Tư vấn dự án
                 </span>
-                <h2 className="heading-section text-white">
+                <h2 className="heading-section text-slate-900 dark:text-white">
                   Đăng ký tư vấn và{' '}
-                  <span className="text-[#16D9F3]">nhận báo giá thiết kế web</span>
+                  <span className="text-[#087BFF] dark:text-[#16D9F3]">nhận báo giá thiết kế web</span>
                 </h2>
               </div>
 
-              <p className="body-copy text-[#B5C7DF]">
-                Hãy để lại thông tin hoặc liên hệ trực tiếp qua điện thoại và email dưới đây để trao đổi nhu cầu thiết kế, phát triển website cùng đội ngũ <span className="text-white font-medium">Nexis Tech</span>.
+              <p className="body-copy text-slate-600 dark:text-[#A5B2C7]">
+                Hãy để lại thông tin hoặc liên hệ trực tiếp qua điện thoại, email, Zalo và Facebook dưới đây để trao đổi nhu cầu cùng đội ngũ <span className="font-semibold text-slate-900 dark:text-white">Nexis Tech</span>.
               </p>
 
-              {/* Unified 3-Item Contact Block: Gmail, Số điện thoại, Khu vực */}
-              <div className="p-5 sm:p-6 rounded-2xl bg-[#071638]/90 border border-white/15 space-y-4">
+              {/* Unified Contact Block: Gmail, 2 Hotline, Zalo Selector, Facebook, Khu vực */}
+              <div className="p-5 sm:p-6 rounded-2xl bg-[#F5F7FA] dark:bg-[#0B1120] border border-slate-200 dark:border-white/10 space-y-4">
                 {/* 1. Gmail */}
                 <a
                   href={NEXIS_BRAND.emailHref}
                   className="flex items-center gap-3.5 group"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/20 border border-[#16D9F3]/35 flex items-center justify-center text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
                     <Mail className="w-5 h-5" />
                   </span>
                   <div className="min-w-0">
-                    <span className="text-xs font-medium text-[#B5C7DF] block">
-                      Gmail
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Email chính thức
                     </span>
-                    <span className="text-sm sm:text-base font-semibold text-white group-hover:text-[#16D9F3] transition-colors duration-200 break-all">
+                    <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-[#087BFF] dark:group-hover:text-[#16D9F3] transition-colors duration-200 break-all">
                       {NEXIS_BRAND.emailDisplay}
                     </span>
                   </div>
                 </a>
 
-                {/* 2. Số điện thoại */}
+                {/* 2. Hotline 1 */}
                 <a
-                  href={NEXIS_BRAND.phoneHref}
+                  href={NEXIS_BRAND.phone1Href}
                   className="flex items-center gap-3.5 group"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/20 border border-[#16D9F3]/35 flex items-center justify-center text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
                     <Phone className="w-5 h-5" />
                   </span>
                   <div>
-                    <span className="text-xs font-medium text-[#B5C7DF] block">
-                      Số điện thoại
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Điện thoại 1
                     </span>
-                    <span className="text-base sm:text-lg font-bold text-white group-hover:text-[#16D9F3] transition-colors duration-200">
-                      {NEXIS_BRAND.phoneDisplay}
+                    <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#087BFF] dark:group-hover:text-[#16D9F3] transition-colors duration-200">
+                      {NEXIS_BRAND.phone1}
                     </span>
                   </div>
                 </a>
 
-                {/* 3. Khu vực */}
+                {/* 3. Hotline 2 */}
+                <a
+                  href={NEXIS_BRAND.phone2Href}
+                  className="flex items-center gap-3.5 group"
+                >
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
+                    <Phone className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Điện thoại 2
+                    </span>
+                    <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-[#087BFF] dark:group-hover:text-[#16D9F3] transition-colors duration-200">
+                      {NEXIS_BRAND.phone2}
+                    </span>
+                  </div>
+                </a>
+
+                {/* 4. Zalo Advisor Selector */}
+                <button
+                  type="button"
+                  onClick={onOpenZaloModal}
+                  className="w-full flex items-center gap-3.5 group text-left cursor-pointer"
+                >
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
+                    <MessageSquare className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Tư vấn qua Zalo
+                    </span>
+                    <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-[#087BFF] dark:group-hover:text-[#16D9F3] transition-colors duration-200 flex items-center gap-1.5">
+                      <span>Chọn người tư vấn Zalo</span>
+                      <span className="text-xs font-normal text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 px-2 py-0.5 rounded-md">
+                        2 tư vấn viên
+                      </span>
+                    </span>
+                  </div>
+                </button>
+
+                {/* 5. Facebook Official */}
+                <a
+                  href={NEXIS_BRAND.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3.5 group"
+                >
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0 group-hover:bg-[#087BFF] group-hover:text-white transition-colors duration-200">
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </span>
+                  <div>
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Facebook
+                    </span>
+                    <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white group-hover:text-[#087BFF] dark:group-hover:text-[#16D9F3] transition-colors duration-200 flex items-center gap-1.5">
+                      <span>{NEXIS_BRAND.facebookDisplay}</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                    </span>
+                  </div>
+                </a>
+
+                {/* 6. Khu vực */}
                 <div className="flex items-center gap-3.5">
-                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/20 border border-[#16D9F3]/35 flex items-center justify-center text-[#16D9F3] shrink-0">
+                  <span className="w-10 h-10 rounded-xl bg-[#087BFF]/15 border border-[#087BFF]/30 flex items-center justify-center text-[#087BFF] dark:text-[#16D9F3] shrink-0">
                     <MapPin className="w-5 h-5" />
                   </span>
                   <div>
-                    <span className="text-xs font-medium text-[#B5C7DF] block">
-                      Khu vực
+                    <span className="text-xs font-medium text-slate-500 dark:text-[#A5B2C7] block">
+                      Khu vực hoạt động
                     </span>
-                    <span className="text-sm sm:text-base font-semibold text-white">
+                    <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">
                       {NEXIS_BRAND.locationDisplay}
                     </span>
                   </div>
@@ -583,8 +624,8 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
 
                     {/* Field 1: Họ tên (Bắt buộc) */}
                     <div>
-                      <label htmlFor="quote-fullname" className="block text-xs font-medium text-[#B5C7DF] mb-1.5">
-                        Họ và tên <span className="text-[#16D9F3]">*</span>
+                      <label htmlFor="quote-fullname" className="block text-xs font-medium text-slate-700 dark:text-[#A5B2C7] mb-1.5">
+                        Họ và tên <span className="text-[#087BFF] dark:text-[#16D9F3]">*</span>
                       </label>
                       <input
                         id="quote-fullname"
@@ -594,12 +635,12 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         value={formData.fullName}
                         onChange={(e) => handleFieldChange('fullName', e.target.value)}
                         placeholder="Nhập họ và tên của bạn *"
-                        className={`w-full px-4 py-3.5 rounded-xl bg-white text-[#030B24] placeholder:text-slate-400 text-base font-normal focus:outline-2 focus:outline-[#16D9F3] transition-all disabled:opacity-70 ${
+                        className={`w-full px-4 py-3.5 rounded-xl bg-white dark:bg-[#172033] text-slate-900 dark:text-[#E8EDF5] placeholder:text-slate-400 dark:placeholder:text-[#526176] text-base font-normal border border-slate-300 dark:border-white/10 focus:outline-2 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] transition-all disabled:opacity-70 ${
                           errors.fullName ? 'ring-2 ring-amber-400' : ''
                         }`}
                       />
                       {errors.fullName && (
-                        <p className="mt-1.5 text-xs text-amber-300 flex items-center gap-1.5 font-medium">
+                        <p className="mt-1.5 text-xs text-amber-500 dark:text-amber-300 flex items-center gap-1.5 font-medium">
                           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                           <span>{errors.fullName}</span>
                         </p>
@@ -608,8 +649,8 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
 
                     {/* Field 2: Số điện thoại (Bắt buộc) */}
                     <div>
-                      <label htmlFor="quote-phone" className="block text-xs font-medium text-[#B5C7DF] mb-1.5">
-                        Số điện thoại liên hệ <span className="text-[#16D9F3]">*</span>
+                      <label htmlFor="quote-phone" className="block text-xs font-medium text-slate-700 dark:text-[#A5B2C7] mb-1.5">
+                        Số điện thoại liên hệ <span className="text-[#087BFF] dark:text-[#16D9F3]">*</span>
                       </label>
                       <input
                         id="quote-phone"
@@ -618,13 +659,13 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         disabled={isSubmitting}
                         value={formData.phone}
                         onChange={(e) => handleFieldChange('phone', e.target.value)}
-                        placeholder="Ví dụ: 0909 858 428 *"
-                        className={`w-full px-4 py-3.5 rounded-xl bg-white text-[#030B24] placeholder:text-slate-400 text-base font-normal focus:outline-2 focus:outline-[#16D9F3] transition-all disabled:opacity-70 ${
+                        placeholder="Ví dụ: 0909 858 428 hoặc 0326 128 141 *"
+                        className={`w-full px-4 py-3.5 rounded-xl bg-white dark:bg-[#172033] text-slate-900 dark:text-[#E8EDF5] placeholder:text-slate-400 dark:placeholder:text-[#526176] text-base font-normal border border-slate-300 dark:border-white/10 focus:outline-2 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] transition-all disabled:opacity-70 ${
                           errors.phone ? 'ring-2 ring-amber-400' : ''
                         }`}
                       />
                       {errors.phone && (
-                        <p className="mt-1.5 text-xs text-amber-300 flex items-center gap-1.5 font-medium">
+                        <p className="mt-1.5 text-xs text-amber-500 dark:text-amber-300 flex items-center gap-1.5 font-medium">
                           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                           <span>{errors.phone}</span>
                         </p>
@@ -633,7 +674,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
 
                     {/* Field 3: Loại website (Tùy chọn) */}
                     <div>
-                      <label htmlFor="quote-service" className="block text-xs font-medium text-[#B5C7DF] mb-1.5">
+                      <label htmlFor="quote-service" className="block text-xs font-medium text-slate-700 dark:text-[#A5B2C7] mb-1.5">
                         Loại website quan tâm (tùy chọn)
                       </label>
                       <select
@@ -641,7 +682,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         disabled={isSubmitting}
                         value={formData.serviceType}
                         onChange={(e) => handleFieldChange('serviceType', e.target.value)}
-                        className="w-full px-4 py-3.5 rounded-xl bg-white text-[#030B24] text-base font-medium focus:outline-2 focus:outline-[#16D9F3] cursor-pointer disabled:opacity-70"
+                        className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-[#172033] text-slate-900 dark:text-[#E8EDF5] border border-slate-300 dark:border-white/10 text-base font-medium focus:outline-2 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] cursor-pointer disabled:opacity-70"
                       >
                         {NEXIS_BRAND.coreServices.map((srv) => (
                           <option key={srv.id} value={srv.title}>
@@ -656,7 +697,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
 
                     {/* Field 4: Mô tả nhu cầu (Tùy chọn) */}
                     <div>
-                      <label htmlFor="quote-message" className="block text-xs font-medium text-[#B5C7DF] mb-1.5">
+                      <label htmlFor="quote-message" className="block text-xs font-medium text-slate-700 dark:text-[#A5B2C7] mb-1.5">
                         Mô tả nhu cầu (tùy chọn)
                       </label>
                       <textarea
@@ -667,10 +708,10 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         value={formData.message}
                         onChange={(e) => handleFieldChange('message', e.target.value)}
                         placeholder="Chia sẻ ngắn gọn về lĩnh vực kinh doanh hoặc tính năng website bạn mong muốn..."
-                        className="w-full px-4 py-3.5 rounded-xl bg-white text-[#030B24] placeholder:text-slate-400 text-base font-normal focus:outline-2 focus:outline-[#16D9F3] transition-all disabled:opacity-70"
+                        className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-[#172033] text-slate-900 dark:text-[#E8EDF5] placeholder:text-slate-400 dark:placeholder:text-[#526176] text-base font-normal border border-slate-300 dark:border-white/10 focus:outline-2 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] transition-all disabled:opacity-70"
                       />
                       {errors.message && (
-                        <p className="mt-1.5 text-xs text-amber-300 flex items-center gap-1.5 font-medium">
+                        <p className="mt-1.5 text-xs text-amber-500 dark:text-amber-300 flex items-center gap-1.5 font-medium">
                           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                           <span>{errors.message}</span>
                         </p>
@@ -683,9 +724,9 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
                         role="alert"
-                        className="px-4 py-3 rounded-xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs sm:text-sm flex items-start gap-2.5"
+                        className="px-4 py-3 rounded-xl bg-amber-500/15 border border-amber-400/40 text-amber-700 dark:text-amber-200 text-xs sm:text-sm flex items-start gap-2.5"
                       >
-                        <AlertCircle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                        <AlertCircle className="w-4 h-4 text-amber-500 dark:text-amber-300 shrink-0 mt-0.5" />
                         <span>{submitError}</span>
                       </motion.div>
                     )}
@@ -695,7 +736,7 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-8 py-3.5 rounded-xl bg-white text-[#087BFF] hover:bg-[#16D9F3] hover:text-[#030B24] disabled:opacity-70 disabled:cursor-not-allowed text-base font-semibold shadow-lg transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
+                        className="px-8 py-3.5 rounded-xl text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed text-base font-semibold shadow-lg transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
                       >
                         {isSubmitting ? (
                           <>
@@ -708,23 +749,23 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                       </button>
 
                       <a
-                        href={NEXIS_BRAND.phoneHref}
-                        className="px-5 py-3.5 rounded-xl bg-[#071638] border border-white/15 hover:border-[#16D9F3] text-sm font-medium text-white inline-flex items-center gap-2 transition-colors duration-200"
+                        href={NEXIS_BRAND.phone1Href}
+                        className="px-4 py-3.5 rounded-xl bg-slate-100 dark:bg-[#172033] border border-slate-200 dark:border-white/15 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-sm font-medium text-slate-800 dark:text-white inline-flex items-center gap-2 transition-colors duration-200"
                       >
-                        <Phone className="w-4 h-4 text-[#16D9F3]" />
-                        <span>Gọi {NEXIS_BRAND.phoneDisplay}</span>
+                        <Phone className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3]" />
+                        <span>Gọi 0909 858 428</span>
                       </a>
 
                       <a
-                        href={NEXIS_BRAND.emailHref}
-                        className="px-5 py-3.5 rounded-xl bg-[#071638] border border-white/15 hover:border-[#16D9F3] text-sm font-medium text-white inline-flex items-center gap-2 transition-colors duration-200"
+                        href={NEXIS_BRAND.phone2Href}
+                        className="px-4 py-3.5 rounded-xl bg-slate-100 dark:bg-[#172033] border border-slate-200 dark:border-white/15 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-sm font-medium text-slate-800 dark:text-white inline-flex items-center gap-2 transition-colors duration-200"
                       >
-                        <Mail className="w-4 h-4 text-[#16D9F3]" />
-                        <span>Gửi email</span>
+                        <Phone className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3]" />
+                        <span>Gọi 0326 128 141</span>
                       </a>
                     </div>
 
-                    <p className="text-xs text-[#B5C7DF] pt-1">
+                    <p className="text-xs text-slate-500 dark:text-[#A5B2C7] pt-1">
                       Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
                     </p>
                   </motion.form>
@@ -738,18 +779,18 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     role="region"
                     aria-live="polite"
-                    className="bg-white text-[#030B24] rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5"
+                    className="bg-white dark:bg-[#172033] text-slate-900 dark:text-white rounded-2xl p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-white/15 space-y-5"
                   >
-                    <div className="flex items-start justify-between gap-4 border-b border-slate-200 pb-4">
+                    <div className="flex items-start justify-between gap-4 border-b border-slate-200 dark:border-white/10 pb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-500/15 text-emerald-600 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                           <CheckCircle2 className="w-6 h-6" />
                         </div>
                         <div>
-                          <span className="text-xs font-semibold text-emerald-700 block">
+                          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 block">
                             Mã yêu cầu: {submittedRecord.response.requestCode}
                           </span>
-                          <h3 className="text-lg font-semibold text-[#030B24]">
+                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                             {submittedRecord.response.message}
                           </h3>
                         </div>
@@ -758,53 +799,49 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                       <button
                         type="button"
                         onClick={handleResetNewRequest}
-                        className="text-xs font-medium text-slate-600 hover:text-[#087BFF] inline-flex items-center gap-1 cursor-pointer shrink-0"
+                        className="text-xs text-[#087BFF] dark:text-[#16D9F3] hover:underline flex items-center gap-1 font-medium cursor-pointer"
                       >
                         <RefreshCw className="w-3.5 h-3.5" />
-                        <span>Gửi yêu cầu mới</span>
+                        <span>Gửi yêu cầu khác</span>
                       </button>
                     </div>
 
-                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#F3F7FC] p-4 rounded-xl border border-slate-200 text-xs">
-                      <div>
-                        <dt className="text-slate-500 font-medium">Họ và tên:</dt>
-                        <dd className="font-semibold text-[#030B24] mt-0.5 text-sm">
+                    <div className="bg-[#F5F7FA] dark:bg-[#0B1120] rounded-xl p-4 sm:p-5 border border-slate-200 dark:border-white/10 space-y-2 text-sm">
+                      <div className="flex justify-between py-1 border-b border-slate-200 dark:border-white/10">
+                        <span className="text-slate-500 dark:text-[#A5B2C7]">Họ và tên</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">
                           {submittedRecord.form.fullName}
-                        </dd>
+                        </span>
                       </div>
-                      <div>
-                        <dt className="text-slate-500 font-medium">Số điện thoại:</dt>
-                        <dd className="font-semibold text-[#030B24] mt-0.5 text-sm">
+                      <div className="flex justify-between py-1 border-b border-slate-200 dark:border-white/10">
+                        <span className="text-slate-500 dark:text-[#A5B2C7]">Số điện thoại</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">
                           {submittedRecord.form.phone}
-                        </dd>
+                        </span>
                       </div>
-                      <div>
-                        <dt className="text-slate-500 font-medium">Loại website quan tâm:</dt>
-                        <dd className="font-semibold text-[#087BFF] mt-0.5 text-sm">
-                          {submittedRecord.form.serviceType || 'Chưa chọn'}
-                        </dd>
+                      <div className="flex justify-between py-1 border-b border-slate-200 dark:border-white/10">
+                        <span className="text-slate-500 dark:text-[#A5B2C7]">Dịch vụ</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">
+                          {submittedRecord.form.serviceType}
+                        </span>
                       </div>
-                      {submittedRecord.response.createdAtVn && (
-                        <div>
-                          <dt className="text-slate-500 font-medium">Thời gian tiếp nhận:</dt>
-                          <dd className="font-medium text-slate-700 mt-0.5 text-sm">
-                            {submittedRecord.response.createdAtVn}
-                          </dd>
-                        </div>
-                      )}
                       {submittedRecord.form.message && (
-                        <div className="sm:col-span-2">
-                          <dt className="text-slate-500 font-medium">Mô tả nhu cầu:</dt>
-                          <dd className="text-slate-700 mt-0.5 whitespace-pre-line text-sm">
-                            {submittedRecord.form.message}
-                          </dd>
+                        <div className="pt-2 text-xs text-slate-600 dark:text-[#A5B2C7]">
+                          <span className="font-medium text-slate-900 dark:text-white block mb-0.5">Nhu cầu:</span>
+                          <p className="italic">“{submittedRecord.form.message}”</p>
                         </div>
                       )}
-                    </dl>
+                    </div>
 
-                    <p className="text-xs text-slate-500">
-                      Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
-                    </p>
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-slate-500 dark:text-[#A5B2C7]">
+                      <span>Đội ngũ Nexis Tech sẽ phản hồi qua điện thoại trong thời gian sớm nhất.</span>
+                      <a
+                        href={NEXIS_BRAND.phone1Href}
+                        className="font-semibold text-[#087BFF] dark:text-[#16D9F3] hover:underline"
+                      >
+                        Gọi ngay {NEXIS_BRAND.phone1}
+                      </a>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -812,6 +849,6 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };

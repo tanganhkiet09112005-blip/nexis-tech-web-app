@@ -57,13 +57,13 @@ export const IntroAndBenefits: React.FC = () => {
          ===================================================================== */}
       <section
         id="gioi-thieu"
-        className="py-16 sm:py-24 bg-[#F3F7FC] text-[#030B24] overflow-hidden border-b border-slate-200/80"
+        className="py-16 sm:py-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] overflow-hidden border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 2-Column Editorial Prose */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 body-copy text-slate-700">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 body-copy text-slate-600 dark:text-[#A5B2C7]">
             <div className="space-y-4">
-              <p className="font-semibold text-[#030B24]">
+              <p className="font-semibold text-slate-900 dark:text-[#E8EDF5]">
                 {NEXIS_BRAND.introSection.leftParagraphs[0]}
               </p>
               <p>{NEXIS_BRAND.introSection.leftParagraphs[1]}</p>
@@ -98,106 +98,66 @@ export const IntroAndBenefits: React.FC = () => {
             <div className="relative z-10 w-full max-w-[590px] bg-[#0F172A] border-[3px] border-[#1E293B] rounded-2xl p-2 sm:p-3 shadow-[0_24px_60px_rgba(3,11,36,0.24)]">
               <div className="bg-white rounded-xl overflow-hidden text-[#030B24]">
                 {/* Top Browser Header */}
-                <div className="px-4 py-2 bg-[#030B24] text-white flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-[#16D9F3]" />
-                    <span className="w-2 h-2 rounded-full bg-[#087BFF]" />
-                    <span className="ml-2 text-[#B5C7DF]">Giao diện thương mại điện tử Nexis Tech</span>
+                <div className="px-4 py-2.5 bg-[#030B24] text-white flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
+                    <span className="ml-2 font-semibold text-[#16D9F3]">
+                      Nexis Boutique Store
+                    </span>
                   </div>
-                  <span className="text-[#16D9F3] font-medium">HTTPS / SSL</span>
-                </div>
-
-                {/* Inner Store Navigation */}
-                <div className="px-4 py-2.5 border-b border-slate-100 flex items-center justify-between">
-                  <div className="font-semibold text-xs tracking-tight text-[#030B24]">
-                    Nexis <span className="text-[#087BFF]">Commerce</span>
-                  </div>
-                  <div className="hidden sm:flex items-center gap-4 text-[11px] font-medium text-slate-600">
-                    <span>Sản phẩm mới</span>
+                  <div className="hidden sm:flex items-center gap-4 text-[11px] text-[#B5C7DF]">
                     <span>Bộ sưu tập</span>
-                    <span>Giải pháp</span>
-                    <span>Ưu đãi</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-slate-600">
-                    <Search className="w-3.5 h-3.5" />
-                    <ShoppingCart className="w-3.5 h-3.5 text-[#087BFF]" />
+                    <span>Sản phẩm</span>
+                    <span>Khuyến mãi</span>
                   </div>
                 </div>
 
-                {/* Inner Store Hero Banner */}
+                {/* Inner Store Banner */}
                 <div
-                  className="p-5 sm:p-6 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                  className="p-4 sm:p-6 text-white text-left"
                   style={{
-                    background: 'linear-gradient(120deg, #030B24 0%, #071638 50%, #087BFF 100%)',
+                    background:
+                      'linear-gradient(120deg, #030B24 0%, #071638 50%, #087BFF 100%)',
                   }}
                 >
-                  <div className="space-y-1.5 max-w-xs">
-                    <span className="inline-block px-2.5 py-0.5 rounded bg-[#16D9F3]/20 text-[#16D9F3] text-[10px] font-medium">
-                      Nền tảng bán hàng trực tuyến
-                    </span>
-                    <div className="text-sm sm:text-base font-semibold leading-snug">
-                      Tối ưu hành trình mua sắm và quản lý đơn hàng tập trung
-                    </div>
-                    <p className="text-[11px] text-[#B5C7DF]">
-                      Giao diện thiết kế riêng · Tích hợp thanh toán & tồn kho
-                    </p>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-white/15 text-[#16D9F3]">
+                    Phiên bản 2026
+                  </span>
+                  <div className="text-base sm:text-lg font-bold mt-1">
+                    Trải nghiệm mua sắm mượt mà, tối ưu chuyển đổi
                   </div>
-
-                  <div className="grid grid-cols-2 gap-2 shrink-0 w-full sm:w-auto">
-                    <div className="bg-white/10 border border-white/15 rounded-lg p-2.5 text-center">
-                      <div className="text-xs font-semibold text-[#16D9F3]">UI/UX</div>
-                      <div className="text-[10px] text-white/80">Chuẩn thương hiệu</div>
-                    </div>
-                    <div className="bg-white/10 border border-white/15 rounded-lg p-2.5 text-center">
-                      <div className="text-xs font-semibold text-white">Full-stack</div>
-                      <div className="text-[10px] text-white/80">Tốc độ phản hồi cao</div>
-                    </div>
-                  </div>
+                  <p className="text-xs text-[#B5C7DF] mt-1 max-w-sm">
+                    Tốc độ tải trang dưới 1.5s, tương thích 100% điện thoại và máy tính bảng.
+                  </p>
                 </div>
 
-                {/* Trust Feature Row */}
-                <div className="grid grid-cols-3 divide-x divide-slate-100 border-b border-slate-100 py-2.5 px-2 text-center bg-slate-50/70">
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] font-medium text-slate-700">
-                    <Truck className="w-3.5 h-3.5 text-[#087BFF] shrink-0" />
-                    <span className="truncate">Đồng bộ vận chuyển</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] font-medium text-slate-700">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#087BFF] shrink-0" />
-                    <span className="truncate">Bảo mật chuẩn SSL</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-1.5 text-[10px] font-medium text-slate-700">
-                    <Award className="w-3.5 h-3.5 text-[#087BFF] shrink-0" />
-                    <span className="truncate">Hỗ trợ kỹ thuật</span>
-                  </div>
-                </div>
-
-                {/* Product Showcase Grid */}
-                <div className="p-4">
-                  <div className="text-[11px] font-semibold text-center text-[#030B24] mb-3">
-                    Danh mục sản phẩm & giải pháp tiêu biểu
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    {[
-                      { name: 'Smart Hub X1', tag: 'Mới' },
-                      { name: 'Pro Dock CNC', tag: 'Nổi bật' },
-                      { name: 'AI Sensor Kit', tag: 'Hot' },
-                      { name: 'Cloud Gateway', tag: 'Pro' },
-                    ].map((prod, idx) => (
-                      <div
-                        key={idx}
-                        className="rounded-lg border border-slate-200 p-2 bg-white text-left"
-                      >
-                        <div className="h-12 rounded bg-gradient-to-br from-[#F3F7FC] to-[#087BFF]/15 flex items-start justify-end p-1">
-                          <span className="text-[8px] font-medium px-1.5 py-0.5 rounded bg-[#030B24] text-white">
-                            {prod.tag}
-                          </span>
-                        </div>
-                        <div className="text-[10px] font-medium text-[#030B24] mt-1.5 truncate">
-                          {prod.name}
-                        </div>
+                {/* 3 Product Mockup Cards */}
+                <div className="p-3 sm:p-4 grid grid-cols-3 gap-2.5 bg-[#F3F7FC]">
+                  {[
+                    { title: 'Sofa Bắc Âu', price: '12.500.000đ', tag: 'Bán chạy' },
+                    { title: 'Bàn Trà Gỗ Sồi', price: '4.800.000đ', tag: 'Mới' },
+                    { title: 'Đèn Cây Tối Giản', price: '1.950.000đ', tag: 'Ưu đãi' },
+                  ].map((p, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-lg p-2 sm:p-2.5 border border-slate-200 text-left"
+                    >
+                      <div className="aspect-[4/3] rounded bg-slate-100 flex items-center justify-center mb-2">
+                        <ShoppingCart className="w-4 h-4 text-[#087BFF]" />
                       </div>
-                    ))}
-                  </div>
+                      <span className="text-[9px] font-medium px-1.5 py-0.5 rounded bg-[#087BFF]/10 text-[#087BFF]">
+                        {p.tag}
+                      </span>
+                      <div className="text-[11px] font-semibold text-[#030B24] mt-1 truncate">
+                        {p.title}
+                      </div>
+                      <div className="text-[10px] font-bold text-[#087BFF]">
+                        {p.price}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -235,7 +195,7 @@ export const IntroAndBenefits: React.FC = () => {
          ===================================================================== */}
       <section
         id="loi-ich"
-        className="py-16 sm:py-24 bg-white text-[#030B24] border-b border-slate-200/80"
+        className="py-16 sm:py-24 bg-white dark:bg-[#111827] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -243,16 +203,16 @@ export const IntroAndBenefits: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* LEFT COLUMN (4 cols): Title, Description, Slider Arrow Controls */}
             <div className="lg:col-span-4 space-y-5">
-              <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full">
+              <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3 py-1 rounded-full">
                 Giá trị mang lại
               </span>
 
-              <h2 className="heading-section text-[#030B24]">
+              <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5]">
                 Bạn sẽ nhận được những lợi ích gì khi thiết kế website tại{' '}
-                <span className="text-[#087BFF]">Nexis Tech?</span>
+                <span className="text-[#087BFF] dark:text-[#16D9F3]">Nexis Tech?</span>
               </h2>
 
-              <p className="body-copy text-slate-600">
+              <p className="body-copy text-slate-600 dark:text-[#A5B2C7]">
                 Một website được đầu tư bài bản giúp doanh nghiệp chủ động tiếp cận khách hàng, chuẩn hóa quy trình tư vấn và tạo dựng tài sản thương hiệu dài hạn.
               </p>
 
@@ -261,7 +221,7 @@ export const IntroAndBenefits: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePrevBenefit}
-                  className="w-11 h-11 rounded-full border border-slate-300 bg-white hover:border-[#087BFF] hover:text-[#087BFF] text-slate-700 flex items-center justify-center transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
+                  className="w-11 h-11 rounded-full border border-slate-300 dark:border-white/20 bg-white dark:bg-[#172033] hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-slate-700 dark:text-[#E8EDF5] flex items-center justify-center transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
                   aria-label="Xem lợi ích trước"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -269,12 +229,12 @@ export const IntroAndBenefits: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleNextBenefit}
-                  className="w-11 h-11 rounded-full border border-slate-300 bg-white hover:border-[#087BFF] hover:text-[#087BFF] text-slate-700 flex items-center justify-center transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
+                  className="w-11 h-11 rounded-full border border-slate-300 dark:border-white/20 bg-white dark:bg-[#172033] hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-slate-700 dark:text-[#E8EDF5] flex items-center justify-center transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
                   aria-label="Xem lợi ích tiếp theo"
                 >
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <span className="text-sm font-medium text-slate-500 ml-2">
+                <span className="text-sm font-medium text-slate-500 dark:text-[#A5B2C7] ml-2">
                   0{benefitStartIndex + 1} / 0{benefits.length}
                 </span>
               </div>
@@ -300,8 +260,8 @@ export const IntroAndBenefits: React.FC = () => {
                         key={`${item.id}-${idx}`}
                         className={`rounded-2xl p-6 transition-all duration-200 min-h-[320px] flex flex-col justify-between card-hover-lift ${staggerClass} ${
                           isFeaturedFirst
-                            ? 'bg-[#030B24] text-[#F4F8FF] shadow-xl border border-[#087BFF]/40'
-                            : 'bg-[#F3F7FC] text-[#030B24] border border-slate-200/80 hover:border-[#087BFF]/40'
+                            ? 'bg-[#0B1120] dark:bg-[#172033] text-[#E8EDF5] shadow-xl border border-[#087BFF]/40'
+                            : 'bg-[#F5F7FA] dark:bg-[#172033]/60 text-slate-900 dark:text-[#E8EDF5] border border-slate-200/80 dark:border-white/10 hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40'
                         }`}
                       >
                         <div className="space-y-3.5">
@@ -310,14 +270,14 @@ export const IntroAndBenefits: React.FC = () => {
                               className={`text-xs font-medium px-2.5 py-1 rounded-lg ${
                                 isFeaturedFirst
                                   ? 'bg-[#087BFF]/25 text-[#16D9F3]'
-                                  : 'bg-[#087BFF]/10 text-[#087BFF]'
+                                  : 'bg-[#087BFF]/10 dark:bg-[#087BFF]/20 text-[#087BFF] dark:text-[#16D9F3]'
                               }`}
                             >
                               {item.number}
                             </span>
                             <span
                               className={`text-xs font-medium ${
-                                isFeaturedFirst ? 'text-[#16D9F3]' : 'text-slate-500'
+                                isFeaturedFirst ? 'text-[#16D9F3]' : 'text-slate-500 dark:text-[#A5B2C7]'
                               }`}
                             >
                               {item.highlight}
@@ -326,7 +286,7 @@ export const IntroAndBenefits: React.FC = () => {
 
                           <h3
                             className={`text-[17px] font-semibold leading-snug ${
-                              isFeaturedFirst ? 'text-white' : 'text-[#030B24]'
+                              isFeaturedFirst ? 'text-white' : 'text-slate-900 dark:text-white'
                             }`}
                           >
                             {item.title}
@@ -334,7 +294,7 @@ export const IntroAndBenefits: React.FC = () => {
 
                           <p
                             className={`text-[15px] leading-relaxed font-normal ${
-                              isFeaturedFirst ? 'text-[#B5C7DF]' : 'text-slate-600'
+                              isFeaturedFirst ? 'text-[#A5B2C7]' : 'text-slate-600 dark:text-[#A5B2C7]'
                             }`}
                           >
                             {item.description}

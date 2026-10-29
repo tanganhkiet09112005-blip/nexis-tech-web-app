@@ -114,7 +114,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
          ===================================================================== */}
       <section
         id="tieu-chi"
-        className="py-16 sm:py-24 bg-[#F3F7FC] text-[#030B24] border-b border-slate-200/80 overflow-hidden"
+        className="py-16 sm:py-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 overflow-hidden transition-colors duration-200"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -122,17 +122,17 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
           {/* Top 2-Column Split: Editorial Left + Dual-Tablet Circle Illustration Right */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-6 space-y-5">
-              <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full">
+              <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3 py-1 rounded-full">
                 Tiêu chuẩn chất lượng
               </span>
-              <h2 className="heading-section text-[#030B24]">
+              <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5]">
                 Những điều cần lưu ý khi thiết kế website{' '}
-                <span className="text-[#087BFF]">doanh nghiệp và bán hàng</span>
+                <span className="text-[#087BFF] dark:text-[#16D9F3]">doanh nghiệp và bán hàng</span>
               </h2>
-              <p className="body-copy text-slate-600">
+              <p className="body-copy text-slate-600 dark:text-[#A5B2C7]">
                 {NEXIS_BRAND.criteriaIntro.paragraph1}
               </p>
-              <p className="body-copy text-slate-600">
+              <p className="body-copy text-slate-600 dark:text-[#A5B2C7]">
                 {NEXIS_BRAND.criteriaIntro.paragraph2}
               </p>
             </div>
@@ -215,7 +215,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 onClick={() =>
                   setCriteriaIndex((prev) => getWrappedIndex(prev, -1, criteriaList.length))
                 }
-                className="hidden md:flex w-11 h-11 rounded-full bg-white border border-slate-300 hover:border-[#087BFF] text-slate-700 hover:text-[#087BFF] items-center justify-center shrink-0 shadow-xs transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
+                className="hidden md:flex w-11 h-11 rounded-full bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/20 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] items-center justify-center shrink-0 shadow-xs transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
                 aria-label="Tiêu chí trước"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -235,11 +235,11 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                     {visibleCriteria.map((item, idx) => (
                       <article
                         key={`${item.id}-${idx}`}
-                        className="relative bg-white rounded-2xl pt-12 pb-7 px-6 shadow-sm border border-slate-200/80 hover:border-[#087BFF]/40 card-hover-lift"
+                        className="relative bg-white dark:bg-[#172033] rounded-2xl pt-12 pb-7 px-6 shadow-sm border border-slate-200/80 dark:border-white/10 hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40 card-hover-lift"
                       >
                         {/* Overlapping Top-Center Circular Gradient Icon Badge */}
                         <div
-                          className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center shadow-md border-4 border-[#F3F7FC]"
+                          className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center shadow-md border-4 border-[#F5F7FA] dark:border-[#0B1120]"
                           style={{
                             background: 'linear-gradient(135deg, #087BFF 0%, #12B8E6 100%)',
                           }}
@@ -247,10 +247,10 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                           {renderCriteriaIcon(item.iconName)}
                         </div>
 
-                        <h3 className="heading-card text-[#087BFF] mb-3 text-left">
+                        <h3 className="heading-card text-[#087BFF] dark:text-[#16D9F3] mb-3 text-left">
                           {item.title}
                         </h3>
-                        <p className="text-[15px] text-slate-600 leading-relaxed text-left font-normal">
+                        <p className="text-[15px] text-slate-600 dark:text-[#A5B2C7] leading-relaxed text-left font-normal">
                           {item.description}
                         </p>
                       </article>
@@ -265,7 +265,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 onClick={() =>
                   setCriteriaIndex((prev) => getWrappedIndex(prev, 1, criteriaList.length))
                 }
-                className="hidden md:flex w-11 h-11 rounded-full bg-white border border-slate-300 hover:border-[#087BFF] text-slate-700 hover:text-[#087BFF] items-center justify-center shrink-0 shadow-xs transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
+                className="hidden md:flex w-11 h-11 rounded-full bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/20 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] items-center justify-center shrink-0 shadow-xs transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
                 aria-label="Tiêu chí tiếp theo"
               >
                 <ArrowRight className="w-4 h-4" />
@@ -279,12 +279,12 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 onClick={() =>
                   setCriteriaIndex((prev) => getWrappedIndex(prev, -1, criteriaList.length))
                 }
-                className="w-10 h-10 rounded-full bg-white border border-slate-300 flex items-center justify-center text-slate-700 cursor-pointer"
+                className="w-10 h-10 rounded-full bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/20 flex items-center justify-center text-slate-700 dark:text-[#E8EDF5] cursor-pointer"
                 aria-label="Tiêu chí trước"
               >
                 <ArrowLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm font-medium text-slate-600">
+              <span className="text-sm font-medium text-slate-600 dark:text-[#A5B2C7]">
                 0{criteriaIndex + 1} / 0{criteriaList.length}
               </span>
               <button
@@ -292,7 +292,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 onClick={() =>
                   setCriteriaIndex((prev) => getWrappedIndex(prev, 1, criteriaList.length))
                 }
-                className="w-10 h-10 rounded-full bg-white border border-slate-300 flex items-center justify-center text-slate-700 cursor-pointer"
+                className="w-10 h-10 rounded-full bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/20 flex items-center justify-center text-slate-700 dark:text-[#E8EDF5] cursor-pointer"
                 aria-label="Tiêu chí tiếp theo"
               >
                 <ArrowRight className="w-4 h-4" />
@@ -303,26 +303,28 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
       </section>
 
       {/* =====================================================================
-          SECTION 06: 8 LÝ DO LỰA CHỌN NEXIS TECH (INTERACTIVE CIRCULAR WHEEL)
+          SECTION 06: VÒNG TRÒN 8 LÝ DO CHỌN NEXIS TECH (ORBITAL HUB)
          ===================================================================== */}
       <section
         id="ly-do"
-        className="py-16 sm:py-24 bg-white text-[#030B24] border-b border-slate-200/80 overflow-hidden"
+        className="py-16 sm:py-24 bg-white dark:bg-[#111827] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 overflow-hidden transition-colors duration-200"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered Section Heading */}
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full mb-3">
-              Giá trị cốt lõi
-            </span>
-            <h2 className="heading-section text-[#030B24]">
-              Lý do doanh nghiệp nên thiết kế website tại{' '}
-              <span className="text-[#087BFF]">Nexis Tech</span>
-            </h2>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3.5 py-1 rounded-full mb-3">
+            Điểm khác biệt
+          </span>
 
-          {/* DESKTOP CIRCULAR ORBITAL WHEEL (lg and up) */}
-          <div className="hidden lg:grid lg:grid-cols-12 items-center gap-4 max-w-6xl mx-auto">
+          <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5] max-w-3xl mx-auto">
+            Tại sao các thương hiệu tin chọn{' '}
+            <span className="text-[#087BFF] dark:text-[#16D9F3]">Nexis Tech?</span>
+          </h2>
+
+          <p className="body-copy text-slate-600 dark:text-[#A5B2C7] max-w-2xl mx-auto mt-3">
+            Quy trình làm việc chuẩn mực, công nghệ hiện đại và cam kết bảo hành dài hạn tạo nên giá trị bền vững cho mỗi dự án.
+          </p>
+
+          {/* DESKTOP CIRCULAR ORBITAL HUB (8 Nodes arranged on Left & Right Arcs) */}
+          <div className="hidden lg:grid grid-cols-12 gap-4 items-center mt-14 max-w-6xl mx-auto min-h-[500px]">
             {/* Left 4 Arc Nodes */}
             <div className="col-span-3 space-y-11 py-6">
               {leftReasons.map((item, idx) => {
@@ -340,8 +342,8 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                       onClick={() => setActiveReasonIndex(idx)}
                       className={`text-right text-[15px] font-medium transition-colors duration-200 cursor-pointer ${
                         isSelected
-                          ? 'text-[#087BFF] font-semibold'
-                          : 'text-[#030B24] hover:text-[#087BFF]'
+                          ? 'text-[#087BFF] dark:text-[#16D9F3] font-semibold'
+                          : 'text-slate-800 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-[#16D9F3]'
                       }`}
                     >
                       {item.shortTitle}
@@ -353,7 +355,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                       className={`w-15 h-15 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 cursor-pointer shadow-md ${
                         isSelected
                           ? 'bg-gradient-to-br from-[#087BFF] to-[#12B8E6] text-white scale-105 ring-4 ring-[#087BFF]/20'
-                          : 'bg-white text-[#087BFF] border border-slate-200 hover:border-[#087BFF]'
+                          : 'bg-white dark:bg-[#172033] text-[#087BFF] dark:text-[#16D9F3] border border-slate-200 dark:border-white/10 hover:border-[#087BFF] dark:hover:border-[#16D9F3]'
                       }`}
                     >
                       {renderReasonIcon(item.iconName)}
@@ -365,7 +367,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
 
             {/* Center Orbital Hub Circle with Animated Content Switch */}
             <div className="col-span-6 flex items-center justify-center">
-              <div className="relative w-[430px] h-[430px] rounded-full border border-[#087BFF]/25 bg-gradient-to-b from-[#F3F7FC]/70 to-white shadow-[0_20px_50px_rgba(8,123,255,0.08)] flex flex-col items-center justify-center p-10 text-center">
+              <div className="relative w-[430px] h-[430px] rounded-full border border-[#087BFF]/25 bg-gradient-to-b from-slate-50 to-white dark:from-[#172033] dark:to-[#0B1120] shadow-[0_20px_50px_rgba(8,123,255,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center p-10 text-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeReason.id}
@@ -376,17 +378,17 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                     className="flex flex-col items-center justify-center text-center"
                   >
                     {/* Large Number */}
-                    <span className="text-4xl font-bold text-[#087BFF] tracking-tight mb-2">
+                    <span className="text-4xl font-bold text-[#087BFF] dark:text-[#16D9F3] tracking-tight mb-2">
                       {activeReason.number}
                     </span>
 
                     {/* Active Reason Full Title */}
-                    <h3 className="text-lg xl:text-xl font-semibold text-[#030B24] leading-snug mb-3 max-w-xs">
+                    <h3 className="text-lg xl:text-xl font-semibold text-slate-900 dark:text-white leading-snug mb-3 max-w-xs">
                       {activeReason.fullTitle}
                     </h3>
 
                     {/* Active Reason Description */}
-                    <p className="text-[15px] text-slate-600 leading-relaxed mb-6 max-w-sm font-normal">
+                    <p className="text-[15px] text-slate-600 dark:text-[#A5B2C7] leading-relaxed mb-6 max-w-sm font-normal">
                       {activeReason.description}
                     </p>
 
@@ -423,7 +425,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                       className={`w-15 h-15 rounded-full flex items-center justify-center transition-all duration-200 shrink-0 cursor-pointer shadow-md ${
                         isSelected
                           ? 'bg-gradient-to-br from-[#087BFF] to-[#12B8E6] text-white scale-105 ring-4 ring-[#087BFF]/20'
-                          : 'bg-white text-[#087BFF] border border-slate-200 hover:border-[#087BFF]'
+                          : 'bg-white dark:bg-[#172033] text-[#087BFF] dark:text-[#16D9F3] border border-slate-200 dark:border-white/10 hover:border-[#087BFF] dark:hover:border-[#16D9F3]'
                       }`}
                     >
                       {renderReasonIcon(item.iconName)}
@@ -433,8 +435,8 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                       onClick={() => setActiveReasonIndex(realIdx)}
                       className={`text-left text-[15px] font-medium transition-colors duration-200 cursor-pointer ${
                         isSelected
-                          ? 'text-[#087BFF] font-semibold'
-                          : 'text-[#030B24] hover:text-[#087BFF]'
+                          ? 'text-[#087BFF] dark:text-[#16D9F3] font-semibold'
+                          : 'text-slate-800 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-[#16D9F3]'
                       }`}
                     >
                       {item.shortTitle}
@@ -446,7 +448,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
           </div>
 
           {/* MOBILE & TABLET RESPONSIVE VIEW FOR SECTION 06 */}
-          <div className="lg:hidden space-y-6">
+          <div className="lg:hidden space-y-6 mt-8">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {reasons.map((item, idx) => {
                 const isSelected = activeReasonIndex === idx;
@@ -455,45 +457,44 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                     key={item.id}
                     type="button"
                     onClick={() => setActiveReasonIndex(idx)}
-                    className={`p-3 rounded-xl border text-left transition-all duration-200 flex items-center gap-2.5 cursor-pointer ${
+                    className={`p-3 rounded-xl border text-left transition-all duration-200 cursor-pointer ${
                       isSelected
-                        ? 'bg-[#030B24] text-white border-[#087BFF] shadow-md'
-                        : 'bg-[#F3F7FC] text-[#030B24] border-slate-200'
+                        ? 'bg-[#087BFF] text-white border-[#087BFF] shadow-sm'
+                        : 'bg-slate-50 dark:bg-[#172033] text-slate-800 dark:text-[#E8EDF5] border-slate-200 dark:border-white/10'
                     }`}
                   >
-                    <span
-                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs font-semibold ${
-                        isSelected
-                          ? 'bg-[#087BFF] text-white'
-                          : 'bg-white text-[#087BFF]'
-                      }`}
-                    >
-                      {item.number}
-                    </span>
-                    <span className="text-xs font-medium leading-tight line-clamp-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold opacity-80">{item.number}</span>
+                      <div className={isSelected ? 'text-white' : 'text-[#087BFF] dark:text-[#16D9F3]'}>
+                        {renderReasonIcon(item.iconName)}
+                      </div>
+                    </div>
+                    <div className="text-xs font-semibold truncate leading-tight">
                       {item.shortTitle}
-                    </span>
+                    </div>
                   </button>
                 );
               })}
             </div>
 
+            {/* Active Details Card on Mobile */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeReason.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-[#F3F7FC] border border-[#087BFF]/25 rounded-2xl p-6 text-center space-y-3 shadow-xs"
+                className="bg-slate-50 dark:bg-[#172033] rounded-2xl p-6 border border-slate-200 dark:border-white/10 text-left space-y-3"
               >
-                <span className="text-3xl font-bold text-[#087BFF] block">
-                  {activeReason.number}
-                </span>
-                <h3 className="text-lg font-semibold text-[#030B24]">
-                  {activeReason.fullTitle}
-                </h3>
-                <p className="body-copy text-slate-600 max-w-xl mx-auto">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold text-[#087BFF] dark:text-[#16D9F3]">
+                    {activeReason.number}
+                  </span>
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+                    {activeReason.fullTitle}
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed">
                   {activeReason.description}
                 </p>
                 <div className="pt-2">
@@ -516,7 +517,7 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
          ===================================================================== */}
       <section
         id="cam-ket"
-        className="py-16 sm:py-24 bg-[#F3F7FC] text-[#030B24] border-b border-slate-200/80 overflow-hidden"
+        className="py-16 sm:py-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 overflow-hidden transition-colors duration-200"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
@@ -569,14 +570,14 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                 {NEXIS_BRAND.qualitativePillars.map((pillar, idx) => (
                   <div
                     key={pillar.id}
-                    className={`w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-white shadow-[0_12px_30px_rgba(3,11,36,0.08)] border border-slate-100 flex flex-col items-center justify-center p-3.5 text-center ${
+                    className={`w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-white dark:bg-[#172033] shadow-[0_12px_30px_rgba(3,11,36,0.08)] dark:shadow-[0_12px_30px_rgba(0,0,0,0.4)] border border-slate-100 dark:border-white/10 flex flex-col items-center justify-center p-3.5 text-center ${
                       idx === 1 ? 'sm:translate-x-5' : ''
                     }`}
                   >
-                    <span className="text-sm sm:text-[15px] font-bold text-[#087BFF] tracking-tight">
+                    <span className="text-sm sm:text-[15px] font-bold text-[#087BFF] dark:text-[#16D9F3] tracking-tight">
                       {pillar.label}
                     </span>
-                    <span className="text-[11px] sm:text-xs text-slate-600 font-normal mt-1 leading-snug">
+                    <span className="text-[11px] sm:text-xs text-slate-600 dark:text-[#A5B2C7] font-normal mt-1 leading-snug">
                       {pillar.sublabel}
                     </span>
                   </div>
@@ -584,18 +585,18 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
               </div>
             </div>
 
-            {/* RIGHT SIDE (6 cols): Heading + 2x2 Commitments White Card */}
+            {/* RIGHT SIDE (6 cols): Heading + 2x2 Commitments Card */}
             <div className="lg:col-span-6 space-y-6">
               <div>
-                <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full mb-2">
+                <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3 py-1 rounded-full mb-2">
                   Định hướng triển khai
                 </span>
-                <h2 className="heading-section text-[#030B24]">
+                <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5]">
                   Năng lực và cam kết đồng hành
                 </h2>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80">
+              <div className="bg-white dark:bg-[#172033] rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-white/10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   {NEXIS_BRAND.commitments.map((commit) => (
                     <div key={commit.id} className="space-y-2">
@@ -604,10 +605,10 @@ export const CriteriaAndReasons: React.FC<CriteriaAndReasonsProps> = ({ onNaviga
                         <span className="w-3 h-1 rounded-full bg-[#087BFF]" />
                         <span className="w-3 h-1 rounded-full bg-[#12B8E6]" />
                       </div>
-                      <h3 className="text-base font-semibold text-[#030B24] leading-snug">
+                      <h3 className="text-base font-semibold text-slate-900 dark:text-white leading-snug">
                         {commit.title}
                       </h3>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                      <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed font-normal">
                         {commit.summary}
                       </p>
                     </div>

@@ -12,19 +12,23 @@ import { NEXIS_BRAND } from '../config/brand.ts';
 
 interface HeroSectionProps {
   onPrimaryCta: () => void;
+  onOpenPhoneModal?: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({
+  onPrimaryCta,
+  onOpenPhoneModal,
+}) => {
   const [activeDevicePreview, setActiveDevicePreview] = useState<'ecommerce' | 'corporate'>('ecommerce');
 
   return (
     <section
       id="top"
-      className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24 bg-[#030B24] text-[#F4F8FF] overflow-hidden next-circuit-bg border-b border-white/10"
+      className="relative pt-28 sm:pt-32 lg:pt-36 pb-16 lg:pb-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] overflow-hidden next-circuit-bg border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200"
     >
       {/* Subtle Electric Blue & Cyan Radial Aura */}
       <div
-        className="pointer-events-none absolute top-1/2 right-[8%] -translate-y-1/2 w-[480px] h-[480px] rounded-full opacity-20 blur-[110px]"
+        className="pointer-events-none absolute top-1/2 right-[8%] -translate-y-1/2 w-[480px] h-[480px] rounded-full opacity-15 dark:opacity-25 blur-[110px]"
         style={{
           background: 'radial-gradient(circle, #087BFF 0%, #16D9F3 45%, transparent 75%)',
         }}
@@ -40,55 +44,57 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-6 text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#071638] border border-white/15">
-              <Sparkles className="w-3.5 h-3.5 text-[#16D9F3]" />
-              <span className="text-xs sm:text-[13px] font-medium text-[#B5C7DF]">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/15 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3]" />
+              <span className="text-xs sm:text-[13px] font-medium text-slate-700 dark:text-[#A5B2C7]">
                 {NEXIS_BRAND.hero.lead}
               </span>
             </div>
 
-            <h1 className="heading-hero text-[#F4F8FF]">
+            <h1 className="heading-hero text-slate-900 dark:text-[#E8EDF5]">
               <span className="block">{NEXIS_BRAND.hero.titleLine1}</span>
-              <span className="block mt-1 font-bold text-[#16D9F3]">
+              <span className="block mt-1 font-bold text-[#087BFF] dark:text-[#16D9F3]">
                 {NEXIS_BRAND.hero.titleLine2}
               </span>
             </h1>
 
-            <p className="body-copy text-[#B5C7DF] max-w-xl">
+            <p className="body-copy text-slate-600 dark:text-[#A5B2C7] max-w-xl">
               {NEXIS_BRAND.hero.description}
             </p>
 
-            {/* Primary CTA + Direct Phone Link */}
+            {/* Primary CTA + Phone Selector Modal Trigger */}
             <div className="pt-1 flex flex-wrap items-center gap-3.5">
               <button
                 type="button"
                 onClick={onPrimaryCta}
-                className="px-7 py-3.5 rounded-xl text-base font-medium text-white next-glow-pill inline-flex items-center gap-2.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-white"
+                className="px-7 py-3.5 rounded-xl text-base font-medium text-white next-glow-pill inline-flex items-center gap-2.5 cursor-pointer focus-visible:outline-2 focus-visible:outline-[#087BFF]"
               >
                 <span>{NEXIS_BRAND.hero.primaryCta}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <a
-                href={NEXIS_BRAND.phoneHref}
-                className="px-5 py-3.5 rounded-xl text-base font-medium text-[#F4F8FF] bg-[#071638] border border-white/15 hover:border-[#16D9F3]/60 transition-colors duration-200 inline-flex items-center gap-2"
+              <button
+                type="button"
+                onClick={onOpenPhoneModal}
+                className="px-5 py-3.5 rounded-xl text-base font-medium text-slate-800 dark:text-[#E8EDF5] bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/15 hover:border-[#087BFF] dark:hover:border-[#16D9F3]/60 transition-colors duration-200 inline-flex items-center gap-2 cursor-pointer shadow-xs"
+                aria-label="Chọn số điện thoại tư vấn"
               >
-                <Phone className="w-4 h-4 text-[#16D9F3]" />
-                <span>{NEXIS_BRAND.phoneDisplay}</span>
-              </a>
+                <Phone className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3]" />
+                <span>Hotline tư vấn</span>
+              </button>
             </div>
 
             {/* Interactive Preview Mode Switcher for the 3D Podium Devices */}
             <div className="pt-1 flex items-center gap-3">
-              <span className="text-xs font-medium text-[#B5C7DF]">Giao diện hiển thị:</span>
-              <div className="inline-flex items-center bg-[#071638]/90 border border-white/10 rounded-xl p-1">
+              <span className="text-xs font-medium text-slate-600 dark:text-[#A5B2C7]">Giao diện hiển thị:</span>
+              <div className="inline-flex items-center bg-slate-200/70 dark:bg-[#111827]/90 border border-slate-300 dark:border-white/10 rounded-xl p-1">
                 <button
                   type="button"
                   onClick={() => setActiveDevicePreview('ecommerce')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer ${
                     activeDevicePreview === 'ecommerce'
-                      ? 'bg-[#087BFF] text-white shadow-sm'
-                      : 'text-[#B5C7DF] hover:text-white'
+                      ? 'bg-[#087BFF] text-white shadow-xs'
+                      : 'text-slate-700 dark:text-[#A5B2C7] hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Thương mại điện tử
@@ -98,8 +104,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                   onClick={() => setActiveDevicePreview('corporate')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 cursor-pointer ${
                     activeDevicePreview === 'corporate'
-                      ? 'bg-[#087BFF] text-white shadow-sm'
-                      : 'text-[#B5C7DF] hover:text-white'
+                      ? 'bg-[#087BFF] text-white shadow-xs'
+                      : 'text-slate-700 dark:text-[#A5B2C7] hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Doanh nghiệp
@@ -108,17 +114,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
             </div>
 
             {/* Key Value Highlights */}
-            <div className="pt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 border-t border-white/10 text-sm text-[#B5C7DF]">
+            <div className="pt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 border-t border-slate-200 dark:border-white/10 text-sm text-slate-700 dark:text-[#A5B2C7]">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                 <span>Thiết kế UI/UX riêng</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                 <span>Web App & E-commerce</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                 <span>Tích hợp AI & Cloud</span>
               </div>
             </div>
@@ -134,18 +140,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
             <div className="relative mx-auto max-w-[660px] min-h-[380px] sm:min-h-[450px] flex items-end justify-end">
               {/* 3D Podium Upper Step (Right/Back) */}
               <div
-                className="hidden sm:block absolute bottom-6 right-0 w-[64%] h-28 rounded-xl border-t border-white/15 shadow-2xl"
+                className="hidden sm:block absolute bottom-6 right-0 w-[64%] h-28 rounded-xl border-t border-slate-300 dark:border-white/15 shadow-2xl"
                 style={{
-                  background: 'linear-gradient(180deg, #09204F 0%, #05112E 45%, #020818 100%)',
+                  background: 'linear-gradient(180deg, #1E293B 0%, #0F172A 50%, #0B1120 100%)',
                 }}
                 aria-hidden="true"
               />
 
               {/* 3D Podium Lower Step (Left/Front) */}
               <div
-                className="hidden sm:block absolute bottom-0 left-[6%] w-[44%] h-20 rounded-xl border-t border-white/15 shadow-2xl z-10"
+                className="hidden sm:block absolute bottom-0 left-[6%] w-[44%] h-20 rounded-xl border-t border-slate-300 dark:border-white/15 shadow-2xl z-10"
                 style={{
-                  background: 'linear-gradient(180deg, #0B265C 0%, #051332 50%, #020716 100%)',
+                  background: 'linear-gradient(180deg, #334155 0%, #1E293B 50%, #0F172A 100%)',
                 }}
                 aria-hidden="true"
               />
@@ -153,11 +159,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
               {/* UPPER STEP: Wide Laptop Mockup */}
               <div className="relative z-10 w-full sm:w-[74%] sm:mb-20 sm:mr-2">
                 {/* Laptop Screen Bezel */}
-                <div className="bg-[#0B162C] border-[3px] border-[#1E293B] rounded-t-2xl p-2 sm:p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.65)]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#16D9F3]/60 mx-auto mb-1.5" />
+                <div className="bg-[#0F172A] border-[3px] border-[#334155] rounded-t-2xl p-2 sm:p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#16D9F3]/70 mx-auto mb-1.5" />
 
                   {/* Inner Website UI Screen with Smooth AnimatePresence */}
-                  <div className="bg-[#F4F8FF] text-[#030B24] rounded-xl overflow-hidden shadow-inner min-h-[220px]">
+                  <div className="bg-[#F5F7FA] text-[#030B24] rounded-xl overflow-hidden shadow-inner min-h-[220px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={activeDevicePreview}
@@ -190,8 +196,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                           style={{
                             background:
                               activeDevicePreview === 'ecommerce'
-                                ? 'linear-gradient(135deg, #030B24 0%, #071638 55%, #087BFF 100%)'
-                                : 'linear-gradient(135deg, #071638 0%, #087BFF 65%, #12B8E6 100%)',
+                                ? 'linear-gradient(135deg, #0B1120 0%, #111827 55%, #087BFF 100%)'
+                                : 'linear-gradient(135deg, #111827 0%, #087BFF 65%, #12B8E6 100%)',
                           }}
                         >
                           <div className="grid grid-cols-12 gap-3 items-center">
@@ -257,7 +263,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                 <div
                   className="absolute -left-7 bottom-5 w-8 h-8 rounded-full shadow-lg"
                   style={{
-                    background: 'radial-gradient(circle at 30% 30%, #16D9F3, #087BFF 65%, #030B24)',
+                    background: 'radial-gradient(circle at 30% 30%, #16D9F3, #087BFF 65%, #0B1120)',
                   }}
                   aria-hidden="true"
                 />
@@ -272,14 +278,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onPrimaryCta }) => {
                 />
 
                 {/* Tablet Frame */}
-                <div className="bg-[#0F172A] border-[3px] border-[#334155] rounded-2xl p-2 shadow-[0_20px_45px_rgba(0,0,0,0.75)] -rotate-2">
+                <div className="bg-[#0F172A] border-[3px] border-[#334155] rounded-2xl p-2 shadow-[0_20px_45px_rgba(0,0,0,0.65)] -rotate-2">
                   <div className="bg-white rounded-xl overflow-hidden text-[#030B24] p-2.5 space-y-2">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
                       <span className="text-[10px] font-semibold text-[#087BFF]">Nexis Mobile</span>
                       <ShoppingBag className="w-3 h-3 text-[#030B24]" />
                     </div>
 
-                    <div className="rounded-lg bg-gradient-to-r from-[#071638] to-[#087BFF] p-2.5 text-white">
+                    <div className="rounded-lg bg-gradient-to-r from-[#0B1120] to-[#087BFF] p-2.5 text-white">
                       <div className="text-[9px] text-[#16D9F3] font-medium">Tối ưu di động</div>
                       <div className="text-[10px] font-semibold leading-tight mt-0.5">
                         Hiển thị sắc nét trên mọi màn hình

@@ -65,12 +65,33 @@ export interface CommitmentItem {
 export interface ReferenceWebsite {
   id: string;
   name: string;
-  category: 'Nội thất' | 'Mỹ phẩm' | 'Thời trang' | 'Giải pháp doanh nghiệp/B2B';
+  category: string;
+  badge?: string;
+  isTemplate?: boolean;
   url: string;
+  demoUrl?: string;
   domain: string;
   previewImage: string;
   description: string;
   highlights: string[];
+}
+
+export interface PhoneContact {
+  id: string;
+  number: string;
+  href: string;
+  label: string;
+  note: string;
+}
+
+export interface ZaloContact {
+  id: string;
+  label: string;
+  role: string;
+  url: string;
+  status: 'updating' | 'available';
+  statusText: string;
+  note?: string;
 }
 
 export interface KnowledgeArticle {
@@ -164,13 +185,81 @@ export const REFERENCE_WEBSITES: ReferenceWebsite[] = [
     category: 'Giải pháp doanh nghiệp/B2B',
     url: 'https://base.vn/',
     domain: 'base.vn',
-    previewImage: '/previews/base.png',
+    previewImage: './previews/base.png',
     description:
       'Đáng tham khảo ở cách trình bày giải pháp công nghệ B2B mạch lạc, đặt khung giao diện phần mềm thực tế ngay đầu trang để người xem dễ hình dung.',
     highlights: [
       'Tiêu đề giải pháp súc tích đi kèm nút kêu gọi đăng ký trải nghiệm rõ ràng',
       'Minh họa trực tiếp giao diện vận hành ngay bên phải khu vực mở đầu',
       'Phân nhóm bộ giải pháp theo từng nghiệp vụ quản trị doanh nghiệp khoa học',
+    ],
+  },
+  {
+    id: 'ref-oh-ecommerce',
+    name: 'OH! Thương mại điện tử',
+    category: 'Bán hàng tổng hợp',
+    badge: 'Mẫu giao diện tham khảo',
+    url: 'https://themes.sapo.vn/oh-thuong-mai-dien-tu',
+    demoUrl: 'https://themes.sapo.vn/demo/oh-thuong-mai-dien-tu',
+    domain: 'themes.sapo.vn',
+    previewImage: './previews/oh-ecommerce.png',
+    description:
+      'Mẫu website thương mại điện tử đa ngành hàng với bố cục khoa học, banner chương trình khuyến mãi nổi bật và phân loại danh mục sản phẩm chi tiết.',
+    highlights: [
+      'Thanh tìm kiếm thông minh và bộ lọc danh mục trực quan',
+      'Khối đếm ngược khuyến mãi giờ vàng kích thích quyết định mua',
+      'Trang chi tiết sản phẩm chuẩn nhận diện thương mại hiện đại',
+    ],
+  },
+  {
+    id: 'ref-ega-minimart',
+    name: 'EGA Mini Mart',
+    category: 'Siêu thị mini, gia dụng',
+    badge: 'Mẫu giao diện tham khảo',
+    url: 'https://themes.sapo.vn/ega-mini-mart/',
+    demoUrl: 'https://themes.sapo.vn/demo/ega-mini-mart',
+    domain: 'themes.sapo.vn',
+    previewImage: './previews/ega-minimart.jpg',
+    description:
+      'Giao diện tối ưu tỷ lệ chuyển đổi cho siêu thị mini, thực phẩm và gia dụng với bố cục giỏ hàng tiện lợi và thao tác đặt hàng nhanh chóng.',
+    highlights: [
+      'Tính năng thêm nhanh vào giỏ hàng ngay tại danh mục',
+      'Bộ lọc khoảng giá và thương hiệu phản hồi tức thì',
+      'Tối ưu hiển thị và trải nghiệm vuốt chạm linh hoạt trên di động',
+    ],
+  },
+  {
+    id: 'ref-dola-style',
+    name: 'Dola Style',
+    category: 'Thời trang, phụ kiện',
+    badge: 'Mẫu giao diện tham khảo',
+    url: 'https://themes.sapo.vn/dola-style',
+    demoUrl: 'https://themes.sapo.vn/demo/dola-style',
+    domain: 'themes.sapo.vn',
+    previewImage: './previews/dola-style.png',
+    description:
+      'Phong cách thiết kế thời trang tinh giản, hình ảnh sản phẩm lớn sắc nét kết hợp cùng lookbook theo mùa và bộ lọc size, màu sắc linh hoạt.',
+    highlights: [
+      'Banner trình diễn Lookbook chuyển động mượt mà',
+      'Xem nhanh thông tin và bảng kích cỡ sản phẩm (Size Guide)',
+      'Giao diện giỏ hàng bên hông (Slide Cart) tiện lợi',
+    ],
+  },
+  {
+    id: 'ref-wolf-mart',
+    name: 'Wolf Mart',
+    category: 'Cửa hàng nhiều ngành hàng',
+    badge: 'Mẫu giao diện tham khảo',
+    url: 'https://themes.sapo.vn/wolf-mart',
+    demoUrl: 'https://themes.sapo.vn/demo/wolf-mart',
+    domain: 'themes.sapo.vn',
+    previewImage: './previews/wolf-mart.jpg',
+    description:
+      'Giao diện kinh doanh đa ngành nghề hiện đại, hỗ trợ trưng bày danh mục sản phẩm phong phú và tốc độ tải trang nhanh.',
+    highlights: [
+      'Bố cục phân khu danh mục sản phẩm nổi bật ngay trang chủ',
+      'Tab chuyển đổi danh mục sản phẩm bán chạy linh hoạt',
+      'Chứng chỉ bảo mật và hệ thống thông tin rõ ràng',
     ],
   },
 ];
@@ -180,21 +269,83 @@ export const NEXIS_BRAND = {
   logoWordmark: 'NEXIS TECH',
   tagline: "Build Digital. Create What's Next.",
   subMessage: 'Giải pháp thiết kế và phát triển website hướng tới hiệu quả vận hành cho doanh nghiệp hiện đại.',
+  
+  // Phone numbers (Phone 1 and Phone 2)
+  phone1: '0909 858 428',
+  phone1Href: 'tel:+84909858428',
+  phone2: '0326 128 141',
+  phone2Href: 'tel:+84326128141',
+  
+  // Backward compatible primary display
   phoneDisplay: '0909 858 428',
   phoneHref: 'tel:+84909858428',
+
+  phones: [
+    {
+      id: 'phone-1',
+      number: '0909 858 428',
+      href: 'tel:+84909858428',
+      label: 'Hotline chính',
+      note: 'Tư vấn dự án & Báo giá',
+    },
+    {
+      id: 'phone-2',
+      number: '0326 128 141',
+      href: 'tel:+84326128141',
+      label: 'Hỗ trợ kỹ thuật',
+      note: 'Tư vấn kỹ thuật & Giải pháp số',
+    },
+  ] as PhoneContact[],
+
+  // Zalo advisors configuration
+  zaloContacts: [
+    {
+      id: 'zalo-1',
+      label: 'Người tư vấn 1',
+      role: 'Tư vấn giải pháp website',
+      url: '', // Chưa có URL Zalo hợp lệ - đang cập nhật
+      status: 'updating',
+      statusText: 'Đang cập nhật',
+      note: 'Liên kết Zalo chính thức đang được hoàn thiện',
+    },
+    {
+      id: 'zalo-2',
+      label: 'Người tư vấn 2',
+      role: 'Tư vấn kỹ thuật & triển khai',
+      url: 'https://zaloapp.com/qr/p/ryusg52izbti',
+      status: 'available',
+      statusText: 'Sẵn sàng kết nối',
+      note: 'Nhắn tin trực tiếp qua Zalo',
+    },
+  ] as ZaloContact[],
+
+  // Facebook
+  facebookUrl: 'https://www.facebook.com/share/1EAzFhaCab/?mibextid=wwXIfr',
+  facebookDisplay: 'Facebook Nexis Tech',
+
   emailDisplay: 'nexistech.work@gmail.com',
   emailHref:
     'mailto:nexistech.work@gmail.com?subject=Y%C3%AAu%20c%E1%BA%A7u%20t%C6%B0%20v%E1%BA%A5n%20website%20%E2%80%93%20Nexis%20Tech',
   locationDisplay: 'TP. Hồ Chí Minh',
 
+  // Muted tech palette with dedicated dark and light modes
   colors: {
-    navyPrimary: '#030B24',
-    navySecondary: '#071638',
+    // Dark mode
+    navyPrimary: '#0B1120',
+    navySecondary: '#111827',
+    cardDark: '#172033',
+    textMainDark: '#E8EDF5',
+    textSubDark: '#A5B2C7',
     electricBlue: '#087BFF',
     cyanAccent: '#16D9F3',
-    whiteBright: '#F4F8FF',
-    textMutedDark: '#B5C7DF',
-    lightSurface: '#F3F7FC',
+
+    // Light mode
+    lightPrimary: '#F5F7FA',
+    lightSurface: '#FFFFFF',
+    lightSecondary: '#EBF0F6',
+    textMainLight: '#172033',
+    textSubLight: '#526176',
+    accentBlueLight: '#087BFF',
   },
 
   coreServices: [

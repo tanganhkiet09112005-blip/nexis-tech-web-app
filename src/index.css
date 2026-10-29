@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --color-next-navy: #030B24;
-  --color-next-navy-alt: #071638;
+  --color-next-navy: #0B1120;
+  --color-next-navy-alt: #111827;
+  --color-next-card: #172033;
   --color-next-blue: #087BFF;
   --color-next-cyan: #16D9F3;
-  --color-next-white: #F4F8FF;
-  --color-next-muted: #B5C7DF;
-  --color-next-light: #F3F7FC;
+  --color-next-white: #E8EDF5;
+  --color-next-muted: #A5B2C7;
+  --color-next-light: #F5F7FA;
 }
 
 html {
@@ -23,10 +26,16 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.68;
-  color: #030B24;
-  background-color: #F3F7FC;
+  color: #172033;
+  background-color: #F5F7FA;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+html.dark body {
+  color: #E8EDF5;
+  background-color: #0B1120;
 }
 
 /* Fluid heading scale using clamp() with natural line-height and weight 600 */
@@ -56,26 +65,35 @@ body {
   font-weight: 400;
 }
 
-/* Softened subtle grid for deep navy sections */
+/* Refined tech grid adapted for both light and dark themes */
 .next-circuit-bg {
-  background-color: #030B24;
+  background-color: #F5F7FA;
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, #F5F7FA 0%, #EBF0F6 52%, #F5F7FA 100%);
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+}
+
+html.dark .next-circuit-bg {
+  background-color: #0B1120;
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(180deg, #030B24 0%, #071638 52%, #030B24 100%);
+    linear-gradient(180deg, #0B1120 0%, #111827 52%, #0B1120 100%);
   background-size: 48px 48px, 48px 48px, 100% 100%;
 }
 
 /* Refined primary CTA button with natural 200ms easing */
 .next-glow-pill {
   background: linear-gradient(90deg, #087BFF 0%, #12B8E6 100%);
-  box-shadow: 0 4px 14px -2px rgba(8, 123, 255, 0.3);
+  box-shadow: 0 4px 14px -2px rgba(8, 123, 255, 0.28);
   transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1), background 200ms ease;
 }
 
 .next-glow-pill:hover {
   background: linear-gradient(90deg, #0666D6 0%, #16D9F3 100%);
-  box-shadow: 0 6px 18px -2px rgba(22, 217, 243, 0.35);
+  box-shadow: 0 6px 18px -2px rgba(8, 123, 255, 0.38);
   transform: translateY(-2px);
 }
 
