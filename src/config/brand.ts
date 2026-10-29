@@ -140,7 +140,7 @@ export const REFERENCE_WEBSITES: ReferenceWebsite[] = [
     category: 'Nội thất',
     url: 'https://jysk.vn/',
     domain: 'jysk.vn',
-    previewImage: '/previews/jysk.png',
+    previewImage: './previews/jysk.png',
     description:
       'Đáng tham khảo ở cách phân chia danh mục nội thất theo từng không gian phòng, thanh tìm kiếm nổi bật ngay đầu trang và bố cục banner khuyến mãi rõ ràng.',
     highlights: [
@@ -155,7 +155,7 @@ export const REFERENCE_WEBSITES: ReferenceWebsite[] = [
     category: 'Mỹ phẩm',
     url: 'https://cocoonvietnam.com/',
     domain: 'cocoonvietnam.com',
-    previewImage: '/previews/cocoon.png',
+    previewImage: './previews/cocoon.png',
     description:
       'Đáng tham khảo ở nghệ thuật kể chuyện thương hiệu qua hình ảnh sản phẩm cỡ lớn, bảng màu thiên nhiên dịu mắt và phông chữ biên tập sang trọng.',
     highlights: [
@@ -170,7 +170,7 @@ export const REFERENCE_WEBSITES: ReferenceWebsite[] = [
     category: 'Thời trang',
     url: 'https://canifa.com/',
     domain: 'canifa.com',
-    previewImage: '/previews/canifa.png',
+    previewImage: './previews/canifa.png',
     description:
       'Đáng tham khảo ở thanh điều hướng phân nhóm thời trang rõ ràng (Nữ, Nam, Bé gái, Bé trai), ô tìm kiếm rộng rãi và banner chiến dịch trực quan ngay đầu trang.',
     highlights: [

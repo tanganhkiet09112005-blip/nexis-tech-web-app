@@ -80,7 +80,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           aria-label="Nexis Tech — Trang chủ"
         >
           {/* Geometric N Hexagon Mark */}
-          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-gradient-to-br dark:from-[#111827] dark:to-[#0B1120] border border-slate-200 dark:border-[#087BFF]/45 flex items-center justify-center transition-colors duration-200 group-hover:border-[#087BFF] dark:group-hover:border-[#16D9F3] shadow-xs">
+          <div className="w-10 h-10 rounded-[14px] bg-white dark:bg-[#071638] border border-slate-200/90 dark:border-[#087BFF]/45 flex items-center justify-center transition-colors duration-200 group-hover:border-[#087BFF] dark:group-hover:border-[#16D9F3] shadow-xs">
             <svg
               viewBox="0 0 36 36"
               className="w-6 h-6"
@@ -91,26 +91,26 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
               <path
                 d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
                 stroke={theme === 'dark' ? '#16D9F3' : '#087BFF'}
-                strokeWidth="2"
-                strokeOpacity="0.9"
+                strokeWidth="2.2"
+                strokeLinejoin="round"
               />
               <path
                 d="M12.5 24V12L23.5 24V12"
-                stroke={theme === 'dark' ? '#E8EDF5' : '#0F172A'}
-                strokeWidth="2.6"
+                stroke={theme === 'dark' ? '#FFFFFF' : '#0B1120'}
+                strokeWidth="2.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <circle cx="23.5" cy="12" r="2" fill={theme === 'dark' ? '#16D9F3' : '#087BFF'} />
+              <circle cx="23.5" cy="12" r="1.9" fill="#00D4FF" />
             </svg>
           </div>
 
           <div className="flex flex-col">
             <div className="flex items-center tracking-tight leading-none">
-              <span className="text-lg sm:text-xl font-bold text-slate-900 dark:text-[#E8EDF5]">NEXIS</span>
+              <span className="text-lg sm:text-xl font-bold text-[#0B1120] dark:text-[#E8EDF5]">NEXIS</span>
               <span className="text-lg sm:text-xl font-bold text-[#087BFF] dark:text-[#16D9F3] ml-1.5">TECH</span>
             </div>
-            <span className="text-[11px] text-slate-500 dark:text-[#A5B2C7] font-normal tracking-normal mt-1 hidden sm:block">
+            <span className="text-[11px] text-[#526176] dark:text-[#A5B2C7] font-normal tracking-normal mt-1 hidden sm:block">
               {NEXIS_BRAND.tagline}
             </span>
           </div>

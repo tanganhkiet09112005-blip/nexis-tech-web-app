@@ -25,6 +25,7 @@ import {
   getWrappedIndex,
 } from './validation.ts';
 import { ConsultationStore } from '../server/consultationStore.ts';
+import { resolveAssetUrl } from './assetHelper.ts';
 import {
   NotificationDispatcher,
   ChannelProvider,
@@ -615,4 +616,11 @@ test('11. End-to-End Restart Simulation: dispatcher.processDueRetries recovers a
   assert.equal(zaloFinal.attemptCount, 0);
 
   store.close();
+});
+
+test('12. Asset resolution: normalizes relative and absolute preview paths for cross-platform hosting', () => {
+  assert.equal(resolveAssetUrl('./previews/dola-style.png'), './previews/dola-style.png');
+  assert.equal(resolveAssetUrl('/previews/jysk.png'), './previews/jysk.png');
+  assert.equal(resolveAssetUrl('https://example.com/logo.png'), 'https://example.com/logo.png');
+  assert.equal(resolveAssetUrl(''), '');
 });

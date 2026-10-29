@@ -277,7 +277,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
             {/* COLUMN 1 (5 cols): Brand Identity & Full Contact Info */}
             <div className="lg:col-span-5 space-y-5 text-left">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#111827] border border-[#087BFF]/45 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-[14px] bg-[#071638] border border-[#087BFF]/45 flex items-center justify-center shadow-xs">
                   <svg
                     viewBox="0 0 36 36"
                     className="w-6 h-6"
@@ -288,16 +288,17 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                     <path
                       d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
                       stroke="#16D9F3"
-                      strokeWidth="2"
+                      strokeWidth="2.2"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M12.5 24V12L23.5 24V12"
-                      stroke="#E8EDF5"
-                      strokeWidth="2.6"
+                      stroke="#FFFFFF"
+                      strokeWidth="2.8"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    <circle cx="23.5" cy="12" r="2" fill="#16D9F3" />
+                    <circle cx="23.5" cy="12" r="1.9" fill="#00D4FF" />
                   </svg>
                 </div>
                 <div>

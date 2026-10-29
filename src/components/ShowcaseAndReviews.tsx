@@ -28,6 +28,7 @@ import {
   KnowledgeArticle,
 } from '../config/brand.ts';
 import { getWrappedIndex } from '../utils/validation.ts';
+import { resolveAssetUrl } from '../utils/assetHelper.ts';
 
 interface ShowcaseAndReviewsProps {
   onSelectTemplateForQuote: (templateName: string) => void;
@@ -186,7 +187,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                 <div className="aspect-[16/10] rounded-xl overflow-hidden bg-slate-100 dark:bg-[#0B1120] border border-slate-200 dark:border-white/10">
                   {canShowImage(prevSite) ? (
                     <img
-                      src={prevSite.previewImage}
+                      src={resolveAssetUrl(prevSite.previewImage)}
                       alt={`Ảnh chụp trang chủ ${prevSite.name}`}
                       onError={() => markImageBroken(prevSite.id)}
                       className="w-full h-full object-cover object-top"
@@ -226,7 +227,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                 <div className="aspect-[16/10] rounded-xl overflow-hidden bg-slate-100 dark:bg-[#0B1120] border border-slate-200 dark:border-white/10">
                   {canShowImage(nextSite) ? (
                     <img
-                      src={nextSite.previewImage}
+                      src={resolveAssetUrl(nextSite.previewImage)}
                       alt={`Ảnh chụp trang chủ ${nextSite.name}`}
                       onError={() => markImageBroken(nextSite.id)}
                       className="w-full h-full object-cover object-top"
@@ -309,7 +310,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                         aria-label={`Mở ${currentSite.name} (${currentSite.domain})`}
                       >
                         <img
-                          src={currentSite.previewImage}
+                          src={resolveAssetUrl(currentSite.previewImage)}
                           alt={`Ảnh chụp giao diện trang chủ ${currentSite.name} (${currentSite.domain})`}
                           onError={() => markImageBroken(currentSite.id)}
                           className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.015]"
@@ -647,7 +648,7 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
                 {canShowImage(modalSite) ? (
                   <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-white/15 bg-slate-100 dark:bg-[#0B1120]">
                     <img
-                      src={modalSite.previewImage}
+                      src={resolveAssetUrl(modalSite.previewImage)}
                       alt={`Ảnh chụp giao diện thật của ${modalSite.name}`}
                       onError={() => markImageBroken(modalSite.id)}
                       className="w-full h-auto object-cover object-top"
