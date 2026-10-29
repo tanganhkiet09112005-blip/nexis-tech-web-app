@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
-import nexisLogoIcon from '../assets/images/nexis-logo-icon.png';
 import {
   validateQuoteForm,
   QuoteFormInput,
@@ -136,17 +135,17 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
          ===================================================================== */}
       <section
         id="faq"
-        className="py-16 sm:py-24 bg-[#040D2B] text-[#F4F8FF] border-b border-white/10"
+        className="py-16 sm:py-24 bg-white text-[#030B24]"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <span className="inline-block text-xs font-semibold text-[#16D9F3] bg-[#071638] border border-[#16D9F3]/30 px-3.5 py-1 rounded-full uppercase tracking-wider mb-2">
+            <span className="inline-block text-xs font-medium text-[#087BFF] bg-[#087BFF]/10 px-3 py-1 rounded-full mb-2">
               Giải đáp thắc mắc
             </span>
-            <h2 className="heading-section text-white">
-              Bạn hỏi – <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#16D9F3] to-[#087BFF]">Nexis Tech giải đáp</span>
+            <h2 className="heading-section text-[#030B24]">
+              Bạn hỏi – <span className="text-[#087BFF]">Nexis Tech trả lời</span>
             </h2>
-            <p className="body-copy text-[#B5C7DF] mt-2">
+            <p className="body-copy text-slate-600 mt-2">
               Bạn cần hiểu thêm về dịch vụ thiết kế và phát triển website của Nexis Tech? Tham khảo các câu trả lời dưới đây.
             </p>
           </div>
@@ -158,7 +157,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
               return (
                 <div
                   key={faq.id}
-                  className="rounded-2xl overflow-hidden border border-white/10 glass-panel transition-all duration-200"
+                  className="rounded-2xl overflow-hidden border border-slate-200/80 transition-colors duration-200"
                 >
                   <button
                     type="button"
@@ -209,7 +208,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
       {/* =====================================================================
           SECTION 14: BANNER KÊU GỌI HÀNH ĐỘNG CUỐI TRANG
          ===================================================================== */}
-      <section className="pt-4 pb-16 sm:pb-20 bg-[#030B24] px-4 sm:px-6 lg:px-8">
+      <section className="pt-4 pb-16 sm:pb-20 bg-gradient-to-b from-white via-[#F3F7FC] to-[#030B24] px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div
             className="relative rounded-3xl overflow-hidden px-6 py-12 sm:px-14 sm:py-16 text-center text-white shadow-[0_24px_60px_rgba(3,11,36,0.45)] border border-white/15"
@@ -269,12 +268,27 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({ onScrollToQuote }) =
             {/* COLUMN 1 (5 cols): Brand Identity & Unified 3-Item Contact Block */}
             <div className="lg:col-span-5 space-y-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#030B24] border border-[#087BFF]/45 flex items-center justify-center overflow-hidden shrink-0 shadow-[0_0_15px_rgba(22,217,243,0.25)]">
-                  <img
-                    src={nexisLogoIcon}
-                    alt="Nexis Tech Logo"
-                    className="w-full h-full object-contain p-1"
-                  />
+                <div className="w-10 h-10 rounded-xl bg-[#071638] border border-[#087BFF]/45 flex items-center justify-center">
+                  <svg
+                    viewBox="0 0 36 36"
+                    className="w-6 h-6"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
+                      stroke="#16D9F3"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M12.5 24V12L23.5 24V12"
+                      stroke="#F4F8FF"
+                      strokeWidth="2.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </div>
                 <div>
                   <div className="text-xl font-bold tracking-tight leading-none">
