@@ -303,10 +303,10 @@ export const NEXIS_BRAND = {
       id: 'zalo-1',
       label: 'Người tư vấn 1',
       role: 'Tư vấn giải pháp website',
-      url: '', // Chưa có URL Zalo hợp lệ - đang cập nhật
-      status: 'updating',
-      statusText: 'Đang cập nhật',
-      note: 'Liên kết Zalo chính thức đang được hoàn thiện',
+      url: 'https://www.image2url.com/vi/qr-to-url',
+      status: 'available',
+      statusText: 'Sẵn sàng kết nối',
+      note: 'Nhắn tin trực tiếp qua Zalo',
     },
     {
       id: 'zalo-2',

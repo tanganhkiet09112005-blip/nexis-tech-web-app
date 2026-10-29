@@ -216,7 +216,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
       {/* =====================================================================
           SECTION 14: BANNER KÊU GỌI HÀNH ĐỘNG CUỐI TRANG
          ===================================================================== */}
-      <section className="pt-8 pb-16 sm:pb-20 bg-gradient-to-b from-white dark:from-[#111827] via-[#F5F7FA] dark:via-[#0B1120] to-[#0B1120] px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <section className="pt-8 pb-16 sm:pb-20 bg-gradient-to-b from-white dark:from-[#111827] via-[#F5F7FA] dark:via-[#0B1120] to-[#F5F7FA] dark:to-[#0B1120] px-4 sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="max-w-6xl mx-auto">
           <div
             className="relative rounded-3xl overflow-hidden px-6 py-12 sm:px-14 sm:py-16 text-center text-white shadow-[0_24px_60px_rgba(0,0,0,0.35)] border border-white/15"
@@ -271,13 +271,13 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
       {/* =====================================================================
           SECTION 15: CHÂN TRANG (FOOTER 3 CỘT VỚI THÔNG TIN LIÊN HỆ ĐẦY ĐỦ)
          ===================================================================== */}
-      <footer className="bg-[#0B1120] text-[#E8EDF5] pt-12 pb-24 sm:pb-16 border-t border-slate-800 dark:border-white/10 next-circuit-bg">
+      <footer className="bg-[#F5F7FA] dark:bg-[#0B1120] text-slate-800 dark:text-[#E8EDF5] pt-12 pb-24 sm:pb-16 border-t border-slate-200 dark:border-white/10 next-circuit-bg transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-200 dark:border-white/10">
             {/* COLUMN 1 (5 cols): Brand Identity & Full Contact Info */}
             <div className="lg:col-span-5 space-y-5 text-left">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[14px] bg-[#071638] border border-[#087BFF]/45 flex items-center justify-center shadow-xs">
+                <div className="w-10 h-10 rounded-[14px] bg-white dark:bg-[#071638] border border-slate-200/90 dark:border-[#087BFF]/45 flex items-center justify-center shadow-xs transition-colors duration-200">
                   <svg
                     viewBox="0 0 36 36"
                     className="w-6 h-6"
@@ -287,13 +287,13 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                   >
                     <path
                       d="M18 3L31 10.5V25.5L18 33L5 25.5V10.5L18 3Z"
-                      stroke="#16D9F3"
+                      className="stroke-[#087BFF] dark:stroke-[#16D9F3] transition-colors"
                       strokeWidth="2.2"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M12.5 24V12L23.5 24V12"
-                      stroke="#FFFFFF"
+                      className="stroke-[#0B1120] dark:stroke-[#FFFFFF] transition-colors"
                       strokeWidth="2.8"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -303,85 +303,85 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                 </div>
                 <div>
                   <div className="text-xl font-bold tracking-tight leading-none">
-                    <span className="text-white">NEXIS</span>{' '}
-                    <span className="text-[#16D9F3]">TECH</span>
+                    <span className="text-slate-900 dark:text-white">NEXIS</span>{' '}
+                    <span className="text-[#087BFF] dark:text-[#16D9F3]">TECH</span>
                   </div>
-                  <span className="text-[11px] text-[#A5B2C7] block mt-1">
+                  <span className="text-[11px] text-slate-500 dark:text-[#A5B2C7] block mt-1">
                     {NEXIS_BRAND.tagline}
                   </span>
                 </div>
               </div>
 
-              <p className="text-sm text-[#A5B2C7] leading-relaxed max-w-md font-normal">
+              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed max-w-md font-normal">
                 {NEXIS_BRAND.subMessage} Nexis Tech đồng hành cùng doanh nghiệp xây dựng nền tảng website, ứng dụng web, thương mại điện tử và giải pháp tích hợp AI, Cloud hiện đại.
               </p>
 
               {/* Contact List */}
               <div className="space-y-3 pt-1">
-                <div className="text-xs font-semibold uppercase tracking-wider text-[#16D9F3]">
+                <div className="text-xs font-semibold uppercase tracking-wider text-[#087BFF] dark:text-[#16D9F3]">
                   Thông tin liên hệ chính thức
                 </div>
-                <ul className="space-y-2.5 text-sm text-[#A5B2C7]">
+                <ul className="space-y-2.5 text-sm text-slate-600 dark:text-[#A5B2C7]">
                   <li className="flex items-center gap-2.5">
-                    <Mail className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <Mail className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                     <span>
-                      <strong className="text-white font-medium">Email:</strong>{' '}
+                      <strong className="text-slate-900 dark:text-white font-medium">Email:</strong>{' '}
                       <a
                         href={NEXIS_BRAND.emailHref}
-                        className="text-[#E8EDF5] hover:text-[#16D9F3] transition-colors duration-200 break-all"
+                        className="text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors duration-200 break-all"
                       >
                         {NEXIS_BRAND.emailDisplay}
                       </a>
                     </span>
                   </li>
                   <li className="flex items-center gap-2.5">
-                    <Phone className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <Phone className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                     <span>
-                      <strong className="text-white font-medium">Điện thoại 1:</strong>{' '}
+                      <strong className="text-slate-900 dark:text-white font-medium">Điện thoại 1:</strong>{' '}
                       <a
                         href={NEXIS_BRAND.phone1Href}
-                        className="text-[#16D9F3] hover:underline font-semibold"
+                        className="text-[#087BFF] dark:text-[#16D9F3] hover:underline font-semibold"
                       >
                         {NEXIS_BRAND.phone1}
                       </a>
                     </span>
                   </li>
                   <li className="flex items-center gap-2.5">
-                    <Phone className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <Phone className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                     <span>
-                      <strong className="text-white font-medium">Điện thoại 2:</strong>{' '}
+                      <strong className="text-slate-900 dark:text-white font-medium">Điện thoại 2:</strong>{' '}
                       <a
                         href={NEXIS_BRAND.phone2Href}
-                        className="text-[#16D9F3] hover:underline font-semibold"
+                        className="text-[#087BFF] dark:text-[#16D9F3] hover:underline font-semibold"
                       >
                         {NEXIS_BRAND.phone2}
                       </a>
                     </span>
                   </li>
                   <li className="flex items-center gap-2.5">
-                    <MessageSquare className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <MessageSquare className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                     <span>
-                      <strong className="text-white font-medium">Zalo:</strong>{' '}
+                      <strong className="text-slate-900 dark:text-white font-medium">Zalo:</strong>{' '}
                       <button
                         type="button"
                         onClick={onOpenZaloModal}
-                        className="text-[#16D9F3] hover:underline font-medium cursor-pointer"
+                        className="text-[#087BFF] dark:text-[#16D9F3] hover:underline font-semibold cursor-pointer"
                       >
                         Chọn người tư vấn qua Zalo (2 người)
                       </button>
                     </span>
                   </li>
                   <li className="flex items-center gap-2.5">
-                    <svg className="w-4 h-4 fill-current text-[#16D9F3] shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg className="w-4 h-4 fill-current text-[#087BFF] dark:text-[#16D9F3] shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                     <span>
-                      <strong className="text-white font-medium">Facebook:</strong>{' '}
+                      <strong className="text-slate-900 dark:text-white font-medium">Facebook:</strong>{' '}
                       <a
                         href={NEXIS_BRAND.facebookUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#E8EDF5] hover:text-[#16D9F3] transition-colors duration-200 inline-flex items-center gap-1"
+                        className="text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors duration-200 inline-flex items-center gap-1"
                       >
                         <span>{NEXIS_BRAND.facebookDisplay}</span>
                         <ExternalLink className="w-3.5 h-3.5 opacity-60" />
@@ -389,10 +389,10 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                     </span>
                   </li>
                   <li className="flex items-center gap-2.5">
-                    <MapPin className="w-4 h-4 text-[#16D9F3] shrink-0" />
+                    <MapPin className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
                     <span>
-                      <strong className="text-white font-medium">Khu vực:</strong>{' '}
-                      <span className="text-[#E8EDF5]">{NEXIS_BRAND.locationDisplay}</span>
+                      <strong className="text-slate-900 dark:text-white font-medium">Khu vực:</strong>{' '}
+                      <span className="text-slate-700 dark:text-[#E8EDF5]">{NEXIS_BRAND.locationDisplay}</span>
                     </span>
                   </li>
                 </ul>
@@ -401,16 +401,16 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
 
             {/* COLUMN 2 (3 cols): Core Services & Quick Navigation */}
             <div className="lg:col-span-3 space-y-4 text-left">
-              <div className="text-xs font-semibold uppercase tracking-wider text-white">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                 Dịch vụ chính
               </div>
-              <ul className="space-y-2.5 text-sm text-[#A5B2C7]">
+              <ul className="space-y-2.5 text-sm text-slate-600 dark:text-[#A5B2C7]">
                 {NEXIS_BRAND.coreServices.map((srv) => (
                   <li key={srv.id}>
                     <button
                       type="button"
                       onClick={() => onScrollToQuote(srv.title)}
-                      className="text-left hover:text-[#16D9F3] transition-colors duration-200 cursor-pointer"
+                      className="text-left hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors duration-200 cursor-pointer"
                     >
                       {srv.shortTitle}
                     </button>
@@ -418,27 +418,27 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                 ))}
               </ul>
 
-              <div className="pt-3 border-t border-white/10">
-                <div className="text-xs font-semibold uppercase tracking-wider text-white mb-2">
+              <div className="pt-3 border-t border-slate-200 dark:border-white/10">
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white mb-2">
                   Điều hướng nhanh
                 </div>
-                <div className="grid grid-cols-2 gap-1.5 text-xs text-[#A5B2C7]">
-                  <a href="#gioi-thieu" className="hover:text-[#16D9F3]">
+                <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-600 dark:text-[#A5B2C7]">
+                  <a href="#gioi-thieu" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Giới thiệu
                   </a>
-                  <a href="#loi-ich" className="hover:text-[#16D9F3]">
+                  <a href="#loi-ich" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Lợi ích
                   </a>
-                  <a href="#tieu-chi" className="hover:text-[#16D9F3]">
+                  <a href="#tieu-chi" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Tiêu chí
                   </a>
-                  <a href="#tham-khao" className="hover:text-[#16D9F3]">
+                  <a href="#tham-khao" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Website tham khảo
                   </a>
-                  <a href="#kien-thuc" className="hover:text-[#16D9F3]">
+                  <a href="#kien-thuc" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Kiến thức
                   </a>
-                  <a href="#faq" className="hover:text-[#16D9F3]">
+                  <a href="#faq" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Giải đáp FAQ
                   </a>
                 </div>
@@ -447,10 +447,10 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
 
             {/* COLUMN 3 (4 cols): Quick Quote Mini-Form */}
             <div className="lg:col-span-4 space-y-3.5 text-left">
-              <div className="text-xs font-semibold uppercase tracking-wider text-white">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                 Đăng ký tư vấn nhanh
               </div>
-              <p className="text-xs text-[#A5B2C7]">
+              <p className="text-xs text-slate-600 dark:text-[#A5B2C7]">
                 Để lại thông tin để đội ngũ Nexis Tech liên hệ tư vấn hoặc gọi trực tiếp {NEXIS_BRAND.phone1} / {NEXIS_BRAND.phone2}.
               </p>
 
@@ -485,7 +485,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                         onChange={(e) => handleFooterChange('fullName', e.target.value)}
                         placeholder="Họ và tên *"
                         aria-label="Họ và tên"
-                        className="w-full px-3 py-2.5 rounded-xl bg-[#172033] border border-white/15 text-xs text-white placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                        className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
                       />
                       <input
                         type="tel"
@@ -495,7 +495,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                         onChange={(e) => handleFooterChange('phone', e.target.value)}
                         placeholder="Số điện thoại *"
                         aria-label="Số điện thoại"
-                        className="w-full px-3 py-2.5 rounded-xl bg-[#172033] border border-white/15 text-xs text-white placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                        className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
                       />
                     </div>
 
@@ -504,10 +504,10 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                       value={footerForm.serviceType}
                       onChange={(e) => handleFooterChange('serviceType', e.target.value)}
                       aria-label="Chọn dịch vụ"
-                      className="w-full px-3 py-2.5 rounded-xl bg-[#172033] border border-white/15 text-xs text-white focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70 cursor-pointer"
+                      className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 cursor-pointer shadow-xs transition-colors"
                     >
                       {NEXIS_BRAND.coreServices.map((s) => (
-                        <option key={s.id} value={s.shortTitle}>
+                        <option key={s.id} value={s.shortTitle} className="bg-white dark:bg-[#172033] text-slate-900 dark:text-white">
                           {s.shortTitle}
                         </option>
                       ))}
@@ -521,7 +521,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                       onChange={(e) => handleFooterChange('message', e.target.value)}
                       placeholder="Mô tả nhu cầu (tùy chọn)..."
                       aria-label="Mô tả nhu cầu"
-                      className="w-full px-3 py-2 rounded-xl bg-[#172033] border border-white/15 text-xs text-white placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#16D9F3] disabled:opacity-70"
+                      className="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
                     />
 
                     {(footerErrors.fullName || footerErrors.phone || footerErrors.message || footerSubmitError) && (
@@ -529,7 +529,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                         initial={{ opacity: 0, y: -2 }}
                         animate={{ opacity: 1, y: 0 }}
                         role="alert"
-                        className="text-[11px] text-amber-300 flex items-center gap-1.5"
+                        className="text-[11px] text-amber-600 dark:text-amber-300 flex items-center gap-1.5"
                       >
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                         <span>
@@ -545,7 +545,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                       <button
                         type="submit"
                         disabled={footerIsSubmitting}
-                        className="px-5 py-2.5 rounded-xl text-xs font-medium text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer inline-flex items-center gap-1.5"
+                        className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer inline-flex items-center gap-1.5 shadow-sm"
                       >
                         {footerIsSubmitting ? (
                           <>
@@ -559,14 +559,14 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                       <button
                         type="button"
                         onClick={onOpenPhoneModal}
-                        className="px-4 py-2.5 rounded-xl bg-[#172033] border border-white/15 hover:border-[#16D9F3] text-xs font-medium text-[#E8EDF5] inline-flex items-center gap-1.5 cursor-pointer"
+                        className="px-4 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-xs font-medium text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-white inline-flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
                       >
-                        <Phone className="w-3.5 h-3.5 text-[#16D9F3]" />
+                        <Phone className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3]" />
                         <span>Hotline</span>
                       </button>
                     </div>
 
-                    <p className="text-[11px] text-[#A5B2C7]/80">
+                    <p className="text-[11px] text-slate-500 dark:text-[#A5B2C7]/80">
                       Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
                     </p>
                   </motion.form>
@@ -575,9 +575,9 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                     key="footer-success"
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 rounded-xl bg-[#172033] border border-[#16D9F3]/40 space-y-2.5 text-xs"
+                    className="p-4 rounded-xl bg-emerald-50 dark:bg-[#172033] border border-emerald-300 dark:border-[#16D9F3]/40 space-y-2.5 text-xs"
                   >
-                    <div className="flex items-center justify-between text-[#16D9F3] font-semibold">
+                    <div className="flex items-center justify-between text-emerald-600 dark:text-[#16D9F3] font-semibold">
                       <span className="flex items-center gap-1.5">
                         <CheckCircle2 className="w-4 h-4" />
                         <span>Mã: {footerSubmitted.requestCode}</span>
@@ -585,15 +585,15 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                       <button
                         type="button"
                         onClick={handleResetFooterForm}
-                        className="underline text-[#A5B2C7] hover:text-white cursor-pointer"
+                        className="underline text-slate-600 dark:text-[#A5B2C7] hover:text-slate-900 dark:hover:text-white cursor-pointer"
                       >
                         Gửi yêu cầu mới
                       </button>
                     </div>
-                    <p className="text-white font-medium">
+                    <p className="text-slate-900 dark:text-white font-medium">
                       {footerSubmitted.message}
                     </p>
-                    <p className="text-[11px] text-[#A5B2C7]">
+                    <p className="text-[11px] text-slate-500 dark:text-[#A5B2C7]">
                       Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
                     </p>
                   </motion.div>
@@ -603,18 +603,18 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
           </div>
 
           {/* Bottom Copyright Bar */}
-          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#A5B2C7]">
+          <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-[#A5B2C7]">
             <p>© 2026 {NEXIS_BRAND.brandName} — {NEXIS_BRAND.tagline}</p>
             <div className="flex flex-wrap items-center gap-4">
-              <a href={NEXIS_BRAND.emailHref} className="hover:text-[#16D9F3]">
+              <a href={NEXIS_BRAND.emailHref} className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                 {NEXIS_BRAND.emailDisplay}
               </a>
               <span>·</span>
-              <a href={NEXIS_BRAND.phone1Href} className="hover:text-[#16D9F3]">
+              <a href={NEXIS_BRAND.phone1Href} className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                 {NEXIS_BRAND.phone1}
               </a>
               <span>·</span>
-              <a href={NEXIS_BRAND.phone2Href} className="hover:text-[#16D9F3]">
+              <a href={NEXIS_BRAND.phone2Href} className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                 {NEXIS_BRAND.phone2}
               </a>
               <span>·</span>
