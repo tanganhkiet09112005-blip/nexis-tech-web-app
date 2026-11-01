@@ -7,7 +7,15 @@
  */
 
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Search, ShoppingCart, ShieldCheck, Truck, Award } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  Cpu,
+  CheckCircle2,
+  Sparkles,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 import { getWrappedIndex } from '../utils/validation.ts';
@@ -75,114 +83,91 @@ export const IntroAndBenefits: React.FC = () => {
             </div>
           </div>
 
-          {/* 3-Device Showcase over Circular Blue/Cyan Arch */}
-          <div className="mt-14 sm:mt-20 relative max-w-4xl mx-auto flex items-center justify-center min-h-[300px] sm:min-h-[410px]">
-            {/* Large Right Circular Arch */}
-            <div
-              className="pointer-events-none absolute right-[4%] sm:right-[10%] top-1/2 -translate-y-1/2 w-60 h-60 sm:w-[390px] sm:h-[390px] rounded-full opacity-85"
-              style={{
-                background: 'linear-gradient(135deg, #16D9F3 0%, #087BFF 62%, #071638 100%)',
-              }}
-              aria-hidden="true"
-            />
-            {/* Smaller Left Bottom Circular Accent */}
-            <div
-              className="pointer-events-none absolute left-[6%] sm:left-[12%] bottom-0 w-36 h-36 sm:w-56 sm:h-56 rounded-full opacity-75"
-              style={{
-                background: 'linear-gradient(135deg, #087BFF 0%, #16D9F3 100%)',
-              }}
-              aria-hidden="true"
-            />
-
-            {/* CENTER TABLET / DESKTOP E-COMMERCE INTERFACE */}
-            <div className="relative z-10 w-full max-w-[590px] bg-[#0F172A] border-[3px] border-[#1E293B] rounded-2xl p-2 sm:p-3 shadow-[0_24px_60px_rgba(3,11,36,0.24)]">
-              <div className="bg-white rounded-xl overflow-hidden text-[#030B24]">
-                {/* Top Browser Header */}
-                <div className="px-4 py-2.5 bg-[#030B24] text-white flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
-                    <span className="ml-2 font-semibold text-[#16D9F3]">
-                      Nexis Boutique Store
-                    </span>
-                  </div>
-                  <div className="hidden sm:flex items-center gap-4 text-[11px] text-[#B5C7DF]">
-                    <span>Bộ sưu tập</span>
-                    <span>Sản phẩm</span>
-                    <span>Khuyến mãi</span>
-                  </div>
+          {/* 3 Vital Business Pillars (Bento Grid) - Replaces redundant second laptop */}
+          <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            {/* Pillar 1 */}
+            <div className="rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#111827] border border-slate-200/90 dark:border-white/10 shadow-sm hover:border-[#087BFF]/50 dark:hover:border-[#16D9F3]/50 transition-all duration-300 relative overflow-hidden group">
+              <div className="flex items-center justify-between mb-5">
+                <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#087BFF]/10 text-[#087BFF] dark:bg-[#16D9F3]/15 dark:text-[#16D9F3]">
+                  100% Mã Nguồn
+                </span>
+                <span className="text-2xl font-black text-slate-300 dark:text-white/15 font-mono">01</span>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-[#087BFF] dark:text-[#16D9F3] flex items-center justify-center mb-4">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                Sở hữu tài sản số vĩnh viễn
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed mb-4">
+                Bàn giao 100% mã nguồn và cơ sở dữ liệu. Doanh nghiệp toàn quyền lưu trữ độc lập trên Cloud riêng, không bị giữ dữ liệu và không phát sinh phí thuê nền tảng định kỳ hàng năm.
+              </p>
+              <div className="pt-3 border-t border-slate-100 dark:border-white/10 space-y-2 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Không phụ thuộc nền tảng đóng bên thứ ba</span>
                 </div>
-
-                {/* Inner Store Banner */}
-                <div
-                  className="p-4 sm:p-6 text-white text-left"
-                  style={{
-                    background:
-                      'linear-gradient(120deg, #030B24 0%, #071638 50%, #087BFF 100%)',
-                  }}
-                >
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-white/15 text-[#16D9F3]">
-                    Phiên bản 2026
-                  </span>
-                  <div className="text-base sm:text-lg font-bold mt-1">
-                    Trải nghiệm mua sắm mượt mà, tối ưu chuyển đổi
-                  </div>
-                  <p className="text-xs text-[#B5C7DF] mt-1 max-w-sm">
-                    Tốc độ tải trang dưới 1.5s, tương thích 100% điện thoại và máy tính bảng.
-                  </p>
-                </div>
-
-                {/* 3 Product Mockup Cards */}
-                <div className="p-3 sm:p-4 grid grid-cols-3 gap-2.5 bg-[#F3F7FC]">
-                  {[
-                    { title: 'Sofa Bắc Âu', price: '12.500.000đ', tag: 'Bán chạy' },
-                    { title: 'Bàn Trà Gỗ Sồi', price: '4.800.000đ', tag: 'Mới' },
-                    { title: 'Đèn Cây Tối Giản', price: '1.950.000đ', tag: 'Ưu đãi' },
-                  ].map((p, i) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-lg p-2 sm:p-2.5 border border-slate-200 text-left"
-                    >
-                      <div className="aspect-[4/3] rounded bg-slate-100 flex items-center justify-center mb-2">
-                        <ShoppingCart className="w-4 h-4 text-[#087BFF]" />
-                      </div>
-                      <span className="text-[9px] font-medium px-1.5 py-0.5 rounded bg-[#087BFF]/10 text-[#087BFF]">
-                        {p.tag}
-                      </span>
-                      <div className="text-[11px] font-semibold text-[#030B24] mt-1 truncate">
-                        {p.title}
-                      </div>
-                      <div className="text-[10px] font-bold text-[#087BFF]">
-                        {p.price}
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Toàn quyền mở rộng, nâng cấp theo lộ trình</span>
                 </div>
               </div>
             </div>
 
-            {/* LEFT OVERLAPPING SECONDARY TABLET FRAME */}
-            <div className="hidden md:block absolute left-2 lg:left-6 -bottom-4 z-20 w-64 bg-[#0F172A] border-[3px] border-[#334155] rounded-xl p-1.5 shadow-xl">
-              <div className="bg-white rounded-lg p-3 space-y-2 text-[#030B24]">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-semibold text-[#030B24]">Danh mục sản phẩm</span>
-                  <span className="text-[9px] text-[#087BFF] font-medium">Bộ lọc nhanh</span>
+            {/* Pillar 2 */}
+            <div className="rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#111827] border border-slate-200/90 dark:border-white/10 shadow-sm hover:border-[#087BFF]/50 dark:hover:border-[#16D9F3]/50 transition-all duration-300 relative overflow-hidden group">
+              <div className="flex items-center justify-between mb-5">
+                <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">
+                  &lt; 1.2s Tốc độ
+                </span>
+                <span className="text-2xl font-black text-slate-300 dark:text-white/15 font-mono">02</span>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                Tối ưu chốt đơn di động 1-chạm
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed mb-4">
+                Hơn 80% người mua hàng dùng điện thoại. Giao diện được tối ưu chuẩn Core Web Vitals của Google, luồng đặt hàng tinh gọn, tích hợp sẵn quét mã VietQR và ví điện tử MoMo / VNPay.
+              </p>
+              <div className="pt-3 border-t border-slate-100 dark:border-white/10 space-y-2 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Tải trang siêu tốc dưới 1.2s, giữ chân khách</span>
                 </div>
-                <div className="rounded-md bg-gradient-to-r from-[#030B24] to-[#087BFF] p-2.5 text-white">
-                  <div className="text-[9px] text-[#16D9F3]">Giao diện đa thiết bị</div>
-                  <div className="text-[11px] font-semibold">Tương thích mọi màn hình</div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Thanh toán VietQR tự động, giảm rớt đơn</span>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT OVERLAPPING MOBILE FRAME */}
-            <div className="hidden md:block absolute right-4 lg:right-10 -bottom-4 z-20 w-48 bg-[#0F172A] border-[3px] border-[#334155] rounded-xl p-1.5 shadow-xl">
-              <div className="bg-white rounded-lg p-2.5 space-y-1.5 text-[#030B24]">
-                <div className="text-[9px] font-semibold text-[#087BFF]">Thanh toán di động</div>
-                <div className="rounded bg-[#030B24] text-white p-2">
-                  <div className="text-[9px] text-[#16D9F3]">Quy trình tinh gọn</div>
-                  <div className="text-[10px] font-semibold">Đặt hàng nhanh chóng</div>
+            {/* Pillar 3 */}
+            <div className="rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#111827] border border-slate-200/90 dark:border-white/10 shadow-sm hover:border-[#087BFF]/50 dark:hover:border-[#16D9F3]/50 transition-all duration-300 relative overflow-hidden group">
+              <div className="flex items-center justify-between mb-5">
+                <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-[#16D9F3]">
+                  API & AI Ready
+                </span>
+                <span className="text-2xl font-black text-slate-300 dark:text-white/15 font-mono">03</span>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-[#087BFF] dark:text-[#16D9F3] flex items-center justify-center mb-4">
+                <Cpu className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                Sẵn sàng tích hợp IoT & AI Agent
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed mb-4">
+                Kiến trúc module tách lớp (Clean Architecture). Dễ dàng kết nối thêm Chatbot AI CSKH tự động, phần mềm kho/POS hoặc Dashboard giám sát cảm biến IoT theo nhu cầu kinh doanh.
+              </p>
+              <div className="pt-3 border-t border-slate-100 dark:border-white/10 space-y-2 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Mở rộng tính năng linh hoạt, không đập đi làm lại</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <span>Bảo mật dữ liệu cấp doanh nghiệp (WAF & SSL)</span>
                 </div>
               </div>
             </div>

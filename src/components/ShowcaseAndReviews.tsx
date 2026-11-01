@@ -20,6 +20,15 @@ import {
   Sparkles,
   Globe,
   ImageOff,
+  ShieldCheck,
+  Clock,
+  Gauge,
+  Activity,
+  ArrowRight,
+  ShoppingBag,
+  Building2,
+  Cpu,
+  Phone,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -32,10 +41,12 @@ import { resolveAssetUrl } from '../utils/assetHelper.ts';
 
 interface ShowcaseAndReviewsProps {
   onSelectTemplateForQuote: (templateName: string) => void;
+  onOpenPhoneModal?: () => void;
 }
 
 export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
   onSelectTemplateForQuote,
+  onOpenPhoneModal,
 }) => {
   const allWebsites = NEXIS_BRAND.referenceWebsites;
   const categories = ['Tất cả', ...Array.from(new Set(allWebsites.map((w) => w.category)))];
@@ -447,60 +458,231 @@ export const ShowcaseAndReviews: React.FC<ShowcaseAndReviewsProps> = ({
       </section>
 
       {/* =====================================================================
-          SECTION 09: PHẢN HỒI KHÁCH HÀNG (Laptop Mockup with Honest Status)
+          SECTION 09: CAM KẾT CHẤT LƯỢNG VẬN HÀNH (SLA) & BÀI TOÁN THỰC TẾ
          ===================================================================== */}
       <section
         id="danh-gia"
         className="py-16 sm:py-24 bg-white dark:bg-[#111827] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 transition-colors duration-200"
       >
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block text-xs font-medium text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3 py-1 rounded-full mb-3">
-            Thông tin xác thực
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <span className="inline-block text-xs font-semibold uppercase tracking-wider text-[#087BFF] dark:text-[#16D9F3] bg-[#087BFF]/10 dark:bg-[#087BFF]/20 px-3.5 py-1 rounded-full mb-3">
+            Cam kết chất lượng & Minh chứng thực tế
           </span>
-          <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5] mb-10 sm:mb-12">
-            Đánh giá từ khách hàng
+          <h2 className="heading-section text-slate-900 dark:text-[#E8EDF5] mb-4">
+            Chỉ số cam kết vận hành (SLA) & Bài toán đã giải quyết
           </h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-[#A5B2C7] max-w-2xl mx-auto mb-12">
+            Thay vì những đánh giá chung chung, Nexis Tech khẳng định uy tín bằng các chỉ số cam kết kỹ thuật (SLA) đo lường được và năng lực giải quyết bài toán cốt lõi cho từng mô hình kinh doanh.
+          </p>
 
-          {/* Centered Laptop Mockup Frame */}
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-[#1E293B] border-[4px] border-[#334155] rounded-t-2xl p-3 sm:p-4 shadow-[0_20px_50px_rgba(3,11,36,0.14)]">
-              {/* Screen Content */}
-              <div className="rounded-xl bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#087BFF] text-white p-8 sm:p-12 relative overflow-hidden">
-                <Quote
-                  className="w-14 h-14 sm:w-20 sm:h-20 text-[#16D9F3]/20 absolute top-4 left-6 pointer-events-none"
-                  aria-hidden="true"
-                />
+          {/* PART 1: 4 SLA METRICS DASHBOARD */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-14 text-left">
+            {/* Metric 1 */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 shadow-xs hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-[#087BFF] dark:text-[#16D9F3] flex items-center justify-center mb-3">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                100%
+              </div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-[#E8EDF5] mt-1">
+                Sở hữu tài sản số
+              </div>
+              <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                Bàn giao trọn vẹn Source Code & Database, toàn quyền kiểm soát Cloud, không phí ẩn.
+              </p>
+            </div>
 
-                <div className="relative z-10 max-w-xl mx-auto space-y-4">
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-medium text-[#16D9F3]">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Phản hồi khách hàng đang được cập nhật</span>
-                  </span>
+            {/* Metric 2 */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 shadow-xs hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3">
+                <Clock className="w-5 h-5" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                &lt; 30p
+              </div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-[#E8EDF5] mt-1">
+                Phản hồi kỹ thuật 24/7
+              </div>
+              <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                Đội ngũ kỹ sư túc trực tiếp nhận yêu cầu và xử lý sự cố khẩn cấp, không để khách chờ lâu.
+              </p>
+            </div>
 
-                  <p className="body-copy text-[#E8EDF5]">
-                    Nexis Tech tôn trọng tính xác thực trong mọi thông tin công bố. Khu vực phản hồi và đánh giá thực tế từ khách hàng đang trong quá trình tổng hợp và chỉ hiển thị sau khi có sự đồng ý chính thức từ doanh nghiệp đối tác.
-                  </p>
+            {/* Metric 3 */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 shadow-xs hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
+                <Gauge className="w-5 h-5" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                &lt; 1.2s
+              </div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-[#E8EDF5] mt-1">
+                Tốc độ tải trang chuẩn Google
+              </div>
+              <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                Đạt chuẩn Core Web Vitals, giữ chân khách mua hàng và hỗ trợ tối ưu thứ hạng SEO.
+              </p>
+            </div>
 
-                  <p className="text-sm text-[#A5B2C7]">
-                    Bạn có thể liên hệ trực tiếp qua số {NEXIS_BRAND.phone1} / {NEXIS_BRAND.phone2} hoặc email {NEXIS_BRAND.emailDisplay} để trao đổi cùng đội ngũ kỹ thuật của chúng tôi.
-                  </p>
+            {/* Metric 4 */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 shadow-xs hover:border-[#087BFF]/40 dark:hover:border-[#16D9F3]/40 transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-[#16D9F3] flex items-center justify-center mb-3">
+                <Activity className="w-5 h-5" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
+                99.9%
+              </div>
+              <div className="text-sm font-semibold text-slate-900 dark:text-[#E8EDF5] mt-1">
+                Độ sẵn sàng hệ thống
+              </div>
+              <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                Vận hành ổn định trên hạ tầng Cloud hiện đại, sẵn sàng chịu tải khi chạy chiến dịch lớn.
+              </p>
+            </div>
+          </div>
 
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={() => onSelectTemplateForQuote('Tư vấn giải pháp website')}
-                      className="px-6 py-2.5 rounded-xl bg-white text-[#030B24] hover:bg-[#16D9F3] text-sm font-medium transition-colors duration-200 cursor-pointer"
-                    >
-                      Liên hệ trao đổi trực tiếp
-                    </button>
+          {/* PART 2: 3 REAL BUSINESS CASE STUDIES */}
+          <div className="text-left mb-12">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-[#A5B2C7] mb-2 text-center">
+              Các bài toán doanh nghiệp thường gặp & Giải pháp Nexis Tech đã giải quyết
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              {/* Case 1: E-commerce */}
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 flex flex-col justify-between shadow-xs">
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-blue-500/10 text-[#087BFF] dark:text-[#16D9F3] flex items-center gap-1.5">
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <span>Bán lẻ & E-commerce</span>
+                    </span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono">
+                      +35% Hoàn tất đơn
+                    </span>
                   </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Bài toán rớt đơn vì thủ tục thanh toán rườm rà
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                      <strong>Thực trạng:</strong> Khách lướt web trên điện thoại nhiều nhưng hay bỏ giỏ hàng vì phải nhập quá nhiều thông tin và chuyển khoản thủ công.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-white/5 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                    <strong className="text-[#087BFF] dark:text-[#16D9F3] block mb-1">Giải pháp của Nexis Tech:</strong>
+                    Tái thiết kế luồng mua hàng 1-chạm, tự động sinh mã VietQR theo từng đơn và khớp trạng thái đơn hàng tức thì.
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-white/10 text-xs text-slate-500 dark:text-[#A5B2C7] flex items-center justify-between">
+                  <span>Thời gian hoàn tất đơn:</span>
+                  <strong className="text-slate-900 dark:text-white">Dưới 15 giây</strong>
+                </div>
+              </div>
+
+              {/* Case 2: B2B Services */}
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 flex flex-col justify-between shadow-xs">
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                      <Building2 className="w-3.5 h-3.5" />
+                      <span>Doanh nghiệp B2B</span>
+                    </span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono">
+                      +40% Đăng ký tư vấn
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Bài toán website không tạo được niềm tin để chốt hợp đồng
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                      <strong>Thực trạng:</strong> Website cũ thiết kế lỗi thời, dàn trải nhiều chữ, không làm nổi bật năng lực cốt lõi khiến đối tác nghi ngờ quy mô.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-white/5 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                    <strong className="text-indigo-600 dark:text-indigo-400 block mb-1">Giải pháp của Nexis Tech:</strong>
+                    Xây dựng nhận diện thương hiệu công nghệ cao, bố cục hồ sơ năng lực sắc nét, điểm chạm Hotline/Zalo phản hồi tức thì.
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-white/10 text-xs text-slate-500 dark:text-[#A5B2C7] flex items-center justify-between">
+                  <span>Tỷ lệ điền form hợp lệ:</span>
+                  <strong className="text-slate-900 dark:text-white">&gt; 92% Khách thật</strong>
+                </div>
+              </div>
+
+              {/* Case 3: Tech, IoT & Game */}
+              <div className="p-6 rounded-2xl bg-[#F8FAFC] dark:bg-[#172033] border border-slate-200 dark:border-white/10 flex flex-col justify-between shadow-xs">
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-[#16D9F3] flex items-center gap-1.5">
+                      <Cpu className="w-3.5 h-3.5" />
+                      <span>IoT & Nền tảng Game</span>
+                    </span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold font-mono">
+                      Độ trễ &lt; 50ms
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Bài toán giám sát dữ liệu cảm biến & tương tác thời gian thực
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-[#A5B2C7] mt-1 leading-relaxed">
+                      <strong>Thực trạng:</strong> Các nền tảng CMS thông thường không thể xử lý luồng dữ liệu thiết bị liên tục và thường xuyên bị treo máy.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#111827] border border-slate-200/80 dark:border-white/5 text-xs text-slate-700 dark:text-[#E8EDF5]">
+                    <strong className="text-[#087BFF] dark:text-[#16D9F3] block mb-1">Giải pháp của Nexis Tech:</strong>
+                    Thiết lập kiến trúc WebSocket hai chiều, cơ chế phân quyền bảo mật nhiều lớp và Dashboard trực quan hóa tham số mượt mà.
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-white/10 text-xs text-slate-500 dark:text-[#A5B2C7] flex items-center justify-between">
+                  <span>Thời gian cập nhật cảm biến:</span>
+                  <strong className="text-slate-900 dark:text-white">Realtime &lt; 1s</strong>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Laptop Metallic Base Deck */}
-            <div className="h-3.5 sm:h-4 bg-gradient-to-b from-slate-400 to-slate-600 rounded-b-2xl mx-[-12px] sm:mx-[-24px] shadow-md flex items-center justify-center">
-              <div className="w-16 h-1 rounded-full bg-slate-700" />
+          {/* PART 3: ACTION CALLOUT BAR */}
+          <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0B1120] via-[#111827] to-[#087BFF] text-white flex flex-col sm:flex-row items-center justify-between gap-6 text-left shadow-lg">
+            <div className="space-y-1.5 max-w-xl">
+              <div className="text-base sm:text-lg font-bold">
+                Bạn có bài toán kinh doanh cụ thể cần giải quyết?
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Mọi thông số kỹ thuật, lộ trình bàn giao và chính sách bảo hành đều được ghi rõ minh bạch trong phụ lục hợp đồng cam kết chất lượng của Nexis Tech.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 shrink-0 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => onSelectTemplateForQuote('Tư vấn giải pháp website theo bài toán doanh nghiệp')}
+                className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#16D9F3] hover:bg-white text-[#030B24] font-semibold text-xs inline-flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer"
+              >
+                <span>Nhận phân tích & Báo giá</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              {onOpenPhoneModal && (
+                <button
+                  type="button"
+                  onClick={onOpenPhoneModal}
+                  className="w-full sm:w-auto px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium text-xs inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Phone className="w-4 h-4 text-[#16D9F3]" />
+                  <span>Hotline</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

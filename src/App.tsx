@@ -60,7 +60,10 @@ function AppContent() {
         <CriteriaAndReasons onNavigateToQuote={scrollToQuote} />
 
         {/* 08. Kho giao diện mẫu, 09. Đánh giá khách hàng & 10. Bài viết kiến thức */}
-        <ShowcaseAndReviews onSelectTemplateForQuote={(templateName: string) => scrollToQuote(templateName)} />
+        <ShowcaseAndReviews
+          onSelectTemplateForQuote={(templateName: string) => scrollToQuote(templateName)}
+          onOpenPhoneModal={() => setIsPhoneModalOpen(true)}
+        />
 
         {/* 11. Giải pháp theo lĩnh vực & 12. Khu vực đăng ký tư vấn / nhận báo giá */}
         <SolutionsAndQuote
