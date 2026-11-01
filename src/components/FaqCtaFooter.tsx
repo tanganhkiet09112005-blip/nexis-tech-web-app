@@ -16,24 +16,16 @@ import {
   Mail,
   MapPin,
   ArrowUp,
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
   ExternalLink,
   MessageSquare,
+  ShieldCheck,
+  Clock,
+  Code2,
+  CheckCircle2,
+  ArrowRight,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
-import {
-  validateQuoteForm,
-  QuoteFormInput,
-  FIELD_LIMITS,
-} from '../utils/validation.ts';
-import {
-  generateIdempotencyKey,
-  submitConsultationRequest,
-  ConsultationSubmitResponse,
-} from '../utils/consultationApi.ts';
 
 interface FaqCtaFooterProps {
   onScrollToQuote: (serviceName?: string) => void;
@@ -48,92 +40,10 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
 }) => {
   const [openFaqIds, setOpenFaqIds] = useState<string[]>(['faq-1']);
 
-  // Footer mini-form state
-  const [footerForm, setFooterForm] = useState<QuoteFormInput>({
-    fullName: '',
-    phone: '',
-    serviceType: NEXIS_BRAND.coreServices[0].shortTitle,
-    message: '',
-    websiteUrl: '',
-  });
-  const [footerIdempotencyKey, setFooterIdempotencyKey] = useState<string>(() =>
-    generateIdempotencyKey()
-  );
-  const [footerIsSubmitting, setFooterIsSubmitting] = useState(false);
-  const [footerErrors, setFooterErrors] = useState<
-    Partial<Record<keyof QuoteFormInput, string>>
-  >({});
-  const [footerSubmitError, setFooterSubmitError] = useState<string | null>(null);
-  const [footerSubmitted, setFooterSubmitted] =
-    useState<ConsultationSubmitResponse | null>(null);
-
   const toggleFaq = (id: string) => {
     setOpenFaqIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
-  };
-
-  const handleFooterChange = (field: keyof QuoteFormInput, val: string) => {
-    setFooterForm((prev) => ({ ...prev, [field]: val }));
-    if (footerErrors[field]) {
-      setFooterErrors((prev) => {
-        const next = { ...prev };
-        delete next[field];
-        return next;
-      });
-    }
-    if (footerSubmitError) {
-      setFooterSubmitError(null);
-    }
-  };
-
-  const handleFooterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (footerIsSubmitting) return;
-
-    setFooterSubmitError(null);
-    const res = validateQuoteForm(footerForm);
-    if (!res.isValid) {
-      setFooterErrors(res.errors);
-      return;
-    }
-
-    setFooterErrors({});
-    setFooterIsSubmitting(true);
-
-    const submitRes = await submitConsultationRequest(
-      {
-        ...footerForm,
-        sourcePage: 'Biểu mẫu tư vấn nhanh cuối trang (Footer)',
-      },
-      footerIdempotencyKey
-    );
-
-    setFooterIsSubmitting(false);
-
-    if (!submitRes.ok) {
-      if (submitRes.errors) {
-        setFooterErrors(submitRes.errors);
-      }
-      setFooterSubmitError(submitRes.message);
-      return;
-    }
-
-    setFooterSubmitted(submitRes);
-  };
-
-  const handleResetFooterForm = () => {
-    setFooterSubmitted(null);
-    setFooterSubmitError(null);
-    setFooterErrors({});
-    setFooterIdempotencyKey(generateIdempotencyKey());
-    setFooterForm({
-      fullName: '',
-      phone: '',
-      serviceType: NEXIS_BRAND.coreServices[0].shortTitle,
-      message: '',
-      websiteUrl: '',
-    });
   };
 
   return (
@@ -269,13 +179,13 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
       </section>
 
       {/* =====================================================================
-          SECTION 15: CHÂN TRANG (FOOTER 3 CỘT VỚI THÔNG TIN LIÊN HỆ ĐẦY ĐỦ)
+          SECTION 15: CHÂN TRANG (FOOTER 4 CỘT CHUYÊN NGHIỆP & CÂN ĐỐI)
          ===================================================================== */}
       <footer className="bg-[#F5F7FA] dark:bg-[#0B1120] text-slate-800 dark:text-[#E8EDF5] pt-12 pb-24 sm:pb-16 border-t border-slate-200 dark:border-white/10 next-circuit-bg transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-200 dark:border-white/10">
-            {/* COLUMN 1 (5 cols): Brand Identity & Full Contact Info */}
-            <div className="lg:col-span-5 space-y-5 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-slate-200 dark:border-white/10">
+            {/* COLUMN 1 (4 cols): Brand Identity & Full Contact Info */}
+            <div className="lg:col-span-4 space-y-5 text-left">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-[14px] bg-white dark:bg-[#071638] border border-slate-200/90 dark:border-[#087BFF]/45 flex items-center justify-center shadow-xs transition-colors duration-200">
                   <svg
@@ -312,8 +222,8 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                 </div>
               </div>
 
-              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed max-w-md font-normal">
-                {NEXIS_BRAND.subMessage} Nexis Tech đồng hành cùng doanh nghiệp xây dựng nền tảng website, ứng dụng web, thương mại điện tử và giải pháp tích hợp AI, Cloud hiện đại.
+              <p className="text-sm text-slate-600 dark:text-[#A5B2C7] leading-relaxed max-w-sm font-normal">
+                {NEXIS_BRAND.subMessage} Nexis Tech đồng hành cùng doanh nghiệp xây dựng nền tảng website, IoT & AI Agent, Game và các giải pháp số hóa hiện đại.
               </p>
 
               {/* Contact List */}
@@ -399,7 +309,7 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
               </div>
             </div>
 
-            {/* COLUMN 2 (3 cols): Core Services & Quick Navigation */}
+            {/* COLUMN 2 (3 cols): Core Services */}
             <div className="lg:col-span-3 space-y-4 text-left">
               <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                 Dịch vụ chính
@@ -410,195 +320,99 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
                     <button
                       type="button"
                       onClick={() => onScrollToQuote(srv.title)}
-                      className="text-left hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors duration-200 cursor-pointer"
+                      className="text-left hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors duration-200 cursor-pointer flex items-center justify-between w-full group"
                     >
-                      {srv.shortTitle}
+                      <span>{srv.shortTitle}</span>
+                      <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[#087BFF] dark:text-[#16D9F3]" />
                     </button>
                   </li>
                 ))}
               </ul>
+            </div>
 
-              <div className="pt-3 border-t border-slate-200 dark:border-white/10">
-                <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white mb-2">
-                  Điều hướng nhanh
-                </div>
-                <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-600 dark:text-[#A5B2C7]">
+            {/* COLUMN 3 (2 cols): Quick Navigation */}
+            <div className="lg:col-span-2 space-y-4 text-left">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
+                Điều hướng nhanh
+              </div>
+              <ul className="space-y-2.5 text-sm text-slate-600 dark:text-[#A5B2C7]">
+                <li>
                   <a href="#gioi-thieu" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Giới thiệu
                   </a>
+                </li>
+                <li>
                   <a href="#loi-ich" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
-                    Lợi ích
+                    Lợi ích cốt lõi
                   </a>
+                </li>
+                <li>
                   <a href="#tieu-chi" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
-                    Tiêu chí
+                    Tiêu chuẩn thiết kế
                   </a>
+                </li>
+                <li>
                   <a href="#tham-khao" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
                     Website tham khảo
                   </a>
+                </li>
+                <li>
                   <a href="#kien-thuc" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
-                    Kiến thức
+                    Kiến thức & Công nghệ
                   </a>
+                </li>
+                <li>
                   <a href="#faq" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
-                    Giải đáp FAQ
+                    Giải đáp thắc mắc
                   </a>
-                </div>
-              </div>
+                </li>
+                <li>
+                  <a href="#bao-gia" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] font-medium transition-colors">
+                    Nhận tư vấn & Báo giá
+                  </a>
+                </li>
+              </ul>
             </div>
 
-            {/* COLUMN 3 (4 cols): Quick Quote Mini-Form */}
-            <div className="lg:col-span-4 space-y-3.5 text-left">
+            {/* COLUMN 4 (3 cols): Cam kết & Vận hành */}
+            <div className="lg:col-span-3 space-y-4 text-left">
               <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-                Đăng ký tư vấn nhanh
+                Cam kết & Đồng hành
               </div>
-              <p className="text-xs text-slate-600 dark:text-[#A5B2C7]">
-                Để lại thông tin để đội ngũ Nexis Tech liên hệ tư vấn hoặc gọi trực tiếp {NEXIS_BRAND.phone1} / {NEXIS_BRAND.phone2}.
-              </p>
+              <div className="space-y-3">
+                <div className="p-3 rounded-xl bg-white dark:bg-[#172033] border border-slate-200/80 dark:border-white/10 flex items-start gap-2.5 shadow-2xs">
+                  <ShieldCheck className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0 mt-0.5" />
+                  <div className="text-xs">
+                    <p className="font-semibold text-slate-900 dark:text-white">Bàn giao 100% mã nguồn</p>
+                    <p className="text-slate-500 dark:text-[#A5B2C7] text-[11px] mt-0.5">Doanh nghiệp toàn quyền sở hữu, không phụ thuộc nền tảng đóng.</p>
+                  </div>
+                </div>
 
-              <AnimatePresence mode="wait">
-                {!footerSubmitted ? (
-                  <motion.form
-                    key="footer-form"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onSubmit={handleFooterSubmit}
-                    noValidate
-                    className="space-y-2.5"
-                  >
-                    <div className="hidden" aria-hidden="true">
-                      <input
-                        type="text"
-                        tabIndex={-1}
-                        autoComplete="off"
-                        value={footerForm.websiteUrl || ''}
-                        onChange={(e) => handleFooterChange('websiteUrl', e.target.value)}
-                      />
-                    </div>
+                <div className="p-3 rounded-xl bg-white dark:bg-[#172033] border border-slate-200/80 dark:border-white/10 flex items-start gap-2.5 shadow-2xs">
+                  <Clock className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0 mt-0.5" />
+                  <div className="text-xs">
+                    <p className="font-semibold text-slate-900 dark:text-white">Phản hồi trong 15-30 phút</p>
+                    <p className="text-slate-500 dark:text-[#A5B2C7] text-[11px] mt-0.5">Tiếp nhận yêu cầu và tư vấn giải pháp kỹ thuật nhanh chóng.</p>
+                  </div>
+                </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      <input
-                        type="text"
-                        maxLength={FIELD_LIMITS.FULL_NAME_MAX}
-                        disabled={footerIsSubmitting}
-                        value={footerForm.fullName}
-                        onChange={(e) => handleFooterChange('fullName', e.target.value)}
-                        placeholder="Họ và tên *"
-                        aria-label="Họ và tên"
-                        className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
-                      />
-                      <input
-                        type="tel"
-                        maxLength={FIELD_LIMITS.PHONE_MAX}
-                        disabled={footerIsSubmitting}
-                        value={footerForm.phone}
-                        onChange={(e) => handleFooterChange('phone', e.target.value)}
-                        placeholder="Số điện thoại *"
-                        aria-label="Số điện thoại"
-                        className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
-                      />
-                    </div>
+                <div className="p-3 rounded-xl bg-white dark:bg-[#172033] border border-slate-200/80 dark:border-white/10 flex items-start gap-2.5 shadow-2xs">
+                  <Code2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0 mt-0.5" />
+                  <div className="text-xs">
+                    <p className="font-semibold text-slate-900 dark:text-white">Bảo mật & Chuẩn SEO Google</p>
+                    <p className="text-slate-500 dark:text-[#A5B2C7] text-[11px] mt-0.5">Chứng chỉ SSL, tối ưu Core Web Vitals và mã hóa dữ liệu an toàn.</p>
+                  </div>
+                </div>
 
-                    <select
-                      disabled={footerIsSubmitting}
-                      value={footerForm.serviceType}
-                      onChange={(e) => handleFooterChange('serviceType', e.target.value)}
-                      aria-label="Chọn dịch vụ"
-                      className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 cursor-pointer shadow-xs transition-colors"
-                    >
-                      {NEXIS_BRAND.coreServices.map((s) => (
-                        <option key={s.id} value={s.shortTitle} className="bg-white dark:bg-[#172033] text-slate-900 dark:text-white">
-                          {s.shortTitle}
-                        </option>
-                      ))}
-                    </select>
-
-                    <textarea
-                      rows={2}
-                      maxLength={FIELD_LIMITS.MESSAGE_MAX}
-                      disabled={footerIsSubmitting}
-                      value={footerForm.message}
-                      onChange={(e) => handleFooterChange('message', e.target.value)}
-                      placeholder="Mô tả nhu cầu (tùy chọn)..."
-                      aria-label="Mô tả nhu cầu"
-                      className="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#A5B2C7]/60 focus:outline-1 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] disabled:opacity-70 shadow-xs transition-colors"
-                    />
-
-                    {(footerErrors.fullName || footerErrors.phone || footerErrors.message || footerSubmitError) && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -2 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        role="alert"
-                        className="text-[11px] text-amber-600 dark:text-amber-300 flex items-center gap-1.5"
-                      >
-                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>
-                          {footerErrors.fullName ||
-                            footerErrors.phone ||
-                            footerErrors.message ||
-                            footerSubmitError}
-                        </span>
-                      </motion.div>
-                    )}
-
-                    <div className="pt-1 flex items-center gap-2.5">
-                      <button
-                        type="submit"
-                        disabled={footerIsSubmitting}
-                        className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white next-glow-pill disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer inline-flex items-center gap-1.5 shadow-sm"
-                      >
-                        {footerIsSubmitting ? (
-                          <>
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            <span>Đang gửi…</span>
-                          </>
-                        ) : (
-                          <span>Gửi yêu cầu tư vấn</span>
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={onOpenPhoneModal}
-                        className="px-4 py-2.5 rounded-xl bg-white dark:bg-[#172033] border border-slate-300 dark:border-white/15 hover:border-[#087BFF] dark:hover:border-[#16D9F3] text-xs font-medium text-slate-700 dark:text-[#E8EDF5] hover:text-[#087BFF] dark:hover:text-white inline-flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
-                      >
-                        <Phone className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3]" />
-                        <span>Hotline</span>
-                      </button>
-                    </div>
-
-                    <p className="text-[11px] text-slate-500 dark:text-[#A5B2C7]/80">
-                      Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
-                    </p>
-                  </motion.form>
-                ) : (
-                  <motion.div
-                    key="footer-success"
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 rounded-xl bg-emerald-50 dark:bg-[#172033] border border-emerald-300 dark:border-[#16D9F3]/40 space-y-2.5 text-xs"
-                  >
-                    <div className="flex items-center justify-between text-emerald-600 dark:text-[#16D9F3] font-semibold">
-                      <span className="flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Mã: {footerSubmitted.requestCode}</span>
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleResetFooterForm}
-                        className="underline text-slate-600 dark:text-[#A5B2C7] hover:text-slate-900 dark:hover:text-white cursor-pointer"
-                      >
-                        Gửi yêu cầu mới
-                      </button>
-                    </div>
-                    <p className="text-slate-900 dark:text-white font-medium">
-                      {footerSubmitted.message}
-                    </p>
-                    <p className="text-[11px] text-slate-500 dark:text-[#A5B2C7]">
-                      Thông tin của bạn được dùng để liên hệ tư vấn theo yêu cầu.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <button
+                  type="button"
+                  onClick={() => onScrollToQuote()}
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-semibold text-white next-glow-pill inline-flex items-center justify-center gap-1.5 shadow-sm cursor-pointer hover:brightness-105 transition-all mt-1"
+                >
+                  <span>Đi tới Biểu mẫu Báo giá</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
 

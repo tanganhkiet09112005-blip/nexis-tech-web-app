@@ -50,7 +50,7 @@ export const FIELD_LIMITS = {
   SOURCE_PAGE_MAX: 300,
 } as const;
 
-export const NEXIS_NOTIFICATION_RECIPIENT_EMAIL = 'nexistech.work@gmail.com';
+export const NEXIS_NOTIFICATION_RECIPIENT_EMAIL = 'nexistech.team@gmail.com';
 
 /**
  * Collapses multiple spaces/tabs into single spaces and trims outer whitespace.

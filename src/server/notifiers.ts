@@ -67,7 +67,7 @@ function isPlaceholder(val: string | undefined): boolean {
 
 /**
  * Server-side Email Provider supporting Gmail/SMTP (Nodemailer) or Resend HTTP API.
- * Always sends to fixed recipient: nexistech.work@gmail.com
+ * Always sends to fixed recipient: nexistech.team@gmail.com
  */
 export class ServerEmailProvider implements ChannelProvider {
   public async send(record: ConsultationRecordSummary): Promise<ProviderSendResult> {

@@ -5,7 +5,7 @@
  * Cấu hình tập trung cho thương hiệu Nexis Tech và danh sách website tham khảo.
  * Quản lý thống nhất thông tin liên hệ chính thức:
  * - Thương hiệu: Nexis Tech
- * - Gmail: nexistech.work@gmail.com
+ * - Gmail: nexistech.team@gmail.com
  * - Số điện thoại: 0909 858 428
  * - Khu vực: TP. Hồ Chí Minh
  */
@@ -303,19 +303,19 @@ export const NEXIS_BRAND = {
       id: 'zalo-1',
       label: 'Người tư vấn 1',
       role: 'Tư vấn giải pháp website',
-      url: 'https://www.image2url.com/vi/qr-to-url',
+      url: 'https://zalo.me/0909858428',
       status: 'available',
       statusText: 'Sẵn sàng kết nối',
-      note: 'Nhắn tin trực tiếp qua Zalo',
+      note: 'Nhắn tin Zalo: 0909 858 428',
     },
     {
       id: 'zalo-2',
       label: 'Người tư vấn 2',
       role: 'Tư vấn kỹ thuật & triển khai',
-      url: 'https://zaloapp.com/qr/p/ryusg52izbti',
+      url: 'https://zalo.me/0326128141',
       status: 'available',
       statusText: 'Sẵn sàng kết nối',
-      note: 'Nhắn tin trực tiếp qua Zalo',
+      note: 'Nhắn tin Zalo: 0326 128 141',
     },
   ] as ZaloContact[],
 
@@ -323,9 +323,9 @@ export const NEXIS_BRAND = {
   facebookUrl: 'https://www.facebook.com/share/1EAzFhaCab/?mibextid=wwXIfr',
   facebookDisplay: 'Facebook Nexis Tech',
 
-  emailDisplay: 'nexistech.work@gmail.com',
+  emailDisplay: 'nexistech.team@gmail.com',
   emailHref:
-    'mailto:nexistech.work@gmail.com?subject=Y%C3%AAu%20c%E1%BA%A7u%20t%C6%B0%20v%E1%BA%A5n%20website%20%E2%80%93%20Nexis%20Tech',
+    'mailto:nexistech.team@gmail.com?subject=Y%C3%AAu%20c%E1%BA%A7u%20t%C6%B0%20v%E1%BA%A5n%20website%20%E2%80%93%20Nexis%20Tech',
   locationDisplay: 'TP. Hồ Chí Minh',
 
   // Muted tech palette with dedicated dark and light modes
@@ -371,6 +371,20 @@ export const NEXIS_BRAND = {
         'Xây dựng hệ thống phần mềm nền tảng web, API hiệu năng cao, cơ sở dữ liệu an toàn và kiến trúc tách lớp dễ bảo trì dài hạn.',
     },
     {
+      id: 'iot-ai-agent',
+      title: 'Nền tảng IoT kết hợp AI Agent',
+      shortTitle: 'Nền tảng IoT & AI Agent',
+      description:
+        'Hệ thống kết nối thiết bị IoT thời gian thực, tích hợp AI Agent tự động phân tích dữ liệu cảm biến, ra quyết định và tự động hóa vận hành thông minh.',
+    },
+    {
+      id: 'game-platform',
+      title: 'Nền tảng Game & Gamification',
+      shortTitle: 'Nền tảng Game',
+      description:
+        'Phát triển web game, trò chơi tương tác đa nền tảng và cơ chế Gamification tăng gắn kết người dùng và tối ưu chuyển đổi.',
+    },
+    {
       id: 'ai-integration',
       title: 'Giải pháp tích hợp AI',
       shortTitle: 'Giải pháp tích hợp AI',
@@ -413,6 +427,8 @@ export const NEXIS_BRAND = {
       href: '#giai-phap-nganh',
       children: [
         { label: 'Phát triển Website, Web App & E-commerce', href: '#bao-gia', badge: 'Trọng tâm' },
+        { label: 'Nền tảng IoT kết hợp AI Agent', href: '#bao-gia', badge: 'Mới' },
+        { label: 'Nền tảng Game & Gamification', href: '#bao-gia', badge: 'Mới' },
         { label: 'Thiết kế giao diện UI/UX', href: '#bao-gia' },
         { label: 'Phát triển Frontend, Backend & Full-stack', href: '#bao-gia' },
         { label: 'Giải pháp tích hợp AI', href: '#bao-gia' },
@@ -420,7 +436,7 @@ export const NEXIS_BRAND = {
         { label: 'Bảo trì & Hỗ trợ kỹ thuật', href: '#bao-gia' },
       ],
     },
-    { id: 'portfolio', label: 'Website tham khảo', href: '#bo-suu-tap' },
+    { id: 'portfolio', label: 'Website tham khảo', href: '#tham-khao' },
     { id: 'knowledge', label: 'Kiến thức', href: '#kien-thuc' },
     { id: 'faq', label: 'Giải đáp', href: '#faq' },
   ] as NavItem[],
@@ -853,13 +869,13 @@ export const NEXIS_BRAND = {
       id: 'faq-2',
       question: 'Doanh nghiệp cần chuẩn bị những thông tin gì trước khi bắt đầu thiết kế website?',
       answer:
-        'Bạn chỉ cần chuẩn bị thông tin giới thiệu cơ bản về doanh nghiệp, logo hoặc màu sắc thương hiệu (nếu đã có), danh mục sản phẩm/dịch vụ chính và mục tiêu mong muốn đạt được. Đội ngũ Nexis Tech sẽ đồng hành gợi ý bố cục và hoàn thiện cấu trúc nội dung chi tiết. Bạn có thể liên hệ qua số 0909 858 428 hoặc email nexistech.work@gmail.com để được hướng dẫn nhanh.',
+        'Bạn chỉ cần chuẩn bị thông tin giới thiệu cơ bản về doanh nghiệp, logo hoặc màu sắc thương hiệu (nếu đã có), danh mục sản phẩm/dịch vụ chính và mục tiêu mong muốn đạt được. Đội ngũ Nexis Tech sẽ đồng hành gợi ý bố cục và hoàn thiện cấu trúc nội dung chi tiết. Bạn có thể liên hệ qua số 0909 858 428 hoặc email nexistech.team@gmail.com để được hướng dẫn nhanh.',
     },
     {
       id: 'faq-3',
       question: 'Chi phí và thời gian hoàn thiện một dự án website được xác định như thế nào?',
       answer:
-        'Chi phí và lộ trình triển khai phụ thuộc vào quy mô số lượng trang, mức độ thiết kế UI/UX độc bản và các tính năng kỹ thuật đi kèm (như giỏ hàng, bộ lọc nâng cao, tích hợp thanh toán, AI hoặc hệ thống quản lý riêng). Sau khi tiếp nhận nhu cầu qua điện thoại 0909 858 428 hoặc email nexistech.work@gmail.com, Nexis Tech sẽ gửi bảng phân tích hạng mục và báo giá minh bạch.',
+        'Chi phí và lộ trình triển khai phụ thuộc vào quy mô số lượng trang, mức độ thiết kế UI/UX độc bản và các tính năng kỹ thuật đi kèm (như giỏ hàng, bộ lọc nâng cao, tích hợp thanh toán, AI hoặc hệ thống quản lý riêng). Sau khi tiếp nhận nhu cầu qua điện thoại 0909 858 428 hoặc email nexistech.team@gmail.com, Nexis Tech sẽ gửi bảng phân tích hạng mục và báo giá minh bạch.',
     },
     {
       id: 'faq-4',
@@ -883,7 +899,7 @@ export const NEXIS_BRAND = {
       id: 'faq-7',
       question: 'Chính sách bảo hành và hỗ trợ kỹ thuật sau bàn giao được áp dụng ra sao?',
       answer:
-        'Mọi dự án đều đi kèm chính sách bảo hành lỗi kỹ thuật theo phạm vi hợp đồng và hướng dẫn sử dụng chi tiết. Ngoài ra, Nexis Tech cung cấp dịch vụ bảo trì, cập nhật định kỳ và quản trị hạ tầng Cloud khi doanh nghiệp có nhu cầu đồng hành lâu dài. Liên hệ hotline 0909 858 428 hoặc email nexistech.work@gmail.com để trao đổi trực tiếp.',
+        'Mọi dự án đều đi kèm chính sách bảo hành lỗi kỹ thuật theo phạm vi hợp đồng và hướng dẫn sử dụng chi tiết. Ngoài ra, Nexis Tech cung cấp dịch vụ bảo trì, cập nhật định kỳ và quản trị hạ tầng Cloud khi doanh nghiệp có nhu cầu đồng hành lâu dài. Liên hệ hotline 0909 858 428 hoặc email nexistech.team@gmail.com để trao đổi trực tiếp.',
     },
   ] as FaqItem[],
 };

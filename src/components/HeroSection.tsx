@@ -6,7 +6,19 @@
  */
 
 import React, { useState } from 'react';
-import { Search, ShoppingBag, Sparkles, CheckCircle2, ArrowRight, Phone } from 'lucide-react';
+import {
+  Search,
+  ShoppingBag,
+  Sparkles,
+  CheckCircle2,
+  ArrowRight,
+  Phone,
+  ShoppingCart,
+  Cpu,
+  Activity,
+  Bot,
+  Zap,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 
@@ -114,18 +126,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Key Value Highlights */}
-            <div className="pt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 border-t border-slate-200 dark:border-white/10 text-sm text-slate-700 dark:text-[#A5B2C7]">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
-                <span>Thiết kế UI/UX riêng</span>
+            <div className="pt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 border-t border-slate-200 dark:border-white/10 text-xs sm:text-sm text-slate-700 dark:text-[#A5B2C7]">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
+                <span className="truncate">Web & E-commerce</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
-                <span>Web App & E-commerce</span>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
+                <span className="truncate">IoT & AI Agent</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
-                <span>Tích hợp AI & Cloud</span>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
+                <span className="truncate">Nền tảng Game</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#087BFF] dark:text-[#16D9F3] shrink-0" />
+                <span className="truncate">UI/UX độc bản</span>
               </div>
             </div>
           </motion.div>
@@ -172,80 +188,144 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         exit={{ opacity: 0, y: -6 }}
                         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        {/* Mockup Top Bar */}
-                        <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-1.5">
-                            <span className="font-semibold text-[11px] tracking-tight text-[#030B24]">
-                              {activeDevicePreview === 'ecommerce' ? 'Nexis Store' : 'Nexis Enterprise'}
-                            </span>
-                          </div>
-                          <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full w-36 text-[10px] text-slate-500">
-                            <span>Tìm kiếm sản phẩm...</span>
-                            <Search className="w-3 h-3 ml-auto text-[#087BFF]" />
-                          </div>
-                          <div className="flex items-center gap-2 text-[10px] font-medium text-slate-600">
-                            <span>Trang chủ</span>
-                            <span className="text-[#087BFF]">Giải pháp</span>
-                            <span>Liên hệ</span>
-                          </div>
-                        </div>
-
-                        {/* Mockup Hero Banner */}
-                        <div
-                          className="p-4 sm:p-5 text-white relative overflow-hidden"
-                          style={{
-                            background:
-                              activeDevicePreview === 'ecommerce'
-                                ? 'linear-gradient(135deg, #0B1120 0%, #111827 55%, #087BFF 100%)'
-                                : 'linear-gradient(135deg, #111827 0%, #087BFF 65%, #12B8E6 100%)',
-                          }}
-                        >
-                          <div className="grid grid-cols-12 gap-3 items-center">
-                            <div className="col-span-7 space-y-1.5">
-                              <span className="inline-block text-[10px] font-medium px-2 py-0.5 rounded bg-white/15 text-[#16D9F3]">
-                                {activeDevicePreview === 'ecommerce'
-                                  ? 'Giao diện thương mại điện tử'
-                                  : 'Nền tảng số doanh nghiệp'}
-                              </span>
-                              <div className="text-sm sm:text-base font-semibold leading-snug">
-                                {activeDevicePreview === 'ecommerce'
-                                  ? 'Trải nghiệm mua sắm trực tuyến chuẩn nhận diện'
-                                  : 'Hệ sinh thái giải pháp công nghệ & vận hành'}
-                              </div>
-                              <div className="pt-1">
-                                <span className="inline-block px-2.5 py-1 rounded-md bg-[#16D9F3] text-[#030B24] text-[10px] font-semibold">
-                                  Khám phá ngay
+                        {/* Mockup Screen View: Switch between E-commerce Store and Corporate IoT/AI Portal */}
+                        {activeDevicePreview === 'ecommerce' ? (
+                          <div className="space-y-0">
+                            {/* E-Commerce Top Bar */}
+                            <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-[11px] tracking-tight text-[#030B24]">
+                                  Nexis Store
+                                </span>
+                                <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-medium">
+                                  Bán lẻ
                                 </span>
                               </div>
-                            </div>
-
-                            {/* Mini Visual Cards inside Laptop Hero */}
-                            <div className="col-span-5 grid grid-cols-2 gap-1.5">
-                              <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
-                                <div className="w-6 h-6 mx-auto rounded bg-[#16D9F3]/20 flex items-center justify-center text-[#16D9F3] text-[10px] font-semibold">
-                                  01
-                                </div>
-                                <div className="text-[9px] mt-1 font-medium truncate">UI/UX Riêng</div>
+                              <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-2.5 py-1 rounded-full w-40 text-[10px] text-slate-500">
+                                <span>Tìm sản phẩm, phụ kiện...</span>
+                                <Search className="w-3 h-3 ml-auto text-[#087BFF]" />
                               </div>
-                              <div className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-lg p-2 text-center">
-                                <div className="w-6 h-6 mx-auto rounded bg-[#087BFF]/30 flex items-center justify-center text-white text-[10px] font-semibold">
-                                  02
+                              <div className="flex items-center gap-2.5 text-[10px] font-medium text-slate-600">
+                                <span className="hidden sm:inline">Khuyến mãi</span>
+                                <div className="flex items-center gap-1 bg-[#087BFF]/10 text-[#087BFF] px-2 py-0.5 rounded-full font-semibold">
+                                  <ShoppingCart className="w-3 h-3" />
+                                  <span>2</span>
                                 </div>
-                                <div className="text-[9px] mt-1 font-medium truncate">Full-stack</div>
                               </div>
                             </div>
-                          </div>
-                        </div>
 
-                        {/* Mockup Bottom Strip */}
-                        <div className="px-4 py-2.5 bg-white text-center border-t border-slate-100">
-                          <div className="text-[11px] font-semibold text-[#030B24]">
-                            Cấu trúc danh mục trực quan · Tối ưu chuyển đổi đa thiết bị
+                            {/* E-Commerce Mini Hero Banner */}
+                            <div className="px-4 py-2.5 bg-gradient-to-r from-[#0B1120] via-[#1E293B] to-[#087BFF] text-white flex items-center justify-between">
+                              <div>
+                                <span className="text-[9px] uppercase tracking-wider text-[#16D9F3] font-semibold">Bộ sưu tập 2026</span>
+                                <div className="text-xs sm:text-sm font-bold leading-tight">Thiết bị công nghệ & IoT</div>
+                              </div>
+                              <span className="text-[10px] bg-[#16D9F3] text-[#030B24] font-bold px-2 py-1 rounded shadow-xs">
+                                Giảm 20%
+                              </span>
+                            </div>
+
+                            {/* E-Commerce 2 Mini Product Cards */}
+                            <div className="p-3 bg-slate-50/80 grid grid-cols-2 gap-2 text-left">
+                              <div className="bg-white rounded-lg p-2 border border-slate-200 shadow-2xs space-y-1">
+                                <div className="h-14 rounded bg-slate-100 flex items-center justify-center text-slate-400 relative">
+                                  <Cpu className="w-6 h-6 text-[#087BFF]" />
+                                  <span className="absolute top-1 left-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded">HOT</span>
+                                </div>
+                                <div className="text-[10px] font-semibold text-slate-800 truncate">Nexis IoT Hub Pro</div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-bold text-[#087BFF]">1.250.000₫</span>
+                                  <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">+ Giỏ</span>
+                                </div>
+                              </div>
+
+                              <div className="bg-white rounded-lg p-2 border border-slate-200 shadow-2xs space-y-1">
+                                <div className="h-14 rounded bg-slate-100 flex items-center justify-center text-slate-400 relative">
+                                  <Bot className="w-6 h-6 text-[#16D9F3]" />
+                                  <span className="absolute top-1 left-1 bg-emerald-600 text-white text-[8px] font-bold px-1 rounded">MỚI</span>
+                                </div>
+                                <div className="text-[10px] font-semibold text-slate-800 truncate">Sensor AI Vision 4K</div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-bold text-[#087BFF]">850.000₫</span>
+                                  <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">+ Giỏ</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* E-Commerce Bottom Strip */}
+                            <div className="px-3.5 py-2 bg-white text-center border-t border-slate-200">
+                              <div className="text-[10px] text-slate-600 font-medium">
+                                Tích hợp thanh toán VNPay / MoMo · Tồn kho & Đơn hàng thời gian thực
+                              </div>
+                            </div>
                           </div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">
-                            Thiết kế đồng bộ theo nhận diện thương hiệu của từng doanh nghiệp
+                        ) : (
+                          <div className="space-y-0">
+                            {/* Corporate Top Bar */}
+                            <div className="px-3.5 py-2 bg-[#0B1120] text-white border-b border-white/10 flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-[11px] tracking-tight text-white">
+                                  Nexis Cloud Portal
+                                </span>
+                                <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 font-medium flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                  ONLINE 99.9%
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                                <span>IoT Hub</span>
+                                <span className="text-[#16D9F3]">AI Engine</span>
+                                <span>Báo cáo</span>
+                              </div>
+                            </div>
+
+                            {/* Corporate Telemetry Stats Grid */}
+                            <div className="p-3 bg-slate-900 text-white space-y-2">
+                              <div className="grid grid-cols-3 gap-2">
+                                <div className="bg-slate-800/80 border border-white/10 rounded-lg p-2 text-left">
+                                  <div className="flex items-center gap-1 text-[9px] text-[#16D9F3]">
+                                    <Cpu className="w-3 h-3" />
+                                    <span>Thiết bị IoT</span>
+                                  </div>
+                                  <div className="text-xs sm:text-sm font-bold text-white mt-0.5">128 Online</div>
+                                </div>
+                                <div className="bg-slate-800/80 border border-white/10 rounded-lg p-2 text-left">
+                                  <div className="flex items-center gap-1 text-[9px] text-[#087BFF]">
+                                    <Bot className="w-3 h-3" />
+                                    <span>AI Agents</span>
+                                  </div>
+                                  <div className="text-xs sm:text-sm font-bold text-white mt-0.5">1.4k req/m</div>
+                                </div>
+                                <div className="bg-slate-800/80 border border-white/10 rounded-lg p-2 text-left">
+                                  <div className="flex items-center gap-1 text-[9px] text-emerald-400">
+                                    <Activity className="w-3 h-3" />
+                                    <span>Phản hồi API</span>
+                                  </div>
+                                  <div className="text-xs sm:text-sm font-bold text-white mt-0.5">18ms</div>
+                                </div>
+                              </div>
+
+                              {/* Telemetry Console Row */}
+                              <div className="bg-black/40 border border-white/5 rounded-lg p-2 text-[10px] text-left font-mono space-y-1">
+                                <div className="flex items-center justify-between text-slate-300">
+                                  <span className="text-[#16D9F3]">&gt; Hệ thống cảm biến:</span>
+                                  <span className="text-emerald-400">Đã đồng bộ hóa</span>
+                                </div>
+                                <div className="flex items-center justify-between text-slate-300">
+                                  <span className="text-[#087BFF]">&gt; Tự động hóa quy trình:</span>
+                                  <span className="text-cyan-300">Hoạt động bình thường</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Corporate Bottom Strip */}
+                            <div className="px-3.5 py-2 bg-slate-950 text-center border-t border-white/10">
+                              <div className="text-[10px] text-slate-400 font-medium">
+                                Kiến trúc tách lớp · Bảo mật WAF & SSL đa lớp · Tùy biến doanh nghiệp
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </motion.div>
                     </AnimatePresence>
                   </div>

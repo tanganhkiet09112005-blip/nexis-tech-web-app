@@ -115,6 +115,11 @@ export const ZaloPickerModal: React.FC<ZaloPickerModalProps> = ({ isOpen, onClos
                           <p className="text-xs text-slate-500 dark:text-[#A5B2C7] truncate mt-0.5">
                             {contact.role}
                           </p>
+                          {contact.note && (
+                            <p className="text-[11px] text-[#087BFF] dark:text-[#16D9F3] font-medium mt-0.5">
+                              {contact.note}
+                            </p>
+                          )}
                         </div>
                       </div>
 
