@@ -54,7 +54,7 @@ function AppContent() {
         />
 
         {/* 03. Khối giới thiệu vai trò website & 04. Lợi ích khi có website */}
-        <IntroAndBenefits />
+        <IntroAndBenefits onNavigateToQuote={scrollToQuote} />
 
         {/* 05. Tiêu chí website chất lượng, 06. Vòng tròn 8 lý do chọn Nexis Tech & 07. Năng lực - Cam kết */}
         <CriteriaAndReasons onNavigateToQuote={scrollToQuote} />

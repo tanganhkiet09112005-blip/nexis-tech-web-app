@@ -418,6 +418,7 @@ export const NEXIS_BRAND = {
         { label: 'Lợi ích khi có website', href: '#loi-ich' },
         { label: 'Tiêu chí website chất lượng', href: '#tieu-chi' },
         { label: 'Lý do chọn Nexis Tech', href: '#ly-do' },
+        { label: 'Cam kết SLA & Minh chứng', href: '#danh-gia' },
         { label: 'Giải pháp theo ngành', href: '#giai-phap-nganh' },
       ],
     },

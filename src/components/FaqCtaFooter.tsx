@@ -46,6 +46,27 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
     );
   };
 
+  const handleScrollToSection = (targetId: string) => {
+    if (targetId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (targetId === 'bao-gia') {
+      onScrollToQuote();
+      return;
+    }
+    const el = document.getElementById(targetId);
+    if (el) {
+      const headerOffset = 76;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <>
       {/* =====================================================================
@@ -330,44 +351,129 @@ export const FaqCtaFooter: React.FC<FaqCtaFooterProps> = ({
               </ul>
             </div>
 
-            {/* COLUMN 3 (2 cols): Quick Navigation */}
+            {/* COLUMN 3 (2 cols): Quick Navigation with Smooth Offset Scrolling */}
             <div className="lg:col-span-2 space-y-4 text-left">
               <div className="text-xs font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
                 Điều hướng nhanh
               </div>
               <ul className="space-y-2.5 text-sm text-slate-600 dark:text-[#A5B2C7]">
                 <li>
-                  <a href="#gioi-thieu" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#gioi-thieu"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('gioi-thieu');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Giới thiệu
                   </a>
                 </li>
                 <li>
-                  <a href="#loi-ich" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#loi-ich"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('loi-ich');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Lợi ích cốt lõi
                   </a>
                 </li>
                 <li>
-                  <a href="#tieu-chi" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#tieu-chi"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('tieu-chi');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Tiêu chuẩn thiết kế
                   </a>
                 </li>
                 <li>
-                  <a href="#tham-khao" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#ly-do"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('ly-do');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
+                    8 Lý do chọn Nexis Tech
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#danh-gia"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('danh-gia');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
+                    Cam kết SLA & Minh chứng
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#tham-khao"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('tham-khao');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Website tham khảo
                   </a>
                 </li>
                 <li>
-                  <a href="#kien-thuc" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#giai-phap-nganh"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('giai-phap-nganh');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
+                    Giải pháp theo ngành
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#kien-thuc"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('kien-thuc');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Kiến thức & Công nghệ
                   </a>
                 </li>
                 <li>
-                  <a href="#faq" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors">
+                  <a
+                    href="#faq"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('faq');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] transition-colors cursor-pointer"
+                  >
                     Giải đáp thắc mắc
                   </a>
                 </li>
                 <li>
-                  <a href="#bao-gia" className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] font-medium transition-colors">
+                  <a
+                    href="#bao-gia"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleScrollToSection('bao-gia');
+                    }}
+                    className="hover:text-[#087BFF] dark:hover:text-[#16D9F3] font-medium transition-colors cursor-pointer"
+                  >
                     Nhận tư vấn & Báo giá
                   </a>
                 </li>

@@ -20,7 +20,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { NEXIS_BRAND } from '../config/brand.ts';
 import { getWrappedIndex } from '../utils/validation.ts';
 
-export const IntroAndBenefits: React.FC = () => {
+interface IntroAndBenefitsProps {
+  onNavigateToQuote?: (topic?: string) => void;
+}
+
+export const IntroAndBenefits: React.FC<IntroAndBenefitsProps> = ({ onNavigateToQuote }) => {
   const [benefitStartIndex, setBenefitStartIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
@@ -112,6 +116,17 @@ export const IntroAndBenefits: React.FC = () => {
                   <span>Toàn quyền mở rộng, nâng cấp theo lộ trình</span>
                 </div>
               </div>
+
+              {onNavigateToQuote && (
+                <button
+                  type="button"
+                  onClick={() => onNavigateToQuote('Tư vấn tiêu chuẩn sở hữu 100% mã nguồn')}
+                  className="mt-5 w-full py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-[#087BFF] dark:bg-white/5 dark:hover:bg-[#087BFF] text-slate-800 hover:text-white dark:text-[#E8EDF5] dark:hover:text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-2xs"
+                >
+                  <span>Tư vấn tiêu chuẩn này</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             {/* Pillar 2 */}
@@ -141,6 +156,17 @@ export const IntroAndBenefits: React.FC = () => {
                   <span>Thanh toán VietQR tự động, giảm rớt đơn</span>
                 </div>
               </div>
+
+              {onNavigateToQuote && (
+                <button
+                  type="button"
+                  onClick={() => onNavigateToQuote('Tư vấn tối ưu tốc độ chốt đơn di động')}
+                  className="mt-5 w-full py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-emerald-600 dark:bg-white/5 dark:hover:bg-emerald-600 text-slate-800 hover:text-white dark:text-[#E8EDF5] dark:hover:text-white text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-2xs"
+                >
+                  <span>Tư vấn tiêu chuẩn này</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             {/* Pillar 3 */}
@@ -170,6 +196,17 @@ export const IntroAndBenefits: React.FC = () => {
                   <span>Bảo mật dữ liệu cấp doanh nghiệp (WAF & SSL)</span>
                 </div>
               </div>
+
+              {onNavigateToQuote && (
+                <button
+                  type="button"
+                  onClick={() => onNavigateToQuote('Tư vấn giải pháp IoT & AI Agent')}
+                  className="mt-5 w-full py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-[#16D9F3] hover:text-[#0B1120] dark:bg-white/5 dark:hover:bg-[#16D9F3] dark:hover:text-[#0B1120] text-slate-800 dark:text-[#E8EDF5] text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shadow-2xs"
+                >
+                  <span>Tư vấn tiêu chuẩn này</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
         </div>

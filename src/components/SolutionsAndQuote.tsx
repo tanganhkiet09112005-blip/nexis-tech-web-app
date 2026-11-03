@@ -189,11 +189,13 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
           SECTION 11: GIẢI PHÁP THEO LĨNH VỰC (3-DEVICE SHOWCASE SLIDER)
          ===================================================================== */}
       <section
-        id="giai-phap"
+        id="giai-phap-nganh"
         className="py-16 sm:py-24 bg-[#F5F7FA] dark:bg-[#0B1120] text-[#172033] dark:text-[#E8EDF5] border-b border-slate-200/80 dark:border-white/10 overflow-hidden transition-colors duration-200"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        {/* Alias target for backward compatibility with #giai-phap */}
+        <div id="giai-phap" className="sr-only" aria-hidden="true" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Section Kicker + Active Title */}
           <div className="max-w-3xl mx-auto space-y-3">
@@ -684,6 +686,14 @@ export const SolutionsAndQuote: React.FC<SolutionsAndQuoteProps> = ({
                         onChange={(e) => handleFieldChange('serviceType', e.target.value)}
                         className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-[#172033] text-slate-900 dark:text-[#E8EDF5] border border-slate-300 dark:border-white/10 text-base font-medium focus:outline-2 focus:outline-[#087BFF] dark:focus:outline-[#16D9F3] cursor-pointer disabled:opacity-70"
                       >
+                        {/* Dynamic selected option when user clicks a specific solution, case study, or template */}
+                        {formData.serviceType &&
+                          !NEXIS_BRAND.coreServices.some((s) => s.title === formData.serviceType) &&
+                          formData.serviceType !== 'Chưa xác định — Cần tư vấn thêm' && (
+                            <option value={formData.serviceType}>
+                              {formData.serviceType}
+                            </option>
+                          )}
                         {NEXIS_BRAND.coreServices.map((srv) => (
                           <option key={srv.id} value={srv.title}>
                             {srv.title}
